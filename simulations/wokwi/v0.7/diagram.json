@@ -1,0 +1,211 @@
+{
+  "version": 1,
+  "author": "Coflume",
+  "editor": "wokwi",
+  "parts": [
+    {
+      "type": "board-esp32-s3-devkitc-1",
+      "id": "esp",
+      "top": 0,
+      "left": 0,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-ili9341",
+      "id": "tft",
+      "top": -120,
+      "left": 370,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-membrane-keypad",
+      "id": "keypad",
+      "top": 210,
+      "left": 360,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-servo",
+      "id": "servo",
+      "top": -130,
+      "left": -190,
+      "attrs": {}
+    },
+    {
+      "type": "wokwi-led",
+      "id": "red",
+      "top": 260,
+      "left": -160,
+      "attrs": {
+        "color": "red"
+      }
+    },
+    {
+      "type": "wokwi-led",
+      "id": "green",
+      "top": 320,
+      "left": -160,
+      "attrs": {
+        "color": "green"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r1",
+      "top": 250,
+      "left": -75,
+      "attrs": {
+        "value": "220"
+      }
+    },
+    {
+      "type": "wokwi-resistor",
+      "id": "r2",
+      "top": 310,
+      "left": -75,
+      "attrs": {
+        "value": "220"
+      }
+    }
+  ],
+  "connections": [
+    [
+      "tft:VCC",
+      "esp:3V3",
+      "green",
+      []
+    ],
+    [
+      "tft:GND",
+      "esp:GND.1",
+      "green",
+      []
+    ],
+    [
+      "tft:CS",
+      "esp:16",
+      "green",
+      []
+    ],
+    [
+      "tft:D/C",
+      "esp:15",
+      "green",
+      []
+    ],
+    [
+      "tft:MOSI",
+      "esp:17",
+      "green",
+      []
+    ],
+    [
+      "tft:SCK",
+      "esp:18",
+      "green",
+      []
+    ],
+    [
+      "keypad:R1",
+      "esp:4",
+      "blue",
+      []
+    ],
+    [
+      "keypad:R2",
+      "esp:5",
+      "blue",
+      []
+    ],
+    [
+      "keypad:R3",
+      "esp:6",
+      "blue",
+      []
+    ],
+    [
+      "keypad:R4",
+      "esp:7",
+      "blue",
+      []
+    ],
+    [
+      "keypad:C1",
+      "esp:8",
+      "orange",
+      []
+    ],
+    [
+      "keypad:C2",
+      "esp:9",
+      "orange",
+      []
+    ],
+    [
+      "keypad:C3",
+      "esp:10",
+      "orange",
+      []
+    ],
+    [
+      "keypad:C4",
+      "esp:11",
+      "orange",
+      []
+    ],
+    [
+      "servo:PWM",
+      "esp:12",
+      "green",
+      []
+    ],
+    [
+      "servo:V+",
+      "esp:5V",
+      "red",
+      []
+    ],
+    [
+      "servo:GND",
+      "esp:GND.2",
+      "black",
+      []
+    ],
+    [
+      "red:A",
+      "r1:1",
+      "red",
+      []
+    ],
+    [
+      "r1:2",
+      "esp:13",
+      "red",
+      []
+    ],
+    [
+      "red:C",
+      "esp:GND.1",
+      "black",
+      []
+    ],
+    [
+      "green:A",
+      "r2:1",
+      "green",
+      []
+    ],
+    [
+      "r2:2",
+      "esp:14",
+      "green",
+      []
+    ],
+    [
+      "green:C",
+      "esp:GND.2",
+      "black",
+      []
+    ]
+  ]
+}
