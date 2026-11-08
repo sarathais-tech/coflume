@@ -150,6 +150,19 @@ Os três arquivos de demonstração foram reproduzidos. Seus dados vêm de logs 
 
 **Limites:** não foram verificados USB real, áudio, teclado, tela ST7735, servo, latência na placa nem estabilidade prolongada. F1–F24 continuam pendentes nas condições especificadas; M1–M3 fornecem evidência parcial para F23, sem confirmar execução no equipamento do evento. Os vídeos não substituem os 35 testes automatizados do painel.
 
+### 2.3 Ajustes após a revisão dos vídeos (08/11/2026)
+
+As observações da seção 2.2 descrevem o painel antes destes ajustes:
+
+- Ao concluir a animação, a rede do painel principal passa a mostrar a dificuldade **escolhida pela política**, com identificação explícita. O estado sem animação e a revisita à pergunta seguem a mesma regra.
+- Ao clicar em outra avaliação, o texto informa tanto a dificuldade **avaliada** em revisão quanto a **escolhida**. As previsões e a política permanecem as mesmas.
+- Quando a pergunta é recusada pela regra gradual, a área da rede explica a falta de pergunta compatível, informa que a rede não foi usada e mostra a decisão **RECUSADA**. A atualização também considera a recusa que chega depois de um estado aguardando dados.
+- O HTML distribuído foi regenerado a partir das fontes. O ajuste de layout para escala de 125% continua adiado.
+
+**Verificação desta alteração:** sintaxe JavaScript conferida com Node; verificação temporária em Node com DOM e animador simulados cobriu escolha ao concluir a animação, revisão de outra avaliação, revisita, recusa recebida posteriormente e retorno ao Quiz sem animação. O teste existente `test_pesos_e_html_conferem_com_as_fontes` passou; o HTML confere com o gerador e não foram introduzidas alterações no firmware ou no protocolo AG.
+
+**Pendente:** repetir a inspeção no navegador com os três arquivos de demonstração. A verificação em Node não comprova renderização, temporização real ou comunicação entre janelas. Nenhum teste físico foi aprovado por esta alteração.
+
 ## 3. Testes físicos pendentes (r4)
 
 Preencha as colunas de resultado ao executar. Guarde o arquivo salvo pelo painel (SALVAR LOGS) e fotos ou vídeo. Um teste só pode ser marcado como aprovado depois de executado e registrado.
