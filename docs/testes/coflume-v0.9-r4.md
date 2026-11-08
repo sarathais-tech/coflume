@@ -67,6 +67,19 @@ Compilar não é o mesmo que rodar na placa.
 
 O teste lacrado continua fechado: `resultados/sinteticos/teste_v2/teste.json` não existe.
 
+
+### 1.3 Verificação durante a publicação no GitHub (08/11/2026)
+
+Rodada posterior aos resultados históricos das seções 1.1 e 1.2, sem substituí-los:
+
+| Escopo | Resultado nesta rodada |
+|---|---|
+| `firmware/v0.9-r4/testes` | **24 aprovados, 2 pulados**; os dois testes dependentes de navegador não foram executados |
+| `tests/test_politica_gradual.py` e `tests/test_banco_v09.py`, no conteúdo do `coflume-guardian` acrescido dos dois lotes | **37 aprovados** |
+| `firmware/v0.9-r4/painel/testes` | **3 aprovados, 32 pulados** por ausência inicial do Playwright; a tentativa posterior de instalar o Chromium falhou no download. Os 35 testes não foram repetidos integralmente |
+
+Os vídeos manuais da seção 2.2 complementam essa rodada; não alteram os resultados dos testes pulados nem comprovam validação física.
+
 ## 2. Testes relatados (manuais)
 
 | Data | Ambiente | Versão | O que foi relatado | Registro |
@@ -106,6 +119,36 @@ O teste lacrado continua fechado: `resultados/sinteticos/teste_v2/teste.json` n�
 Como a r4 mantém o mesmo quiz, servo e Agente Secreto da r3, esses resultados são um **precedente** para os testes F5–F8 e F13 da seção 3, mas não os substituem.
 
 O pacote Agente USB anterior registrava como pendente o "teste físico com teclado, tela, áudio e servo". Para a r3, esse teste foi feito em parte, nos casos acima.
+
+
+### 2.2 Demonstração manual da r4 sem componentes (08/11/2026)
+
+**Execução:** Sara Thais, em computador pessoal, sem ESP32 conectado. **Revisão:** observação de quadros extraídos dos vídeos enviados na conversa de desenvolvimento. Esta revisão é visual e amostral; não equivale à execução das suítes automatizadas nem valida o hardware.
+
+**Material aberto:** painel HTML da pasta `firmware/v0.9-r4/painel/` do pacote de consolidação r4, em Microsoft Edge, com painel principal e monitor da IA lado a lado. Resolução informada: **1920×1080**, escala do Windows **125%**, zoom do navegador **100%**. O segundo monitor físico do evento não foi utilizado neste registro.
+
+Os três arquivos de demonstração foram reproduzidos. Seus dados vêm de logs gerados em simulação no PC; as referências a previsões do ESP32 na interface não significam que uma placa física esteve conectada neste teste.
+
+| Caso | Evidência observada | Resultado da revisão |
+|---|---|---|
+| M1 — `demo_gradual.txt` | As duas janelas exibem Desafiante ≈ **80,1%** e Mestre ≈ **60,0%**. A política mantém **Desafiante** pela proteção após erro. O monitor mostra **1 acerto em 3 / Cofre fechado**, reconhece o Agente Secreto e informa que essa modalidade não usa a Guardiã. A interface informa **5 de 5** previsões dentro da tolerância | Resultados exibidos coerentes nesse cenário; sincronização exata dos quadros da animação não demonstrada |
+| M2 — `demo_recusa.txt` | O monitor avisa que nenhum nível compatível tem pergunta disponível, mostra **Recusada**, **Partida interrompida** e probabilidades **Não avaliado**. Ao final a rede está apagada. A interface informa **3 de 3** previsões anteriores dentro da tolerância | Estado de recusa visível no monitor; explicação na área da rede do painel principal ficou insuficiente nos quadros observados |
+| M3 — `demo_fluxo08.txt` | Há passagem pelo Agente Secreto e retorno ao Quiz. Na última pergunta observada, Explorador ≈ **72,7%** é escolhido; Desafiante ≈ **61,4%** também aparece avaliado. A interface informa **12 de 12** previsões dentro da tolerância | Valores e escolha coerentes entre as janelas; destaque final das redes difere conforme descrito abaixo |
+
+**Evidências:** vídeos enviados por Sara na conversa; não incorporados ao repositório. Os nomes abaixo permitem localizar os registros originais, sem depender de links privados:
+
+- M1: `20261108-1712-45.8350317.mp4` (monitor isolado) e `20261108-1911-45.2514147.mp4` (duas janelas).
+- M2: `20261108-1915-56.9651958.mp4`.
+- M3: `20261108-1921-12.3734182.mp4`.
+
+#### Pendências observadas nesta revisão
+
+1. **Recusa no painel principal:** tornar explícita a razão da recusa também na área da rede, que aparece vazia ou aguardando dados nos quadros observados. O monitor já apresenta o aviso. Confirmar o comportamento após eventual correção.
+2. **Avaliada × escolhida:** em M3, a rede do painel principal termina na última opção avaliada (**Desafiante, 61,4%**), enquanto a rede do monitor destaca a escolhida (**Explorador, 72,7%**). A lista de avaliações e a decisão no painel principal concordam com a escolha. Clarificar essa distinção para evitar confusão; não foi observada divergência numérica para a mesma opção.
+3. **Animações:** em alguns trechos, as janelas mostram etapas diferentes. Os resultados finais conferem nos casos descritos, mas não se declara sincronização visual quadro a quadro.
+4. **Layout no ambiente pessoal:** houve rolagem com escala de 125% e também nas janelas lado a lado. A responsável decidiu adiar o ajuste até verificar o monitor da apresentação. Não declarar F18 aprovado por esses vídeos.
+
+**Limites:** não foram verificados USB real, áudio, teclado, tela ST7735, servo, latência na placa nem estabilidade prolongada. F1–F24 continuam pendentes nas condições especificadas; M1–M3 fornecem evidência parcial para F23, sem confirmar execução no equipamento do evento. Os vídeos não substituem os 35 testes automatizados do painel.
 
 ## 3. Testes físicos pendentes (r4)
 
@@ -152,5 +195,5 @@ Preencha as colunas de resultado ao executar. Guarde o arquivo salvo pelo painel
 | F20 | Agente Secreto com o monitor aberto | Aviso de que a Guardiã não participa; nenhuma senha ou pista no monitor | | |
 | F21 | Fechar e reabrir o monitor durante uma partida | O jogo, o áudio e a USB seguem; o monitor volta com o estado atual | | |
 | F22 | Desconectar o cabo USB | Painel e monitor avisam; dados marcados como não atuais | | |
-| F23 | Demonstração sem o cofre no notebook do evento | Os 3 logs de `demo/` reproduzem com "DADOS DE DEMONSTRAÇÃO" | | |
+| F23 | Demonstração sem o cofre no notebook do evento | Os 3 logs de `demo/` reproduzem com "DADOS DE DEMONSTRAÇÃO" | Evidência parcial em computador pessoal: M1–M3, seção 2.2. Confirmar no equipamento do evento; pendências visuais registradas | 08/11/2026, Sara Thais (parcial) |
 | F24 | Sessão longa (por exemplo, 30 minutos alternando Quiz e Agente) | Sem travar, sem reiniciar, sem perder a USB | | |
