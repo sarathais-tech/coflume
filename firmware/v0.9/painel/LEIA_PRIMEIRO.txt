@@ -1,0 +1,85 @@
+COFLUME — AGENTE SECRETO / USB  (v0.9 experimental, revisao r2)
+
+O quiz com a Guardia e a modalidade Agente Secreto ficam no mesmo firmware.
+A modalidade Agente Secreto nao chama a rede neural.
+
+1. GRAVAR O FIRMWARE
+- Guarde uma copia da pasta que funciona hoje na placa antes de trocar.
+- Abra firmware/v0.9/coflume_v09/coflume_v09.ino na IDE Arduino.
+  A pasta ja traz todos os arquivos: coflume_v09.ino, coflume_agente.h,
+  guardia_modelo.h, guardia_runtime.h, guardia_autoteste.h, coflume_banco.h,
+  coflume_politica.h e coflume_tela.h. Nao deixe outro .ino com setup()/loop() na pasta.
+- Use a mesma configuracao de placa e bibliotecas com que o sketch atual funciona
+  (README da v0.9, secao 4). O servo usa o GPIO 12 por LEDC, como antes.
+- Compile e grave no ESP32-S3.
+
+2. ABRIR O PAINEL
+- Mantenha o ESP32 ligado ao notebook por um cabo USB de dados.
+- Feche o Monitor Serial e o Plotter Serial da IDE para liberar a porta.
+- Abra Coflume_Agente_Secreto_USB.html no Chrome ou Edge do computador.
+- Clique em CONECTAR ESP32 e escolha a porta da placa.
+- Aguarde COFRE PRONTO. Se a placa reiniciar ao conectar, aguarde a inicializacao.
+- Em Musica e volume, selecione seu arquivo de audio. Nenhuma musica vem neste
+  pacote. Use um arquivo que voce tenha autorizacao para reproduzir.
+- Ligue a caixa de som ao computador e selecione-a como saida de audio do sistema.
+- Prepare a porta do cofre e selecione A no menu do TECLADO FISICO.
+  O painel mostra as pistas e inicia o audio e a contagem automaticamente.
+  O botao INICIAR MISSAO do painel continua como alternativa para o apresentador.
+
+3. JOGAR
+- O painel mostra quatro expressoes. Cada resultado e um digito de 0 a 9;
+  mantenha a ordem, inclusive se comecar com 0.
+- Digite os quatro digitos no TECLADO FISICO e confirme com #.
+- * apaga o ultimo digito. D cancela e retorna ao menu.
+- Codigo incorreto permite tentar novamente enquanto houver tempo.
+- A senha correta faz o ESP32 acionar o servo no GPIO 12.
+- O ESP32 controla os 90 segundos; o painel acompanha o relogio da placa.
+- Nos ultimos 15 segundos, ha bipes. A trilha para ao terminar a missao.
+- Apos o resultado, prepare/feche a porta, pressione # para voltar ao menu
+  e selecione A para o PROXIMO AGENTE. Nao e preciso clicar no computador.
+  O botao PROXIMO AGENTE do painel permanece como alternativa.
+- No resultado, # no teclado fecha o mecanismo e volta ao menu.
+
+4. MODALIDADES
+- Teclas 1, 2 e 3 do menu: quiz com a Guardia.
+- Tecla A do menu: inicia o Agente Secreto se o painel estiver conectado.
+- Tambem e possivel iniciar pelo painel se o ESP32 estiver no menu.
+- O painel recusa iniciar uma missao no meio de um quiz.
+- Durante a modalidade Agente Secreto, nao ha chamadas de inferencia.
+
+5. CONEXAO E AVISOS NA TELA DO COFRE
+- Sem confirmacao das pistas em 5 segundos, a preparacao e encerrada e a tela
+  mostra "PAINEL USB AUSENTE". Conecte o painel e tente de novo (# volta ao menu).
+- Sem comunicacao do painel por 5 segundos, a missao ativa e encerrada e a tela
+  mostra "CONEXAO PERDIDA".
+- Se o servo nao inicializar, a tela de inicio mostra "SERVO COM FALHA (GPIO 12)"
+  e o menu mostra "A Agente: SERVO C/ FALHA". O Agente Secreto nao inicia, e o
+  painel informa a falha.
+- Trocar de aba ou suspender o computador pode interromper a comunicacao;
+  mantenha o painel ativo durante a apresentacao.
+- A senha nao se repete imediatamente entre partidas enquanto a placa esta ligada.
+- O painel nao tem campo de senha nem botao para abrir o servo pelo computador.
+
+6. LOGS DA GUARDIA NO PAINEL
+- Com o painel conectado, o Monitor Serial da IDE nao pode ser aberto (a porta e
+  uma so). Por isso o painel tem a area recolhivel "Logs da Guardia IA", abaixo de
+  "Musica e volume".
+- Ela mostra as linhas GUARDIA enviadas pelo ESP32: diagnostico de inicializacao
+  (modelo, autoteste, latencia, estado) e, nos quizzes, cada decisao da MLP com as
+  probabilidades, as features e as respostas.
+- Ao conectar, o ESP32 reenvia o diagnostico de inicializacao, porque o painel
+  costuma abrir a porta depois do boot.
+- SALVAR LOGS (.TXT) baixa um arquivo com data e hora de cada linha.
+  LIMPAR apaga a lista do painel. O painel guarda as ultimas 5.000 linhas e
+  mostra as 300 mais recentes.
+- A area so le e mostra linhas. Ela nao envia comandos e nao altera as pistas,
+  o relogio, o audio nem o protocolo AG.
+
+7. VALIDACAO
+- Firmware compilado para ESP32-S3 (Arduino-ESP32 3.3.12) sem avisos.
+- Testes no PC com o sketch real: quiz com a Guardia, Agente Secreto (protocolo,
+  senha certa e errada, apagar, cancelar, 90 s, painel ausente, conexao perdida,
+  painel recusado no quiz), servo real e falha do servo, layout de todas as telas.
+- Painel testado no Chromium com porta serial simulada: mesmos comandos e textos
+  do painel anterior no protocolo AG; logs vistos, salvos, limpos e limitados.
+- Ainda pendente: teste fisico desta revisao com teclado, tela, audio e servo.
