@@ -161,7 +161,16 @@ As observações da seção 2.2 descrevem o painel antes destes ajustes:
 
 **Verificação desta alteração:** sintaxe JavaScript conferida com Node; verificação temporária em Node com DOM e animador simulados cobriu escolha ao concluir a animação, revisão de outra avaliação, revisita, recusa recebida posteriormente e retorno ao Quiz sem animação. O teste existente `test_pesos_e_html_conferem_com_as_fontes` passou; o HTML confere com o gerador e não foram introduzidas alterações no firmware ou no protocolo AG.
 
-**Pendente:** repetir a inspeção no navegador com os três arquivos de demonstração. A verificação em Node não comprova renderização, temporização real ou comunicação entre janelas. Nenhum teste físico foi aprovado por esta alteração.
+**Conferência visual posterior:** Sara enviou os dois vídeos abaixo, em 08/11/2026, após baixar o painel atualizado. Os quadros observados confirmam os comportamentos descritos para esses cenários. Os vídeos permanecem na conversa e não foram incorporados ao repositório.
+
+| Caso | Vídeo | Observado após a correção | Situação |
+|---|---|---|---|
+| M2-R — recusa, `demo_recusa.txt` | `20261108-1940-22.9314291.mp4` | A área da rede do painel principal mostra **DECISÃO DA POLÍTICA: RECUSADA** e informa que a partida foi interrompida em vez de violar a regra gradual. O monitor mantém a recusa, a informação de que a rede não foi usada e a partida interrompida | Correção da apresentação da decisão de recusa confirmada visualmente nesse cenário |
+| M3-R — destaque final, `demo_fluxo08.txt` | `20261108-1945-11.1255202.mp4` | Ao terminar a animação, o painel principal identifica **Explorador** como dificuldade escolhida pela política e mostra ≈ **72,7%** na rede. O monitor também indica Explorador; as duas janelas mostram **3 acertos em 3 / cofre aberto** nos dados de demonstração. A interface informa **12 de 12** previsões dentro da tolerância | Correção do destaque final confirmada visualmente nesse cenário |
+
+As duas pendências de clareza dos itens 1 e 2 da seção 2.2 foram tratadas no código e conferidas nos casos acima. O histórico anterior foi preservado. No vídeo M2-R, a decisão de recusa foi observada; não se afirma que todas as novas frases explicativas ficaram visíveis ao mesmo tempo na gravação.
+
+**Limites e pendências restantes:** não foi repetido `demo_gradual.txt` após essa alteração; a revisão manual de outra dificuldade, a revisita e o modo sem animação continuam cobertos apenas pela verificação em Node citada acima. Os vídeos não demonstram sincronização quadro a quadro, todos os estados de recusa possíveis ou execução integral dos testes automatizados do navegador. O layout continua adiado. Nenhum teste físico foi aprovado por esta alteração; F18 e a execução de F23 no equipamento do evento continuam pendentes.
 
 ## 3. Testes físicos pendentes (r4)
 
