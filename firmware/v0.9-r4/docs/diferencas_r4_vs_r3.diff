@@ -1,0 +1,1416 @@
+diff -ruN '--exclude=.pytest_cache' '--exclude=__pycache__' v0.9-r3/coflume_v09/coflume_banco.h v0.9-r4/coflume_v09/coflume_banco.h
+--- v0.9-r3/coflume_v09/coflume_banco.h	2026-11-07 17:29:09.992975144 -0300
++++ v0.9-r4/coflume_v09/coflume_banco.h	2026-11-08 11:23:19.844759765 -0300
+@@ -1,15 +1,15 @@
+ // =============================================================================
+-//  coflume_banco.h — banco de perguntas da v0.8 (Coflume — O Conhecimento Abre Portas)
+-// ARQUIVO GERADO por ferramentas/gerar_banco.py — NÃO EDITAR À MÃO.
+-//  Origem: questoes/banco_v08.csv do coflume-guardian-ai (ver ORIGEM_GUARDIA.json).
++//  coflume_banco.h — banco de perguntas banco_v09 (Coflume — O Conhecimento Abre Portas)
++// ARQUIVO GERADO por ferramentas/gerar_banco_v09.py — NÃO EDITAR À MÃO.
++//  Origem: questoes/banco_v09.csv do coflume-guardian-ai (versão e hash em BANCO_FIRMWARE.json).
+ //  Textos convertidos para a fonte clássica da Adafruit GFX (cp437).
+ // =============================================================================
+ #pragma once
+ #include <stdint.h>
+ 
+-#define COFLUME_BANCO_VERSAO "banco_v08"
+-#define COFLUME_BANCO_CSV_SHA256 "5e9c14e22ae5dd1d4af3f494038a4bb1e8ba41c6839b7847513fc80134d06daa"
+-#define COFLUME_BANCO_N 13
++#define COFLUME_BANCO_VERSAO "banco_v09"
++#define COFLUME_BANCO_CSV_SHA256 "e7ec56dc7365852339418c53150d7ca2610c3a344cf527c1d9ed951fc9f1dc3c"
++#define COFLUME_BANCO_N 36
+ #define COFLUME_MAX_POR_CELULA 8
+ 
+ namespace coflume {
+@@ -25,32 +25,78 @@
+ };
+ 
+ const Pergunta BANCO[COFLUME_BANCO_N] = {
+-  {"V07-EXP-1", 0, 0, "Quanto e 6 x 7?",
++  {"V07-EXP-1-R1", 0, 0, "6 x 7 = ?",
+    {"36", "42", "48", "40"}, 'B', "6 grupos de 7"},
++  {"V09-EXP-MAT-1", 0, 0, "8 + 5 = ?",
++   {"13", "12", "14", "15"}, 'A', "Complete 10 primeiro"},
++  {"V09-EXP-MAT-2", 0, 0, "15 - 7 = ?",
++   {"7", "8", "9", "6"}, 'B', "Quanto falta de 7 para 15?"},
+   {"V07-EXP-3-R1", 0, 1, "Qual palavra esta correta?",
+    {"Caza", "Casa", "Kasa", "Casza"}, 'B', "S entre vogais tem som de Z"},
++  {"V09-EXP-POR-1", 0, 1, "Rima com gato?",
++   {"Pato", "Peixe", "Bola", "Mesa"}, 'A', "Termina em -ato"},
++  {"V09-EXP-POR-2", 0, 1, "Plural de bola?",
++   {"Bolaz", "Boles", "Bolas", "Bolass"}, 'C', "Acrescente S no final"},
+   {"V08-EXP-LOG-1", 0, 2, "Continue: 1,3,5,7",
+    {"8", "9", "10", "11"}, 'B', "Pule de 2 em 2"},
++  {"V09-EXP-LOG-1", 0, 2, "Qual e o intruso?",
++   {"Uva", "Pera", "Sapo", "Kiwi"}, 'C', "Separe por tipo"},
++  {"V09-EXP-LOG-2", 0, 2, "Continue: A,C,E,G",
++   {"J", "K", "H", "I"}, 'D', "Pule uma letra"},
+   {"V07-EXP-2", 0, 3, "Qual e um planeta?",
+    {"Lua", "Sol", "Marte", "Nuvem"}, 'C', "Orbita o Sol"},
+-  {"V07-DES-1", 1, 0, "Quanto e 12 x 8?",
++  {"V09-EXP-CG-1", 0, 3, "Patas da aranha?",
++   {"4", "6", "10", "8"}, 'D', "Mais que um inseto"},
++  {"V09-EXP-CG-2", 0, 3, "Qual animal voa?",
++   {"Coruja", "Gato", "Peixe", "Cavalo"}, 'A', "Tem penas e asas"},
++  {"V07-DES-1-R1", 1, 0, "12 x 8 = ?",
+    {"86", "94", "96", "108"}, 'C', "10x8 + 2x8"},
++  {"V09-DES-MAT-1", 1, 0, "Metade de 46?",
++   {"23", "22", "24", "26"}, 'A', "Metade de 40 + metade de 6"},
++  {"V09-DES-MAT-3", 1, 0, "96 dividido por 4?",
++   {"22", "23", "24", "26"}, 'C', "Metade da metade de 96"},
+   {"V08-DES-POR-1", 1, 1, "Plural de flor?",
+    {"Flors", "Flores", "Floris", "Floros"}, 'B', "Se termina em R, use ES"},
++  {"V09-DES-POR-3", 1, 1, "Feminino de ator?",
++   {"Atora", "Atoa", "Atriza", "Atriz"}, 'D', "Como imperador e imperatriz"},
++  {"V09-DES-POR-4", 1, 1, "Qual escrita esta certa?",
++   {"Tijela", "Tegela", "Tijella", "Tigela"}, 'D', "Mesma letra de GELO"},
+   {"V07-DES-3", 1, 2, "Proximo: 2,4,8,16...",
+    {"18", "24", "30", "32"}, 'D', "Dobra a cada vez"},
++  {"V09-DES-LOG-1", 1, 2, "Continue: 1,4,9,16",
++   {"25", "20", "23", "32"}, 'A', "1x1, 2x2, 3x3..."},
++  {"V09-DES-LOG-3", 1, 2, "Intruso: 6,12,18,22",
++   {"6", "12", "18", "22"}, 'D', "Pense na tabuada do 6"},
+   {"V07-DES-2", 1, 3, "Qual e um mamifero?",
+    {"Tubarao", "Golfinho", "Polvo", "Sardinha"}, 'B', "Respira ar"},
++  {"V09-DES-CG-1", 1, 3, "Maior oceano da Terra?",
++   {"Indico", "Artico", "Atlantico", "Pacifico"}, 'D', "O nome lembra paz"},
++  {"V09-DES-CG-4", 1, 3, "Estado do gelo?",
++   {"Solido", "Liquido", "Gasoso", "Plasma"}, 'A', "Tem forma propria, como uma pedra"},
+   {"V07-MES-1-R1", 2, 0, "Binario 1010 = decimal?",
+    {"8", "9", "10", "12"}, 'C', "Use pot" "\x88" "ncias de 2"},
++  {"V09-MES-MAT-1", 2, 0, "25% de 80?",
++   {"20", "15", "25", "40"}, 'A', "25% e um quarto"},
++  {"V09-MES-MAT-2", 2, 0, "3/4 de 20?",
++   {"12", "15", "16", "5"}, 'B', "Ache 1/4 e multiplique por 3"},
+   {"V08-MES-POR-1", 2, 1, "Ontem eles ___ bola.",
+    {"jogou", "jogaram", "jogam", "joga"}, 'B', "Eles: plural. Ontem: passado"},
++  {"V09-MES-POR-1", 2, 1, "Coletivo de lobos?",
++   {"Alcateia", "Cardume", "Enxame", "Rebanho"}, 'A', "Coletivo e o nome do grupo"},
++  {"V09-MES-POR-2", 2, 1, "Qual esta certa?",
++   {"Exceso", "Esceso", "Excesso", "Ecesso"}, 'C', "Vem de EXCEDER"},
+   {"V08-MES-LOG-1", 2, 2, "Continue: 1,1,2,3,5",
+    {"6", "7", "8", "9"}, 'C', "Some os dois anteriores"},
++  {"V09-MES-LOG-1", 2, 2, "Continue: 2,6,12,20",
++   {"26", "28", "30", "32"}, 'C', "Some 4, depois 6, depois 8"},
++  {"V09-MES-LOG-3", 2, 2, "Continue: 3,5,9,17",
++   {"33", "31", "25", "34"}, 'A', "Dobre e tire 1"},
+   {"V07-MES-2-R1", 2, 3, "Phishing e...",
+    {"Backup", "Golpe digital", "Antivirus", "Hardware"}, 'B', "Engana o usuario"},
+   {"V07-MES-3", 2, 3, "Qual senha e melhor?",
+    {"123456", "senha123", "nome2026", "G7!mP2#x"}, 'D', "Unica e aleatoria"},
++  {"V09-MES-CG-1", 2, 3, "Planeta mais perto do Sol?",
++   {"Venus", "Terra", "Marte", "Mercurio"}, 'D', "Tem nome de deus mensageiro"},
+ };
+ 
+ }  // namespace coflume
+diff -ruN '--exclude=.pytest_cache' '--exclude=__pycache__' v0.9-r3/coflume_v09/coflume_v09.ino v0.9-r4/coflume_v09/coflume_v09.ino
+--- v0.9-r3/coflume_v09/coflume_v09.ino	2026-11-07 17:30:11.029402088 -0300
++++ v0.9-r4/coflume_v09/coflume_v09.ino	2026-11-08 11:23:11.166962820 -0300
+@@ -44,7 +44,7 @@
+ #endif
+ static_assert(GUARDIA_CONTRATO_MAJOR == 1, "Contrato da Guardia incompativel");
+ 
+-#define COFLUME_VERSAO "v0.9-agente-usb-experimental-r3"
++#define COFLUME_VERSAO "v0.9-agente-usb-experimental-r4"
+ 
+ // Pinagem validada no hardware fisico.
+ constexpr uint8_t TFT_CS=14, TFT_RST=16, TFT_DC=15, TFT_MOSI=17, TFT_SCLK=18;
+@@ -516,7 +516,7 @@
+   tft.initR(TFT_PAINEL);
+   tft.setRotation(TFT_ROTACAO);
+   tft.setTextWrap(false);  // a quebra de linha e feita por palavra em coflume_tela.h
+-  Serial.printf("COFLUME,versao=%s,banco=%s,perguntas=%d\n",COFLUME_VERSAO,COFLUME_BANCO_VERSAO,COFLUME_BANCO_N);
++  Serial.printf("COFLUME,versao=%s,banco=%s,perguntas=%d,banco_csv_sha256=%s\n",COFLUME_VERSAO,COFLUME_BANCO_VERSAO,COFLUME_BANCO_N,COFLUME_BANCO_CSV_SHA256);
+   Serial.printf("HARDWARE,placa=ESP32-S3 DevKitC-1 N16R8,chip=%s,tela=ST7735 %dx%d,rotacao=%d,"
+                 "tft_cs=%d,tft_dc=%d,tft_rst=%d,tft_mosi=%d,tft_sclk=%d,teclado_linhas=8|9|10|11,teclado_colunas=4|5|6|7,"
+                 "servo=REAL_GPIO12,leds=SIMULADOS\n",
+diff -ruN '--exclude=.pytest_cache' '--exclude=__pycache__' v0.9-r3/testes/r3_sha256.txt v0.9-r4/testes/r3_sha256.txt
+--- v0.9-r3/testes/r3_sha256.txt	1969-12-31 21:00:00.000000000 -0300
++++ v0.9-r4/testes/r3_sha256.txt	2026-11-08 11:22:54.145960532 -0300
+@@ -0,0 +1,33 @@
++0ae30ccdd516fe655d84a46998b4812bc1cb7220a178687fd0ea7fa73aec1394  README.md
++4e626a049cafdab3ffe9d90d942080ccee238af4b5257ec9c9b9fe050bd9f7c7  coflume_v09/coflume_agente.h
++d08c89946dbac8a3a7d42a53ab180e5b91f2cf30097a3b5d6362edaf8b1666a8  coflume_v09/coflume_banco.h
++271d997f6e975384225dd08fe67b76bdc6dab4dfb0dcbb1e03e396f33bef402f  coflume_v09/coflume_politica.h
++e9cc922e0f736e4d293b05b69b4073772f4c1ce6edbf5b9313229b26fdddd69c  coflume_v09/coflume_politica_gradual.h
++6ec40d84a707f333a70e86bd3802b2f32ea18106bb9a137f4e1a0853f9b4d06e  coflume_v09/coflume_tela.h
++17c140e481c7ec5628896f84a0eae287d5d34191d37c6d0a05835b193cd4df43  coflume_v09/coflume_v09.ino
++009c871b93f87144a63b96a0307e6f0e64acc58a54dde9575685d40b447ca4a8  coflume_v09/guardia_autoteste.h
++9a98304baaf92bdc508a94a4861bf73bbbd4267da8ed34532f63e251693bc42e  coflume_v09/guardia_modelo.h
++79b3d9a98eccc25ec76fcc383a53a73539ca5239971ac25ef0d7daa36eb112c0  coflume_v09/guardia_runtime.h
++a63a0067f8f0e75470a245c80aec70964ecd01ca0142b98926c718e55f6cdfad  docs/diferencas_r3_vs_r2.diff
++ccafb1517c02e19b777fc91945d30beb8696ba2559a24d3f63a0b68758a2a38c  docs/painel_logs_guardia.png
++daa0e1d2358ec43dbddf0e58d3b90e7d3f2b40de431e7e65cda5aaac144f0672  docs/revisao_adaptacao_gradual_v1.md
++a9096772c416f478c33aa2d1908a4e53f5ea23986beba07ae5e8ddffe24998e8  docs/telas_v09.png
++1413558d58117c13acc5d7792f6298f743fcfea5367c0f86246bca22cdf73351  docs/telas_v09_agente_secreto.png
++ce0f29210a6b63c980b380a8bce98402992998f2429486e220ee694f46514b94  docs/telas_v09_casos_limite.png
++01dd48c71b8526a46aff13d450d8d1d2f19a16212c393f9427d48ddb1f72fcf0  ferramentas/renderizar_telas.py
++2d51f6f0c41fe306faadf16a654244bc316fed0079e2b2f0225236c544c5774e  painel/Coflume_Agente_Secreto_USB.html
++8a4ef69ea106418f29f3b3cb72cf673b47068cc964e53647c2c9e8b0791b5eac  painel/LEIA_PRIMEIRO.txt
++d972fa6357dd94744723ad139a44c9e9148e8ba674ad64ee510b5302f36739d2  testes/r2_sha256.txt
++b3adf106d95b8934f690943f2921308b90be5b766c4c8ba250c792de56400201  testes/stub/Adafruit_GFX.h
++12ab29d0fb22e63755d2c54f00f14fbd1faf872024b13070084d7329f1b583bc  testes/stub/Adafruit_ST7735.h
++1c4af5d2ac5770174b335c197af9571227f560a240db7bee483d9d64d292eb77  testes/stub/Arduino.h
++b2abd00b54c03f721b9fc3eda25086899892f8e6406e04c336b8d3636039acc6  testes/stub/Keypad.h
++d1d19ceee2f1edc44a2932d35189b9f881e6ad1cdde61fa4c24c9ef369619425  testes/stub/SPI.h
++524e6c20770f3a01e27a14584abe14db764547947fa0c5c3bfd0a232c56e5736  testes/stub/esp_random.h
++31417a0721251e97b96bc88aeca4a328eacd817180244b0c238c532873807bb2  testes/stub/esp_timer.h
++2ea2b3f25ee258711bf5a9d732ce745460a14b4deb94a920d4401631ea0d2202  testes/test_painel.py
++44fb5dcef3d80e3042545a0ea7db21e7b36833437112390ed144c120943f9257  testes/test_r3.py
++727eca4d08254621dedf69b29661576dfb2f7f19f21ad4bff7d1f847f7db377a  testes/test_v09.py
++f6de895cbf14b9547f19d8048581fb09a649ba04760d8305e48a46cfef9cb79e  testes/teste_gradual_jogo.cpp
++904aa8a6da61d049c007271e0ec62d11527f33172ef200d14931f9537c50aa9f  testes/teste_v09.cpp
++f8585ded7e313b4c62c998d050cb369883cdf8823aabf8391637fd8c0870495b  testes/v08_sha256.txt
+diff -ruN '--exclude=.pytest_cache' '--exclude=__pycache__' v0.9-r3/testes/test_banco_v09.py v0.9-r4/testes/test_banco_v09.py
+--- v0.9-r3/testes/test_banco_v09.py	1969-12-31 21:00:00.000000000 -0300
++++ v0.9-r4/testes/test_banco_v09.py	2026-11-08 11:23:56.948249504 -0300
+@@ -0,0 +1,95 @@
++"""banco_v09 na r4: manifesto, cabeçalho gerado, conteúdo e histórico preservado.
++
++Executar a partir de firmware/v0.9-r4/:
++    python3 -m pytest -q testes/test_banco_v09.py
++
++Layout das 196 telas e partidas com o banco_v09 ficam em test_v09.py e test_r3.py, com o sketch da r4.
++"""
++
++from __future__ import annotations
++
++import csv
++import hashlib
++import json
++import os
++import re
++import shutil
++import subprocess
++import sys
++from collections import Counter
++from pathlib import Path
++
++import pytest
++
++PROPOSTA = Path(__file__).resolve().parents[1]
++FIRMWARE = PROPOSTA.parent
++R3 = FIRMWARE / "v0.9-r3"
++V08 = FIRMWARE.parent / "simulations" / "wokwi" / "v0.8"
++CSV = PROPOSTA / "ferramentas" / "banco_v09.csv"
++CAB = PROPOSTA / "coflume_v09" / "coflume_banco.h"
++MAN = PROPOSTA / "BANCO_FIRMWARE.json"
++SAIDA_TELAS = os.environ.get("COFLUME_TELAS_SAIDA")  # opcional: pasta para guardar telas.jsonl
++
++
++def sha(p: Path) -> str:
++    return hashlib.sha256(p.read_bytes()).hexdigest()
++
++
++@pytest.fixture(scope="session")
++def gpp() -> str:
++    g = shutil.which("g++")
++    if not g:
++        pytest.skip("g++ não encontrado")
++    return g
++
++
++def sketch_com_banco(tmp: Path) -> Path:
++    raiz = tmp / "sketch"
++    shutil.copytree(R3 / "coflume_v09", raiz / "coflume_v09")
++    shutil.copytree(R3 / "testes", raiz / "testes")
++    shutil.copy(CAB, raiz / "coflume_v09" / "coflume_banco.h")
++    return raiz
++
++
++def compilar_e_rodar(gpp, raiz: Path, fonte: str, defs: list[str], args: list[str]) -> str:
++    exe = raiz / ("exe_" + "_".join(d.split("=")[-1] for d in defs) + Path(fonte).stem)
++    r = subprocess.run([gpp, "-std=c++17", "-O2", "-Wall", "-Wextra", "-Werror", *defs,
++                        f"-I{raiz / 'testes' / 'stub'}", f"-I{raiz / 'coflume_v09'}", "-x", "c++",
++                        str(raiz / "testes" / fonte), "-o", str(exe)], capture_output=True, text=True)
++    assert r.returncode == 0, r.stderr[-4000:]
++    r = subprocess.run([str(exe), *args], capture_output=True, text=True, timeout=900)
++    print(r.stdout[-1500:])
++    assert r.returncode == 0, r.stdout[-4000:]
++    return r.stdout
++
++
++def test_cabecalho_e_manifesto_conferem_com_o_csv():
++    r = subprocess.run([sys.executable, str(PROPOSTA / "ferramentas" / "gerar_banco_v09.py"), "--verificar"],
++                       capture_output=True, text=True)
++    assert r.returncode == 0, r.stderr
++    m = json.loads(MAN.read_text(encoding="utf-8"))
++    cab = CAB.read_text(encoding="utf-8")
++    assert m["banco_versao"] == "banco_v09" and '#define COFLUME_BANCO_VERSAO "banco_v09"' in cab
++    assert m["csv"]["sha256"] == sha(CSV) and f'#define COFLUME_BANCO_CSV_SHA256 "{sha(CSV)}"' in cab
++    assert m["cabecalho"]["sha256"] == sha(CAB)
++    assert m["perguntas"] == 36 and m["perguntas_por_celula_min"] == 3 and "#define COFLUME_BANCO_N 36" in cab
++
++
++def test_csv_coerente():
++    linhas = list(csv.DictReader(CSV.open(encoding="utf-8")))
++    assert len(linhas) == 36 and len({r["id"] for r in linhas}) == 36 and len({r["enunciado"] for r in linhas}) == 36
++    assert Counter(r["correta"] for r in linhas) == Counter({"A": 9, "B": 9, "C": 9, "D": 9})
++    assert Counter((r["nivel"], r["categoria"]) for r in linhas) == Counter({(str(n), str(c)): 3 for n in range(3) for c in range(4)})
++    for r in linhas:
++        alts = [r[f"alt_{x}"] for x in "abcd"]
++        assert len(set(alts)) == 4, r["id"]
++
++
++def test_historico_preservado():
++    """banco_v08 e ORIGEM_GUARDIA.json continuam como estavam; r3 continua com banco_v08."""
++    origem = json.loads((V08 / "ORIGEM_GUARDIA.json").read_text(encoding="utf-8"))
++    assert sha(V08 / "ferramentas" / "banco_v08.csv") == origem["arquivos"]["ferramentas/banco_v08.csv"]["sha256"]
++    assert sha(V08 / "ferramentas" / "banco_v08.csv") == "5e9c14e22ae5dd1d4af3f494038a4bb1e8ba41c6839b7847513fc80134d06daa"
++    assert "banco_v09" not in (V08 / "ORIGEM_GUARDIA.json").read_text(encoding="utf-8")
++    assert '"banco_v08"' in (R3 / "coflume_v09" / "coflume_banco.h").read_text(encoding="utf-8")
++    # o CSV da r4 é o mesmo de questoes/banco_v09.csv do coflume-guardian-ai (conferido na consolidação)
+diff -ruN '--exclude=.pytest_cache' '--exclude=__pycache__' v0.9-r3/testes/test_r3.py v0.9-r4/testes/test_r3.py
+--- v0.9-r3/testes/test_r3.py	2026-11-07 17:32:46.485998878 -0300
++++ v0.9-r4/testes/test_r3.py	2026-11-08 11:23:56.920523410 -0300
+@@ -1,7 +1,7 @@
+-"""r3: política gradual atrás de GUARDIA_POLITICA_GRADUAL (desligada por padrão).
++"""r4 (herdado da r3): política gradual atrás de GUARDIA_POLITICA_GRADUAL (desligada por padrão).
+ 
+ Executar a partir da raiz do repositório:
+-    python3 -m pytest -q firmware/v0.9-r3/testes
++    python3 -m pytest -q firmware/v0.9-r4/testes
+ 
+ Os testes da r2 (test_v09.py, test_painel.py) rodam nesta pasta com a opção
+ DESLIGADA. Este arquivo cobre a opção LIGADA: partidas completas, bancos com
+@@ -23,6 +23,7 @@
+ SKETCH = R3 / "coflume_v09"
+ TESTES = R3 / "testes"
+ R2 = R3.parent / "v0.9"
++R3_ANTERIOR = R3.parent / "v0.9-r3"  # (a variável R3 aponta para a pasta desta revisão, r4)
+ EXPERIMENTO = R3.parent / "experimentos" / "politica_gradual" / "coflume_politica_gradual.h"
+ ENTRADA = re.compile(r'  \{"([^"]+)", (\d), (\d),.*?\n.*?\},\n')
+ 
+@@ -98,11 +99,16 @@
+     assert re.findall(r"^#define GUARDIA_POLITICA_GRADUAL (\d)", s, re.M) == ["0"]
+     assert re.findall(r"^#define GUARDIA_ADAPTATIVA (\d)", s, re.M) == ["1"]
+     assert (SKETCH / "coflume_politica_gradual.h").read_bytes() == EXPERIMENTO.read_bytes()
+-    for nome in ("guardia_modelo.h", "guardia_runtime.h", "guardia_autoteste.h", "coflume_banco.h",
+-                 "coflume_politica.h", "coflume_tela.h", "coflume_agente.h"):
+-        assert (SKETCH / nome).read_bytes() == (R2 / "coflume_v09" / nome).read_bytes(), nome
+-    assert (R3 / "painel" / "Coflume_Agente_Secreto_USB.html").read_bytes() == \
+-        (R2 / "painel" / "Coflume_Agente_Secreto_USB.html").read_bytes()
++    # r4: só o banco (banco_v09) e o .ino (versão e hash do banco no boot) mudam em relação à r3.
++    for nome in ("guardia_modelo.h", "guardia_runtime.h", "guardia_autoteste.h", "coflume_politica.h",
++                 "coflume_tela.h", "coflume_agente.h", "coflume_politica_gradual.h"):
++        assert (SKETCH / nome).read_bytes() == (R3_ANTERIOR / "coflume_v09" / nome).read_bytes(), nome
++    assert '#define COFLUME_BANCO_VERSAO "banco_v09"' in (SKETCH / "coflume_banco.h").read_text(encoding="utf-8")
++    ino_r3 = (R3_ANTERIOR / "coflume_v09" / "coflume_v09.ino").read_text(encoding="utf-8").splitlines()
++    ino_r4 = (SKETCH / "coflume_v09.ino").read_text(encoding="utf-8").splitlines()
++    mudadas = [(a, b) for a, b in zip(ino_r3, ino_r4) if a != b]
++    assert len(ino_r3) == len(ino_r4) and len(mudadas) == 2
++    assert "experimental-r4" in mudadas[0][1] and "banco_csv_sha256=%s" in mudadas[1][1]
+ 
+ 
+ def test_nunca_volta_ao_fluxo08_quando_ligada():
+@@ -125,3 +131,14 @@
+     atual = {str(p.relative_to(R2)): hashlib.sha256(p.read_bytes()).hexdigest()
+              for p in R2.rglob("*") if p.is_file() and "__pycache__" not in p.parts}
+     assert atual == esperado
++
++
++def test_r3_preservada():
++    """A pasta da r3 não foi alterada pela r4 (hashes registrados ao criar a r4)."""
++    esperado = {}
++    for linha in (TESTES / "r3_sha256.txt").read_text(encoding="utf-8").splitlines():
++        h, nome = linha.split("  ", 1)
++        esperado[nome] = h
++    atual = {str(p.relative_to(R3_ANTERIOR)): hashlib.sha256(p.read_bytes()).hexdigest()
++             for p in R3_ANTERIOR.rglob("*") if p.is_file() and "__pycache__" not in p.parts and ".pytest_cache" not in p.parts}
++    assert atual == esperado
+diff -ruN '--exclude=.pytest_cache' '--exclude=__pycache__' v0.9-r3/testes/test_v09.py v0.9-r4/testes/test_v09.py
+--- v0.9-r3/testes/test_v09.py	2026-11-07 17:29:09.993163853 -0300
++++ v0.9-r4/testes/test_v09.py	2026-11-08 11:24:51.650112254 -0300
+@@ -1,10 +1,10 @@
+-"""Testes automatizados da v0.9 EXPERIMENTAL (hardware físico: ESP32-S3 + ST7735).
++"""Testes automatizados da v0.9 r4 EXPERIMENTAL (hardware físico: ESP32-S3 + ST7735), herdados da r2.
+ 
+ Base: o sketch que funciona na placa (quiz com a Guardiã + Agente Secreto USB,
+ servo real no GPIO 12, LEDs simulados).
+ 
+ Executar a partir da raiz do repositório:
+-    python3 -m pytest -q firmware/v0.9/testes
++    python3 -m pytest -q firmware/v0.9-r4/testes
+ 
+ Requisitos: Python 3.10+, pytest, g++ (C++17). Usa os vetores e a referência
+ Python já versionados na v0.8 (sem copiá-los).
+@@ -30,6 +30,8 @@
+ V08 = RAIZ / "simulations" / "wokwi" / "v0.8"
+ V07 = RAIZ / "simulations" / "wokwi" / "v0.7"
+ NUCLEO = ("guardia_modelo.h", "guardia_runtime.h", "guardia_autoteste.h", "coflume_banco.h", "coflume_politica.h")
++# Na r4 o banco é o banco_v09 (36 perguntas); o resto do núcleo continua idêntico ao da v0.8.
++NUCLEO_V08 = tuple(n for n in NUCLEO if n != "coflume_banco.h")
+ SHA_V07 = {
+     "diagram.json": "ff8ec751816787692dc1b007a78f6c33d9dc2c1e21304f3074bac4197260b3af",
+     "libraries.txt": "12dbcb573d3b2c58fcc858a8b06ba19f1322c0c0e185fc38306b63006e3b6854",
+@@ -62,7 +64,7 @@
+ # --- Guardiã: o mesmo núcleo da v0.8 ------------------------------------------------
+ 
+ def test_nucleo_da_guardia_identico_ao_da_v08():
+-    for nome in NUCLEO:
++    for nome in NUCLEO_V08:
+         assert (SKETCH / nome).read_bytes() == (V08 / nome).read_bytes(), nome
+ 
+ 
+@@ -77,8 +79,11 @@
+ 
+ def test_400_vetores_politica_e_referencia_python(gpp, tmp_path):
+     """Mesmo teste da v0.8, compilado com os cabeçalhos da v0.9."""
++    # r4: este teste da v0.8 tem asserções do banco_v08 (Mestre x Conhecimentos gerais com 2 perguntas e o
++    # rodízio dessa célula). Ele roda com os cabeçalhos da v0.8, que são idênticos aos da r4 exceto o banco
++    # (test_nucleo_da_guardia_identico_ao_da_v08). O banco_v09 é coberto por test_banco_v09.py e pelas partidas.
+     saida = compilar_e_rodar(gpp, tmp_path, V08 / "testes" / "teste_politica.cpp", "politica",
+-                             [f"-I{SKETCH}", f"-I{V08 / 'testes'}"], [str(V08 / "testes" / "referencia_politica.csv")])
++                             [f"-I{V08}", f"-I{V08 / 'testes'}"], [str(V08 / "testes" / "referencia_politica.csv")])
+     print(saida)
+     assert "0 falhas" in saida and "1224 partidas" in saida
+ 
+@@ -92,14 +97,14 @@
+                              [f"-DGUARDIA_ADAPTATIVA={adaptativa}", f"-I{TESTES / 'stub'}", f"-I{SKETCH}", "-x", "c++"],
+                              [str(telas)])
+     print(saida)
+-    assert "0 falhas" in saida and "81 telas capturadas" in saida
++    assert "0 falhas" in saida and "196 telas capturadas" in saida
+     fonte = os.environ.get("GFX_GLCDFONT")
+     if adaptativa and fonte and Path(fonte).is_file():
+         pytest.importorskip("PIL")
+         r = subprocess.run([sys.executable, str(V09 / "ferramentas" / "renderizar_telas.py"), str(telas), fonte,
+                             str(tmp_path / "png")], capture_output=True, text=True)
+         assert r.returncode == 0, r.stderr
+-        assert len(list((tmp_path / "png").glob("*.png"))) == 82
++        assert len(list((tmp_path / "png").glob("*.png"))) == 197
+ 
+ 
+ def test_servo_com_falha_avisa_na_tela(gpp, tmp_path):
+--- v0.9-r3/painel/Coflume_Agente_Secreto_USB.html	2026-11-07 17:29:09.993190520 -0300
++++ v0.9-r4/painel/Coflume_Agente_Secreto_USB.html	2026-11-08 11:23:19.935356100 -0300
+@@ -39,8 +39,315 @@
+ </main>
+ <button hidden class="demo-hint" id="shuffle" type="button" title="Sortear outras quatro pistas">MODO DEMO · N = NOVA SENHA ↻</button>
+ <script>
++// Guardiã IA (proposta): código comum ao painel principal e à janela de exposição (?monitor=ia).
+ (() => {
+   'use strict';
++  // Pesos da Guardiã copiados de v0.9-r4/coflume_v09/guardia_modelo.h (gerado por ferramentas/extrair_modelo.py; não editar).
++  const GV_MODELO={"id":"mlp8-sint-20261101-e6a4cf00","hash_parametros":"e6a4cf0086ccf5ab1eccecbe7aea02f3962a6ad7ced29b136d36c5b37b5b9991","fonte_dados":"SINTETICO","arquivo_origem":"v0.9-r4/coflume_v09/guardia_modelo.h","arquivo_sha256":"9a98304baaf92bdc508a94a4861bf73bbbd4267da8ed34532f63e251693bc42e","media":[0.894047618,0.847857118,1.0,0.58869046,0.58869046,0.449819922,0.186845243,0.176666662,0.264999986],"desvio":[0.762959659,0.794442117,0.816496611,0.350921512,0.350921512,0.183594197,0.349744201,0.797154665,1.08101094],"w1":[[-0.682157278,0.446448505,-0.00832801033,-0.185814321,0.276137918,0.225355655,-0.219042271,0.115774721,-0.377469897,0.0601198524,0.161706597,0.520046592,0.286772639],[0.0440518707,-0.140254587,-0.186410531,-0.141864002,-0.355587631,0.0872664899,-0.687031448,-0.255104363,-0.336981028,0.214764759,-0.18275626,-0.320319384,-0.169121981],[-0.920685172,0.435280323,0.0595311224,0.384003192,-0.111369818,-0.537659705,-0.0348978154,0.304380029,-0.0559089556,0.237438962,0.120190911,-0.173491061,-0.165631473],[0.489716917,-0.358759105,0.709194958,-0.505303085,0.124953426,0.554660141,-0.265381783,-0.387802213,0.0826307163,-0.326873958,0.00241948292,-0.23972407,0.308998197],[0.470839828,-0.554031193,-0.036832992,-0.124152847,-0.149103686,0.385575145,0.0212339442,-0.275682747,0.463929176,0.201785952,-0.0308693144,0.465670288,-0.0330577642],[-0.170621663,0.00666338252,-0.625922918,0.0992652401,0.100224398,-0.00983685628,-0.49107039,0.277471036,0.0851264,-0.0313755199,0.239752784,0.237050503,0.00782417506],[0.159387067,-0.0224029589,-0.446023136,0.0427222103,0.164163187,-0.479683816,-0.274453908,-0.216807514,-0.177715033,0.236944646,0.420532703,-0.14485316,0.317466468],[-0.0922968686,-0.138192102,-0.351780117,0.033253666,-0.10132464,0.135646582,-0.361586362,0.254531503,-0.113850214,0.096523419,0.2449646,0.449898243,-0.188883409]],"b1":[0.260374039,-0.00833837036,0.288194269,0.00823072623,-0.0604185127,-0.134754851,0.00685721776,-0.180186436],"w2":[0.619678378,-0.142802954,0.392323554,-0.190727308,-0.189150587,-0.59230566,0.353546232,0.45722276],"b2":0.0984701216};
++  // ===== Código comum da Guardiã: painel principal e janela de exposição (proposta) =====
++  // Inferência reproduzida, desenho da rede e animador. Não acessa USB, áudio nem pistas.
++  const G={};window.CoflumeGuardia=G;
++  G.modoMonitor=new URLSearchParams(location.search).get('monitor')==='ia';
++  G.CANAL='coflume-monitor-ia';
++  G.modelo=GV_MODELO;
++  G.NIVEIS=['Explorador','Desafiante','Mestre'];
++  G.CATEG=['Matemática','Português','Lógica','Conhecimentos gerais'];
++  G.esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
++  G.fmt=(x,d=1)=>x.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
++  G.pct=v=>G.fmt(v*100,1)+'%';
++  G.exp=v=>v.toExponential(1).replace('.',',').replace('e-','×10⁻').replace(/⁻(\d+)/,(x,d)=>'⁻'+[...d].map(c=>'⁰¹²³⁴⁵⁶⁷⁸⁹'[c]).join(''));
++  // ---- Inferência: espelho de guardia::prever() em float32 ----
++  const F32=Math.fround;
++  G.ROTULOS=['nível candidato','nível inicial','nº respondidas','acerto na sessão','acerto na categoria','tempo médio (norm.)','dicas por questão','última resposta','sequência','Matemática','Português','Lógica','Conh. gerais'];
++  G.CAMPOS=['nivel_candidato','nivel_inicial','n_respondidas','taxa_acerto_sessao','taxa_acerto_categoria','tempo_medio_norm','dicas_por_questao','resultado_ultima','sequencia'];
++  const R={mu:GV_MODELO.media.map(F32),sd:GV_MODELO.desvio.map(F32),w1:GV_MODELO.w1.map(l=>l.map(F32)),
++    b1:GV_MODELO.b1.map(F32),w2:GV_MODELO.w2.map(F32),b2:F32(GV_MODELO.b2)};
++  G.pesos=R;
++  // Tolerância da comparação com o ESP32 (ver docs/rede_neural_avaliacao.md):
++  // features contínuas em 6 casas (±5e-7) propagadas pela rede + previsão em 6 casas (±5e-7) + float32 (2e-7).
++  G.TOL=(()=>{let s=0;for(let i=0;i<8;i++){let a=0;for(let j=3;j<=6;j++)a+=Math.abs(R.w1[i][j])*5e-7/R.sd[j];s+=Math.abs(R.w2[i])*a;}return 0.25*s+5e-7+2e-7;})();
++  G.entrada=function(f,nivel,num){ // vetor bruto na ordem de vetorizar() do runtime
++    const raw=[];
++    for(let i=0;i<9;i++){const v=i===0?nivel:num(f[G.CAMPOS[i]]);if(v===null)return null;raw.push(v);}
++    const cat=num(f.categoria);if(cat===null||!Number.isInteger(cat)||cat<0||cat>3)return null;
++    for(let c=0;c<4;c++)raw.push(c===cat?1:0);
++    return raw;
++  };
++  G.valida=function(raw){ // mesmas faixas de entrada_valida() do runtime
++    const [nc,ni,nr,ts,tc,tm,dq,ru,sq]=raw,in01=v=>v>=0&&v<=1,int=(v,a,b)=>Number.isInteger(v)&&v>=a&&v<=b;
++    return int(nc,0,2)&&int(ni,0,2)&&int(nr,0,8)&&in01(ts)&&in01(tc)&&in01(tm)&&in01(dq)&&int(ru,-1,1)&&int(sq,-3,3);
++  };
++  G.calcular=function(raw){
++    const x=raw.map(F32);
++    for(let i=0;i<9;i++)x[i]=F32(F32(x[i]-R.mu[i])/R.sd[i]);
++    const h=[];
++    for(let i=0;i<8;i++){let s=R.b1[i];for(let j=0;j<13;j++)s=F32(s+F32(R.w1[i][j]*x[j]));h.push(s>0?s:0);}
++    let z=R.b2;for(let j=0;j<8;j++)z=F32(z+F32(R.w2[j]*h[j]));
++    let p;
++    if(z>=0)p=F32(1/F32(1+F32(Math.exp(-z))));else{const e=F32(Math.exp(z));p=F32(e/F32(1+e));}
++    return {x,h,z,p:Math.min(1,Math.max(0,p))};
++  };
++  // ---- Desenho da rede em posições fixas (SVG). av = {nivel, raw, c:{x,h,z,p}} ----
++  const NS='http://www.w3.org/2000/svg',XE=200,XH=455,XS=650,yE=i=>40+i*29.5,yH=i=>62+i*47,YS=226;
++  G.criarRede=function(svg,prefixo){
++    const el=(tag,at,pai)=>{const e=document.createElementNS(NS,tag);for(const k in at)e.setAttribute(k,at[k]);(pai||svg).append(e);return e;};
++    const gA1=el('g',{class:'gvr-arestas',id:prefixo+'A1'}),gA2=el('g',{class:'gvr-arestas',id:prefixo+'A2'});
++    const A1=[],A2=[],NE=[],VE=[],NH=[],VH=[];
++    for(let i=0;i<8;i++){A1.push([]);for(let j=0;j<13;j++){const w=R.w1[i][j];
++      A1[i].push(el('line',{x1:XE,y1:yE(j),x2:XH,y2:yH(i),stroke:w>=0?'#51ff9a':'#ff9a6b','stroke-width':(0.4+2.4*Math.abs(w)).toFixed(2),opacity:'0.10'},gA1));}}
++    for(let i=0;i<8;i++){const w=R.w2[i];A2.push(el('line',{x1:XH,y1:yH(i),x2:XS,y2:YS,stroke:w>=0?'#51ff9a':'#ff9a6b','stroke-width':(0.6+3*Math.abs(w)).toFixed(2),opacity:'0.10'},gA2));}
++    el('text',{x:XE,y:18,class:'gvr-cab','text-anchor':'middle'}).textContent='13 entradas (padronizadas)';
++    el('text',{x:XH,y:18,class:'gvr-cab','text-anchor':'middle'}).textContent='8 ocultos (ReLU)';
++    el('text',{x:XS,y:18,class:'gvr-cab','text-anchor':'middle'}).textContent='saída (sigmoide)';
++    for(let j=0;j<13;j++){
++      el('text',{x:XE-14,y:yE(j)-1,class:'gvr-rot','text-anchor':'end'}).textContent=G.ROTULOS[j];
++      VE.push(el('text',{x:XE-14,y:yE(j)+10,class:'gvr-val','text-anchor':'end'}));
++      NE.push(el('circle',{cx:XE,cy:yE(j),r:8,class:'gvr-no'}));
++    }
++    for(let i=0;i<8;i++){
++      NH.push(el('circle',{cx:XH,cy:yH(i),r:14,class:'gvr-no'}));
++      el('text',{x:XH,y:yH(i)+4,class:'gvr-nome','text-anchor':'middle'}).textContent='N'+(i+1);
++      VH.push(el('text',{x:XH+20,y:yH(i)-8,class:'gvr-val'}));
++    }
++    const NS1=el('circle',{cx:XS,cy:YS,r:24,class:'gvr-no'});
++    el('text',{x:XS,y:YS+4,class:'gvr-nome','text-anchor':'middle'}).textContent='P';
++    const VS=el('text',{x:XS,y:YS+44,class:'gvr-val-s','text-anchor':'middle'});
++    const VS2=el('text',{x:XS,y:YS+60,class:'gvr-val','text-anchor':'middle'});
++    const TIT=(e,t)=>{let x=e.querySelector('title');if(!x){x=document.createElementNS(NS,'title');e.append(x);}x.textContent=t;};
++    const corEntrada=(x,on)=>{if(!on)return 'rgba(20,50,35,.9)';const a=Math.min(1,Math.abs(x)/2.2)*0.85+0.15;
++      return x>=0?`rgba(255,211,107,${a.toFixed(2)})`:`rgba(107,200,255,${a.toFixed(2)})`;};
++    // estagio: 0 apagado, 1 entradas, 2 ocultos, 3 saída
++    function desenhar(av,estagio,hmax){
++      const c=av&&av.c;
++      for(let j=0;j<13;j++){
++        const on=!!c&&estagio>=1;
++        NE[j].setAttribute('fill',corEntrada(on?c.x[j]:0,on));
++        VE[j].textContent=av?(j===0?G.NIVEIS[av.raw[0]]+' ('+av.raw[0]+')':j>=9?(av.raw[j]?'1 (categoria)':'0'):G.fmt(av.raw[j],j>=3&&j<=6?6:0)):'';
++        if(c)TIT(NE[j],`${G.ROTULOS[j]}: valor enviado ${av.raw[j]} · padronizado ${c.x[j].toFixed(6)}`);
++      }
++      for(let i=0;i<8;i++){
++        const a=c&&estagio>=2?c.h[i]:null,f=a===null?0:a/(hmax||1);
++        NH[i].setAttribute('fill',a===null?'rgba(20,50,35,.9)':a===0?'rgba(10,25,18,.95)':`rgba(81,255,154,${(0.15+0.85*f).toFixed(2)})`);
++        NH[i].classList.toggle('gvr-inativo',a===0);
++        VH[i].textContent=a===null?'':a===0?'0 · inativo':G.fmt(a,3);
++        if(c)TIT(NH[i],`N${i+1}: ativação ReLU reproduzida ${c.h[i].toFixed(6)}`);
++        for(let j=0;j<13;j++)A1[i][j].setAttribute('opacity',c&&estagio>=1?Math.min(0.9,0.06+Math.abs(R.w1[i][j]*c.x[j])*0.9).toFixed(2):'0.10');
++        A2[i].setAttribute('opacity',c&&estagio>=2?Math.min(0.95,0.06+Math.abs(R.w2[i]*c.h[i])*1.2).toFixed(2):'0.10');
++      }
++      const p=c&&estagio>=3?c.p:null;
++      NS1.setAttribute('fill',p===null?'rgba(20,50,35,.9)':`rgba(81,255,154,${(0.15+0.85*p).toFixed(2)})`);
++      VS.textContent=p===null?'':'≈ '+G.pct(p);
++      VS2.textContent=p===null?'':'reproduzida: '+p.toFixed(6);
++      if(c)TIT(NS1,`saída reproduzida no painel: z=${c.z.toFixed(6)} · P=${c.p.toFixed(6)}`);
++    }
++    const pulso=(camada,on)=>(camada===1?gA1:gA2).classList.toggle('gvr-pulso',on);
++    return {desenhar,pulso,svg};
++  };
++  G.hmax=avs=>{let h=0;for(const a of avs)if(a.c)h=Math.max(h,...a.c.h);return h||1;};
++  // ---- Animador: percorre as avaliações em sequência, em câmera lenta. Cancelável; nunca acumula. ----
++  // o: {ritmo, aoIniciar(i), aoSaida(i), aoFim()}
++  G.animar=function(rede,avs,o){
++    const viva={v:true},timers=[],hmax=G.hmax(avs),f=o.ritmo||1;
++    const depois=(ms,fn)=>timers.push(setTimeout(()=>{if(viva.v)fn();},ms));
++    const T={ent:700*f,p1:1500*f,oc:600*f,p2:1100*f,sai:700*f,pausa:900*f};
++    let t=0;
++    avs.forEach((a,i)=>{
++      depois(t,()=>{rede.desenhar(null,0,hmax);rede.desenhar(a,1,hmax);o.aoIniciar&&o.aoIniciar(i);});
++      if(!a.c){depois(t+T.ent,()=>o.aoSaida&&o.aoSaida(i));t+=T.ent+T.pausa;return;}
++      depois(t+T.ent,()=>rede.pulso(1,true));
++      depois(t+T.ent+T.p1,()=>{rede.pulso(1,false);rede.desenhar(a,2,hmax);});
++      depois(t+T.ent+T.p1+T.oc,()=>rede.pulso(2,true));
++      depois(t+T.ent+T.p1+T.oc+T.p2,()=>{rede.pulso(2,false);rede.desenhar(a,3,hmax);o.aoSaida&&o.aoSaida(i);});
++      t+=T.ent+T.p1+T.oc+T.p2+T.sai+T.pausa;
++    });
++    depois(t,()=>o.aoFim&&o.aoFim());
++    return {parar(){viva.v=false;timers.forEach(clearTimeout);timers.length=0;rede.pulso(1,false);rede.pulso(2,false);}};
++  };
++  // ===== MONITOR DA IA: janela de exposição (este arquivo aberto com ?monitor=ia) =====
++  // Não usa USB, áudio nem pistas (o código do painel principal nem roda nesta janela).
++  // Recebe do painel principal, por postMessage, um resumo pronto para exibição e reutiliza
++  // o desenho e o animador da rede (CoflumeGuardia). Nunca recebe senha nem pistas.
++  if(G.modoMonitor){
++    const $m=id=>document.getElementById(id),E=G.esc;
++    document.documentElement.classList.add('modo-monitor');
++    document.title='Coflume — Monitor da Guardiã IA';
++    const raiz=document.createElement('div');raiz.id='monitorIA';raiz.className='mon';
++    raiz.innerHTML=`<header class="mon-topo"><div class="mon-marca">GUARDIÃ IA <span>· COFLUME · atuação no Quiz</span></div>
++      <div id="monFonte" class="mon-chip"></div><div id="monConexao" class="mon-chip"></div>
++      <button id="monTela" class="mon-btn" type="button">⛶ TELA CHEIA</button></header>
++      <div id="monDemo" class="mon-demo" hidden></div>
++      <div id="monAviso" class="mon-aviso" hidden></div>
++      <main class="mon-corpo" id="monCorpo">
++        <section class="mon-rede">
++          <div class="mon-titulo" id="monTitulo">Aguardando o painel principal…</div>
++          <svg id="monSvg" viewBox="0 0 760 450" role="img" aria-label="Rede neural da Guardiã: 13 entradas, 8 neurônios ocultos, 1 saída"></svg>
++          <div class="mon-rodape-rede"><span class="mon-reproduzido">cálculo reproduzido no painel · não é medição interna da placa</span>
++          <span class="mon-lenta" id="monLenta" hidden>visualização em câmera lenta · o pulso nas conexões é recurso visual</span></div>
++        </section>
++        <aside class="mon-lado">
++          <div class="mon-perg" id="monPerg"></div>
++          <h3>PREVISÃO DA REDE · P(acerto) por nível</h3>
++          <div id="monBarras" class="mon-barras"></div>
++          <p class="mon-nota">Estimativas de um modelo experimental (dados sintéticos), não certezas. Linha tracejada: alvo de 70%.</p>
++          <div class="mon-decisao" id="monDecisao" hidden></div>
++          <div class="mon-partida" id="monPartida"></div>
++        </aside>
++      </main>
++      <details class="mon-tec" id="monTecDet"><summary>Detalhes técnicos e diagnóstico</summary>
++        <div id="monTec"></div>
++        <p class="mon-ctl"><label><input type="checkbox" id="monAnimar" checked> animar</label>
++        <label>ritmo <select id="monRitmo"><option value="1">câmera lenta</option><option value="0.3">mais rápido</option></select></label>
++        <button id="monRepetir" class="mon-btn" type="button">↻ repetir animação</button></p></details>`;
++    document.body.prepend(raiz);
++    const rede=G.criarRede($m('monSvg'),'mon');
++    try{$m('monAnimar').checked=!window.matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){}
++    let est=null,ultimaMsg=0,ultimoSeq=0,chave=null,ctl=null,primeiro=true,semPrincipal=false,revelados=3,animando=false;
++    const parar=()=>{if(ctl){ctl.parar();ctl=null;}animando=false;$m('monLenta').hidden=true;};
++    const nome=n=>G.NIVEIS[n]||'?';
++    // ---- Partes da tela ----
++    function barras(p){
++      const prev=p?p.previsoes:[null,null,null],alvo=p&&p.alvo!==null?p.alvo:null;
++      let h='';
++      for(let n=0;n<3;n++){
++        let v=prev[n];const ok=typeof v==='number',vis=ok&&reveladoNivel(n),esc=p&&p.nivel_escolhido===n&&$m('monDecisao').hidden===false;
++        if(p&&p.recusada&&!ok)v='na';
++        h+=`<div class="mon-barra${esc?' mon-esc':''}" data-nivel="${n}"><span class="mon-bn">${nome(n)}</span>`
++          +`<span class="mon-bt"><span class="mon-bf" style="width:${vis?(v*100).toFixed(1):0}%"></span>${alvo!==null?`<span class="mon-alvo" style="left:${(alvo*100).toFixed(1)}%"></span>`:''}</span>`
++          +`<span class="mon-bv">${!p?'':!ok?(v==='na'?'não avaliado':'indisponível'):vis?'≈ '+G.pct(v):'…'}${esc?' <b>◆ escolhido</b>':''}</span></div>`;
++      }
++      $m('monBarras').innerHTML=h;
++    }
++    // Durante a animação, cada barra aparece quando a rede termina de avaliar aquele nível.
++    function reveladoNivel(n){
++      if(!animando)return true;
++      const avs=est&&est.pergunta&&est.pergunta.rede.avaliacoes;if(!avs)return true;
++      const k=avs.findIndex(a=>a.nivel===n);return k<0||k<revelados;
++    }
++    function decisao(p){
++      const box=$m('monDecisao');
++      if(!p||!p.tem_decisao&&!p.explicacao){box.hidden=true;return;}
++      box.innerHTML=`<div class="mon-dec-cab">DECISÃO DA POLÍTICA <small>(não é a rede)${est.politica?' · '+E(est.politica):''}</small></div>`
++        +`<div class="mon-dec-nivel">${p.recusada?'RECUSADA':p.nivel_escolhido!==null&&p.tem_decisao?E(nome(p.nivel_escolhido)):'sem nível'}</div>`
++        +`<div class="mon-dec-txt">${E(p.explicacao||'Motivo indisponível no log.')}</div>`;
++      box.hidden=false;
++    }
++    function partida(){
++      const s=est.partida,p=est.pergunta;
++      $m('monPerg').innerHTML=p?`PERGUNTA ${E(p.ordem)} DE 3${p.categoria?' · '+E(p.categoria):''}`:'';
++      if(!s){$m('monPartida').textContent='';return;}
++      $m('monPartida').innerHTML=`Partida ${E(s.status)} · nível inicial ${E(s.nivel_inicial||'indisponível')} · acertos ${s.acertos===null?'?':s.acertos} de ${s.status==='encerrada'?3:s.respondidas}`
++        +(s.desbloqueio?` · cofre ${s.desbloqueio==='SIM'?'aberto':'fechado'}`:'');
++    }
++    function tecnico(){
++      const s=est,p=s.pergunta,r=p&&p.rede;
++      let h=`<p>Modelo ${E(s.modelo.id)} (hash ${E(s.modelo.hash)}…) · política ${E(s.politica||'indisponível')} · fonte ${s.fonte==='demo'?'reprodução de log':'ao vivo (USB)'} · mensagem nº ${ultimoSeq}</p>`;
++      if(r&&r.estado==='ok'){
++        h+='<table><tr><th>nível</th><th>P reproduzida no painel</th><th>P registrada pelo ESP32</th><th>|Δ|</th><th></th></tr>';
++        for(const a of r.avaliacoes)h+=`<tr><td>${nome(a.nivel)}</td><td>${a.c?a.c.p.toFixed(6):'inválida'}</td><td>${E(a.bruto)}</td><td>${a.dif===null?'—':G.exp(a.dif)}</td><td class="${a.ok?'mon-ok':'mon-nok'}">${a.ok?'confere':'NÃO CONFERE'}</td></tr>`;
++        h+='</table>';
++      }else if(r)h+=`<p>Cálculo reproduzido indisponível: ${E(r.erro||r.estado)}</p>`;
++      if(s.conf.n)h+=`<p>Conferência acumulada: ${s.conf.ok} de ${s.conf.n} previsões dentro da tolerância de ${G.exp(s.conf.tol)} (maior |Δ| = ${G.exp(s.conf.max)}).</p>`;
++      if(s.demo)h+=`<p>${E(s.demo.info)}</p>`;
++      $m('monTec').innerHTML=h;
++    }
++    function aviso(txt,classe){const a=$m('monAviso');a.hidden=!txt;a.className='mon-aviso'+(classe?' '+classe:'');a.innerHTML=txt||'';}
++    // ---- Rede: anima cada pergunta nova uma vez; ao abrir/reabrir mostra o último resultado parado ----
++    function redeEstatica(p){
++      const r=p&&p.rede;
++      if(!r||r.estado!=='ok'||!r.avaliacoes.length){
++        rede.desenhar(null,0,1);
++        $m('monTitulo').textContent=!p?'Aguardando uma pergunta do Quiz':p.recusada?'Pergunta recusada pela regra gradual · a rede não foi usada':r&&r.estado==='sem_features'?'Cálculo da rede indisponível nesta pergunta (linha de features ausente)'
++          :r&&r.estado==='erro'?'Cálculo da rede indisponível: '+r.erro:r&&r.estado==='ok'?'A rede não foi avaliada nesta pergunta':'Aguardando a avaliação da rede';
++        return;
++      }
++      const alvo=r.avaliacoes.find(a=>a.nivel===p.nivel_escolhido)||r.avaliacoes[r.avaliacoes.length-1];
++      rede.desenhar(alvo,3,G.hmax(r.avaliacoes));
++      $m('monTitulo').innerHTML=`ÚLTIMA AVALIAÇÃO · pergunta ${E(p.ordem)} de 3 <small>rede mostrando a previsão para ${E(nome(alvo.nivel))}</small>`;
++    }
++    function animar(p){
++      parar();
++      const avs=p.rede.avaliacoes,k=avs.length;
++      animando=true;revelados=0;$m('monLenta').hidden=false;$m('monDecisao').hidden=true;barras(p);
++      ctl=G.animar(rede,avs,{ritmo:Number($m('monRitmo').value)||1,
++        aoIniciar:i=>{$m('monTitulo').innerHTML=`AVALIANDO: ${E(nome(avs[i].nivel).toUpperCase())} <small>${i+1} de ${k}</small>`;},
++        aoSaida:i=>{revelados=i+1;barras(p);},
++        aoFim:()=>{ctl=null;animando=false;revelados=3;$m('monLenta').hidden=true;decisao(p);barras(p);redeEstatica(p);}});
++    }
++    // ---- Aplica um estado recebido ----
++    function aplicar(s,completo){
++      est=s;
++      const demo=s.fonte==='demo';
++      $m('monFonte').textContent=demo?'DADOS DE DEMONSTRAÇÃO · reprodução de log':'AO VIVO · USB';
++      $m('monFonte').className='mon-chip'+(demo?' mon-chip-demo':'');
++      $m('monDemo').hidden=!demo;
++      if(demo)$m('monDemo').innerHTML=`<b>DADOS DE DEMONSTRAÇÃO</b> · reprodução de arquivo de log no painel principal; não vêm do cofre conectado nem de crianças.`
++        +(s.demo.nota?`<span class="mon-demo-nota">${E(s.demo.nota)}</span>`:'');
++      const cx={conectado:'cofre conectado',identificando:'identificando o cofre…',desconectado:'cofre desconectado',perdida:'COMUNICAÇÃO COM O COFRE PERDIDA',indisponivel:'estado da conexão indisponível'}[s.conexao];
++      $m('monConexao').hidden=demo;$m('monConexao').textContent=cx||'';$m('monConexao').className='mon-chip mon-cx-'+(s.conexao||'');
++      tecnico();
++      // Agente Secreto: sem Guardiã, sem animação, sem nada da missão.
++      if(s.agente){
++        parar();chave='agente';rede.desenhar(null,0,1);$m('monCorpo').classList.add('mon-oculto');
++        aviso('<b>MODO AGENTE SECRETO</b><br>Esta modalidade não usa a Guardiã IA. A rede volta a ser exibida no próximo Quiz.','mon-aviso-agente');
++        primeiro=false;return;
++      }
++      $m('monCorpo').classList.remove('mon-oculto');
++      // Dados que deixaram de ser atuais: cofre desconectado ou comunicação perdida.
++      const antigo=!demo&&(s.conexao==='perdida'||s.conexao==='desconectado');
++      $m('monCorpo').classList.toggle('mon-antigo',antigo&&!!s.partida);
++      if(antigo)parar();
++      if(s.conexao==='perdida')aviso('<b>COMUNICAÇÃO COM O COFRE PERDIDA</b><br>'+(s.partida?'O que aparece abaixo é da última partida antes da desconexão, não é atual.':'Aguardando reconexão no painel principal.'),'mon-aviso-erro');
++      else if(s.conexao==='desconectado')aviso(s.partida?'<b>Cofre desconectado</b> · o que aparece abaixo é da última partida, não é atual.':'Aguardando a conexão do cofre no painel principal.','');
++      else if(s.erros.length)aviso(s.erros.map(e=>(e.texto?E(e.texto):'A Guardiã registrou um erro')+' <small>('+E(e.motivo)+')</small>').join('<br>'),'mon-aviso-erro');
++      else aviso('');
++      partida();
++      const p=s.pergunta;
++      const k=[s.fonte,s.partida&&s.partida.id,p&&p.ordem,p&&p.rede.estado,p&&p.rede.avaliacoes?p.rede.avaliacoes.length:0].join('|');
++      if(k!==chave){
++        chave=k;parar();
++        if(p&&p.rede.estado==='ok'&&p.rede.avaliacoes.length&&!completo&&!primeiro&&!antigo&&$m('monAnimar').checked)animar(p);
++        else{decisao(p);barras(p);redeEstatica(p);}
++      }else if(!animando){decisao(p);barras(p);}
++      primeiro=false;
++    }
++    function semComunicacao(motivo){
++      if(semPrincipal)return;
++      semPrincipal=true;parar();
++      $m('monCorpo').classList.add('mon-antigo');
++      aviso(`<b>SEM COMUNICAÇÃO COM O PAINEL PRINCIPAL</b><br>${motivo} Os dados abaixo não são atuais.`,'mon-aviso-erro');
++      $m('monConexao').hidden=false;$m('monConexao').textContent='painel principal sem comunicação';$m('monConexao').className='mon-chip mon-cx-perdida';
++    }
++    window.addEventListener('message',e=>{
++      if(!window.opener||e.source!==window.opener)return;
++      const d=e.data;if(!d||d.canal!==G.CANAL)return;
++      ultimaMsg=performance.now();
++      if(d.tipo==='principal_fechado'){semComunicacao('O painel principal foi fechado ou recarregado.');return;}
++      if(semPrincipal){semPrincipal=false;$m('monCorpo').classList.remove('mon-antigo');}
++      if(d.tipo==='estado'){if(d.seq<ultimoSeq&&!d.completo)return;ultimoSeq=d.seq;aplicar(d.estado,d.completo);}
++    });
++    const pedir=()=>{try{window.opener.postMessage({canal:G.CANAL,tipo:'pronto'},'*');}catch(e){}};
++    if(!window.opener){
++      aviso('Esta janela é o <b>monitor da IA</b>. Abra-a pelo botão <b>ABRIR MONITOR DA IA</b> no painel principal, que é o único conectado à USB.','');
++      $m('monCorpo').classList.add('mon-oculto');
++    }else{
++      pedir();
++      setInterval(()=>{ // batidas do principal chegam a cada 1 s
++        if(performance.now()-ultimaMsg>3500){
++          if(ultimaMsg)semComunicacao(window.opener.closed?'O painel principal foi fechado.':'Nenhuma mensagem há mais de 3 segundos.');
++          pedir(); // tenta sincronizar de novo (por exemplo, depois de recarregar o painel principal)
++        }
++      },1000);
++    }
++    $m('monTela').onclick=()=>{const p=document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();p&&p.catch&&p.catch(()=>{});};
++    document.addEventListener('fullscreenchange',()=>{$m('monTela').textContent=document.fullscreenElement?'⛶ SAIR DA TELA CHEIA':'⛶ TELA CHEIA';});
++    $m('monRepetir').onclick=()=>{const p=est&&est.pergunta;if(p&&!est.agente&&p.rede.estado==='ok'&&p.rede.avaliacoes.length)animar(p);};
++  }
++})();
++</script>
++<script>
++(() => {
++  'use strict';
++  if(window.CoflumeGuardia&&window.CoflumeGuardia.modoMonitor)return; // monitor da IA: sem USB, áudio nem pistas
+   const canvas = document.getElementById('matrix');
+   const ctx = canvas.getContext('2d');
+   const cluesEl = document.getElementById('clues');
+@@ -131,6 +438,545 @@
+   <details id="guardiaLogs" class="logs"><summary>Logs da Guardia IA (<span id="logCount">0</span>)</summary><p>Linhas GUARDIA enviadas pelo ESP32 (quiz e diagnostico de inicializacao). Apenas leitura: nao alteram a missao. Modelo experimental, dados sinteticos.</p><pre id="logView" aria-live="off"></pre><div class="buttons"><button id="logSave" type="button">SALVAR LOGS (.TXT)</button><button id="logClear" type="button">LIMPAR</button></div></details>
+   <p class="connection-note">USB · 115200 baud · senha no teclado fisico · * apaga · # confirma · D cancela/volta</p>`;
+   document.querySelector('.terminal').append(panel);
++  // ===== Visualização da Guardiã IA (proposta, somente leitura) =====
++  // Observa as linhas recebidas. Não envia nada ao ESP32 e não altera o estado AG,
++  // o relógio, o áudio, as pistas nem a área de logs. A reprodução de arquivo usa um
++  // modelo separado, marcado como DADOS DE DEMONSTRAÇÃO, que nunca entra nos logs salvos.
++  const GV_NIVEIS=['Explorador','Desafiante','Mestre'];
++  const GV_CATEG=['Matemática','Português','Lógica','Conhecimentos gerais'];
++  const GV_GRADUAL='gradual-v2-exp';
++  const gvEsc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
++  const gvIndisp=(motivo)=>`<span class="gv-na">indisponível${motivo?' · '+gvEsc(motivo):''}</span>`;
++  function gvNovoModelo(){return {estado:null,modelo:null,autoteste:null,sessao:null,perguntas:{},fim:null,erros:[],agente:null,linhas:0,nota:null,conf:{n:0,ok:0,max:0}};}
++  const gvModelos={usb:gvNovoModelo(),demo:gvNovoModelo()};
++  let gvFonte='usb',gvSel=null,gvRaf=0,gvLinhasAoVivoDuranteDemo=0;
++  function gvCampos(line){ // GUARDIA,tipo,k=v,...  (itens sem '=' ficam em c.pos, na ordem)
++    const t=line.split(','),c={pos:[]};
++    for(const x of t.slice(2)){const i=x.indexOf('=');if(i<0)c.pos.push(x);else c[x.slice(0,i)]=x.slice(i+1);}
++    return {tipo:t[1]||'',c};
++  }
++  function gvNovaPartida(m,c){m.sessao=c;m.perguntas={};m.fim=null;m.erros=[];m.agente=null;gvSel=null;}
++  // Devolve true quando a linha muda o que o quadro mostra.
++  function gvLinha(m,line){
++    line=line.trim();
++    if(line.startsWith('AG,')){
++      const v=line.split(',');let novo=m.agente;
++      if(v[1]==='PREP')novo='PREP';else if(v[1]==='STATE'&&v[3])novo=v[3]==='IDLE'?null:v[3];else return false;
++      if(novo===m.agente)return false;m.agente=novo;return true;
++    }
++    if(!line.startsWith('GUARDIA,'))return false;
++    const {tipo,c}=gvCampos(line);m.linhas++;
++    const mesma=()=>m.sessao&&c.sessao&&m.sessao.sessao===c.sessao;
++    if(tipo==='estado')m.estado=c;
++    else if(tipo==='modelo')m.modelo=c;
++    else if(tipo==='autoteste')m.autoteste=c;
++    else if(tipo==='sessao')gvNovaPartida(m,c);
++    else if(tipo==='decisao'||tipo==='politica_gradual'||tipo==='resposta'||tipo==='features'){
++      if(!m.sessao||(c.sessao&&!mesma()))gvNovaPartida(m,{sessao:c.sessao,nivel_inicial:c.nivel_inicial,parcial:'1'});
++      const o=c.ordem||'?',q=m.perguntas[o]||(m.perguntas[o]={});
++      q[tipo==='politica_gradual'?'gradual':tipo]=c;m.agente=null;
++      if(tipo==='decisao'){gvSel=null;q.rep=null;}
++      if(tipo==='features'&&q.decisao)gvrConferir(m,q); // cálculo reproduzido no painel (rede_guardia.js)
++    }
++    else if(tipo==='fim'){if(!m.sessao||(c.sessao&&!mesma()))gvNovaPartida(m,{sessao:c.sessao,parcial:'1'});m.fim=c;}
++    else if(tipo==='erro')m.erros.push({motivo:c.pos[0],politica:c.politica});
++    else return false;
++    return true;
++  }
++  function gvPolitica(m){
++    if(m.sessao&&m.sessao.politica)return {nome:m.sessao.politica,origem:'informada no início da partida'};
++    for(const q of Object.values(m.perguntas))if(q.gradual&&q.gradual.politica)return {nome:q.gradual.politica,origem:'informada na linha politica_gradual'};
++    if(m.estado&&m.estado.politica)return {nome:m.estado.politica,origem:'informada no estado do firmware'};
++    return null;
++  }
++  const gvNivel=n=>{const i=Number(n);return n!==undefined&&n!==''&&Number.isInteger(i)&&GV_NIVEIS[i]?GV_NIVEIS[i]:null;};
++  const gvCat=n=>{const i=Number(n);return n!==undefined&&n!==''&&Number.isInteger(i)&&GV_CATEG[i]?GV_CATEG[i]:null;};
++  const gvLista=s=>s===undefined?null:s===''||s==='-'?[]:s.split('|').map(x=>gvNivel(x)||('nível '+x));
++  const gvListaTxt=s=>{const l=gvLista(s);return l===null?gvIndisp('campo ausente no log'):l.length?gvEsc(l.join(', ')):'nenhum';};
++  const gvNum=s=>{const x=Number(String(s).replace(',','.'));return s!==undefined&&s!==''&&Number.isFinite(x)?x:null;};
++  const gvFmt=(x,d=1)=>x.toLocaleString('pt-BR',{minimumFractionDigits:d,maximumFractionDigits:d});
++  function gvP(s){ // estimativa: número em [0,1], 'NA' (não avaliado), ausente ou inválida
++    if(s===undefined)return {tipo:'ausente'};
++    if(s==='NA')return {tipo:'na'};
++    const x=gvNum(s);return x!==null&&x>=0&&x<=1?{tipo:'ok',v:x}:{tipo:'invalida',bruto:s};
++  }
++  // Exibição com 1 casa decimal. A escolha do firmware usa os valores completos do log.
++  const gvPct=v=>gvFmt(v*100,1)+'%';
++  const gvDistTxt=(v,alvo)=>gvFmt(Math.abs(v-alvo)*100,1);
++  function gvPTxt(p,alvo){
++    if(p.tipo==='ok'){
++      let t='≈ '+gvPct(p.v);
++      if(alvo!==null){const d=gvDistTxt(p.v,alvo);t+=d===gvFmt(0,1)?' · no alvo':' · '+d+' p.p. '+(p.v>alvo?'acima':'abaixo')+' do alvo';}
++      return t;
++    }
++    if(p.tipo==='na')return gvIndisp('não avaliado nesta pergunta');
++    if(p.tipo==='ausente')return gvIndisp('campo ausente no log');
++    return gvIndisp('valor inválido no log: '+p.bruto);
++  }
++  const GV_MOTIVOS={
++    nivel_inicial_pergunta_1:'Pergunta 1: usa o nível escolhido pela criança no menu. A estimativa é só registrada; a MLP não decide esta pergunta.',
++    guardia:null, // texto depende da política, montado abaixo
++    fallback_sem_modelo:'Modelo desativado ou reprovado no autoteste: a política usou o nível disponível mais próximo do inicial, sem usar estimativas.',
++    fallback_previsao_invalida:'Alguma estimativa veio inválida: a política usou o nível disponível mais próximo do inicial, sem usar estimativas.',
++    sem_nivel_compativel:'Nenhum nível compatível com a regra gradual: a Guardiã recusou a escolha em vez de violar a regra.',
++  };
++  function gvMotivoTxt(motivo,pol){
++    if(motivo===undefined)return gvIndisp('motivo ausente no log');
++    if(motivo==='guardia')return pol&&pol.nome===GV_GRADUAL
++      ?'Entre os níveis compatíveis com a regra gradual e com pergunta disponível, escolheu o de estimativa mais próxima do alvo.'
++      :pol&&pol.nome==='fluxo-0.8'?'Entre os níveis permitidos (inicial ± 1) com pergunta disponível, escolheu o de estimativa mais próxima do alvo.'
++      :'Escolheu o nível de estimativa mais próxima do alvo entre os candidatos (política não informada no log).';
++    if(GV_MOTIVOS[motivo])return GV_MOTIVOS[motivo];
++    return 'Motivo registrado: <code>'+gvEsc(motivo)+'</code> '+gvIndisp('sem descrição neste painel');
++  }
++  const GV_ERROS={
++    banco_inviavel:'Quiz bloqueado na verificação inicial: o banco não permite todas as partidas.',
++    banco_inviavel_gradual:'Quiz bloqueado na verificação inicial: o banco não permite todas as partidas com a regra gradual (BANCO INCOMPLETO).',
++    sem_nivel_compativel:'Guardiã recusou a próxima pergunta: nenhum nível compatível com a regra gradual tem pergunta no banco.',
++  };
++  function gvErroTxt(motivo){
++    if(!motivo)return 'Erro registrado sem motivo: '+gvIndisp('motivo ausente no log');
++    return GV_ERROS[motivo]?gvEsc(GV_ERROS[motivo])+' <code>'+gvEsc(motivo)+'</code>':'Erro registrado: <code>'+gvEsc(motivo)+'</code> '+gvIndisp('sem descrição neste painel');
++  }
++  function gvCaixa(classe,titulo,corpo){return `<div class="gv-box ${classe}"><h4>${titulo}</h4>${corpo}</div>`;}
++  function gvMLP(d){
++    const alvo=gvNum(d.alvo),esc=d.nivel_escolhido,perm=gvLista(d.niveis_permitidos)||[];
++    let h='<div class="gv-bars">';
++    for(let n=0;n<3;n++){
++      const p=gvP(d['p'+n]),escolhido=String(n)===esc;
++      const larg=p.tipo==='ok'?(p.v*100).toFixed(1):'100';
++      h+=`<div class="gv-bar-row${escolhido?' gv-escolhido':''}" data-nivel="${n}"${p.tipo==='ok'?` title="valor registrado no log: p${n}=${gvEsc(d['p'+n])}"`:''}><span class="gv-bar-nome">${GV_NIVEIS[n]}</span>`
++        +`<span class="gv-bar"><span class="gv-fill ${p.tipo==='ok'?'':'gv-fill-na'}" style="width:${larg}%"></span>${alvo!==null?`<span class="gv-alvo" style="left:${(alvo*100).toFixed(1)}%"></span>`:''}</span>`
++        +`<span class="gv-bar-txt">${gvPTxt(p,alvo)}${escolhido?' <b class="gv-marca">◆ escolhido pela política</b>':''}</span></div>`;
++    }
++    h+='</div>';
++    h+=gvEmpateVisual(d);
++    h+=`<p class="gv-legenda">${alvo!==null?'Linha tracejada: alvo de '+Math.round(alvo*100)+'% de P(acerto).':gvIndisp('alvo ausente no log')} `
++      +'São estimativas de um modelo experimental treinado com dados sintéticos: indicam tendência, não certeza, e não avaliam a criança.</p>';
++    void perm;return h;
++  }
++  // Empate visual: o nível escolhido aparece com a mesma estimativa ou a mesma distância
++  // do alvo (1 casa) que outro nível avaliado. Só faz sentido quando as estimativas decidiram.
++  function gvEmpateVisual(d){
++    const alvo=gvNum(d.alvo),esc=gvNum(d.nivel_escolhido);
++    if(d.motivo!=='guardia'||alvo===null||esc===null)return '';
++    const pe=gvP(d['p'+esc]);if(pe.tipo!=='ok')return '';
++    const disp=gvLista(d.niveis_disponiveis);
++    const iguais=[];
++    for(let n=0;n<3;n++){
++      if(n===esc)continue;
++      const p=gvP(d['p'+n]);if(p.tipo!=='ok')continue;
++      if(disp&&disp.length&&!disp.includes(GV_NIVEIS[n]))continue;
++      if(gvPct(p.v)===gvPct(pe.v)||gvDistTxt(p.v,alvo)===gvDistTxt(pe.v,alvo))iguais.push(n);
++    }
++    if(!iguais.length)return '';
++    const nomes=[esc,...iguais].map(n=>GV_NIVEIS[n]).join(' e ');
++    const brutos=[esc,...iguais].map(n=>'p'+n+'='+gvEsc(d['p'+n])).join(', ');
++    return `<p class="gv-empate" id="gvEmpate"><b>Empate visual:</b> ${gvEsc(nomes)} aparecem iguais com 1 casa decimal. `
++      +`A escolha usa os valores sem arredondamento (${brutos}) e o desempate da política: menor distância exata do alvo; `
++      +'se ainda empatar, o nível inicial; depois, o nível mais baixo.</p>';
++  }
++  function gvEscolha(d,pol){
++    const nv=gvNivel(d.nivel_escolhido),p=gvP(d.p_escolhido),alvo=gvNum(d.alvo);
++    let h=`<p class="gv-grande">${nv?gvEsc(nv):gvIndisp('nível ausente no log')}</p>`;
++    h+=`<p>Estimativa da MLP para esse nível: ${gvPTxt(p,alvo)}</p>`;
++    h+=`<p><b>Por quê:</b> ${gvMotivoTxt(d.motivo,pol)}</p>`;
++    h+=`<p>Níveis permitidos: ${gvListaTxt(d.niveis_permitidos)} · com pergunta disponível: ${gvListaTxt(d.niveis_disponiveis)}</p>`;
++    const cs=gvCat(d.categoria_sorteada),cu=gvCat(d.categoria);
++    h+=`<p>Categoria: ${cu?gvEsc(cu):gvIndisp('ausente no log')}${d.categoria_substituida==='1'&&cs?' (sorteada: '+gvEsc(cs)+', trocada por falta de pergunta)':''}</p>`;
++    return h;
++  }
++  function gvRegra(g){
++    const s=gvNum(g.nivel_sem_regra),a=gvNum(g.anterior);
++    if(s===null||a===null)return gvIndisp('não dá para deduzir dos campos do log');
++    if(g.anterior_acertou==='0'&&s>a)return 'não subir de nível depois de erro ou tempo esgotado';
++    if(Math.abs(s-a)>1)return 'no máximo 1 nível de diferença da pergunta anterior';
++    return gvIndisp('não dá para deduzir dos campos do log');
++  }
++  function gvProtecao(g,pol,d){
++    if(!pol)return {cls:'',txt:gvIndisp('o log não informa a política ativa'),curto:'indisponível'};
++    if(pol.nome!==GV_GRADUAL)return {cls:'gv-off',txt:`<p>Não aplicável: a política ativa é <b>${gvEsc(pol.nome)}</b>, que não tem proteção gradual.</p>`,curto:'não se aplica'};
++    if(!g)return {cls:'',txt:`<p>${gvIndisp('o log não traz a linha GUARDIA,politica_gradual desta pergunta')}</p>`,curto:'indisponível'};
++    const ant=gvNivel(g.anterior);
++    let h=`<p>Pergunta anterior: ${g.anterior==='-'?'nenhuma (primeira pergunta)':ant?gvEsc(ant)+(g.anterior_acertou==='1'?', acertou':g.anterior_acertou==='0'?', errou ou esgotou o tempo':', resultado '+gvIndisp()):gvIndisp('campo ausente no log')}</p>`;
++    h+=`<p>Níveis compatíveis com a regra: ${gvListaTxt(g.niveis_compativeis)} · com pergunta no banco: ${gvListaTxt(g.candidatos)}</p>`;
++    let cls='',curto='';
++    if(g.motivo==='sem_nivel_compativel'||g.nivel==='-1'){
++      cls='gv-recusa';curto='recusou';
++      h=`<p class="gv-alerta">RECUSA · nenhum nível compatível. A Guardiã não escolhe um nível que viole a regra gradual.</p>`+h;
++    }else if(g.limitou==='1'){
++      cls='gv-atuou';curto='atuou';
++      const sem=gvNivel(g.nivel_sem_regra),com=gvNivel(g.nivel);
++      h=`<p class="gv-alerta">PROTEÇÃO ATUOU · sem a regra gradual, o fluxo-0.8 escolheria <b>${sem?gvEsc(sem):gvIndisp()}</b>; a regra limitou para <b>${com?gvEsc(com):gvIndisp()}</b>.</p>`
++        +`<p>Regra que impediu (deduzida dos campos anterior e nivel_sem_regra): ${gvRegra(g)}.</p>`+h;
++    }else if(g.limitou==='0'){
++      curto='não precisou';
++      h=(g.nivel_sem_regra==='-1'?'<p>Pergunta 1: nível escolhido pela criança; não há pergunta anterior para comparar.</p>'
++        :`<p>Não precisou intervir: a escolha do fluxo-0.8 (${gvEsc(gvNivel(g.nivel_sem_regra)||g.nivel_sem_regra)}) já era compatível.</p>`)+h;
++    }else{curto='indisponível';h=`<p>${gvIndisp('campo limitou ausente no log')}</p>`+h;}
++    const c8=gvCat(g.categoria_fluxo08),cg=gvCat(g.categoria);
++    if(c8&&cg&&g.categoria_fluxo08!==g.categoria)h+=`<p>Categoria: o fluxo-0.8 usaria ${gvEsc(c8)}; a regra usou ${gvEsc(cg)} (primeira da ordem sorteada com nível compatível).</p>`;
++    void d;return {cls,txt:h,curto};
++  }
++  function gvResultado(r){
++    if(!r)return null;
++    if(r.esgotou==='1')return 'tempo esgotado';
++    if(r.acertou==='1')return 'acertou';
++    if(r.acertou==='0')return 'errou';
++    return null;
++  }
++  function gvRender(){
++    gvMonAgendar();
++    const m=gvModelos[gvFonte],el=$('gvConteudo');
++    $('gvFonte').textContent=gvFonte==='demo'?'REPRODUÇÃO DE LOG':'AO VIVO · USB';
++    $('gvFonte').classList.toggle('gv-tag-demo',gvFonte==='demo');
++    $('gvDemoNota').hidden=!(gvFonte==='demo'&&m.nota);$('gvDemoNota').textContent=gvFonte==='demo'&&m.nota?'NOTA DO ARQUIVO NESTE TRECHO: '+m.nota:'';
++    $('gvAoVivo').textContent=gvFonte==='demo'&&gvLinhasAoVivoDuranteDemo?' · '+gvLinhasAoVivoDuranteDemo+' linhas ao vivo recebidas em segundo plano':'';
++    if(m.agente){
++      const est={PREP:'preparando',PLAYING:'missão em andamento',WIN:'missão cumprida',LOSE:'missão encerrada'}[m.agente]||m.agente;
++      gvRedeSincronizar(m,null);
++      el.innerHTML=`<div class="gv-agente" id="gvAgente"><strong>MODO AGENTE SECRETO · ${gvEsc(est)}</strong><p>A Guardiã IA não participa desta modalidade. A senha e o cronômetro são controlados pelo ESP32, e as pistas são geradas por este painel. O quadro da Guardiã volta a ser usado no Quiz.</p></div>`;
++      return;
++    }
++    const pol=gvPolitica(m);let h='';
++    const auto=m.autoteste&&m.autoteste.resultado,est=m.estado||{};
++    h+=`<div class="gv-ctx"><span>Política ativa: ${pol?`<b>${gvEsc(pol.nome)}</b> <small>(${gvEsc(pol.origem)})</small>`:gvIndisp('não informada no log')}</span>`
++      +`<span>Modelo: ${m.modelo&&m.modelo.id?gvEsc(m.modelo.id):m.sessao&&m.sessao.modelo?gvEsc(m.sessao.modelo):gvIndisp()}</span>`
++      +`<span>Autoteste: ${auto?gvEsc(auto):gvIndisp()}</span>`
++      +`<span>Banco viável: ${est.banco_viavel==='1'?'sim':est.banco_viavel==='0'?'NÃO':gvIndisp()}${pol&&pol.nome===GV_GRADUAL?' · para a regra gradual: '+(est.banco_viavel_gradual==='1'?'sim':est.banco_viavel_gradual==='0'?'NÃO':gvIndisp()):''}</span></div>`;
++    for(const e of m.erros.slice(-3))h+=`<p class="gv-alerta gv-erro">${gvErroTxt(e.motivo)}${e.politica?' · política '+gvEsc(e.politica):''}</p>`;
++    if(!m.sessao){
++      gvRedeSincronizar(m,null);
++      h+=`<p class="gv-vazio">Nenhuma partida de Quiz ${gvFonte==='demo'?'neste trecho do log':'recebida ainda'}. Escolha o Quiz no cofre (1, 2 ou 3)${gvFonte==='usb'?' ou abra um log para reproduzir':''}.</p>`;
++      el.innerHTML=h;return;
++    }
++    const s=m.sessao,ordens=['1','2','3'];
++    const ultima=[...ordens].reverse().find(o=>m.perguntas[o]&&(m.perguntas[o].decisao||m.perguntas[o].gradual));
++    const sel=gvSel&&m.perguntas[gvSel]?gvSel:ultima;
++    gvRedeSincronizar(m,sel);
++    h+=`<p class="gv-partida">Partida de Quiz ${gvEsc(s.sessao||'?')} · ${m.fim?'encerrada':m.erros.length?'interrompida':'em andamento'} · nível inicial: ${gvNivel(s.nivel_inicial)?gvEsc(gvNivel(s.nivel_inicial)):gvIndisp()}${s.parcial?' · '+gvIndisp('início da partida ausente no log'):''}</p>`;
++    if(sel){
++      const q=m.perguntas[sel],d=q.decisao;
++      if(d){
++        const pr=gvProtecao(q.gradual,pol,d),cat=gvCat(d.categoria);
++        h+=`<h3 class="gv-perg">PERGUNTA ${gvEsc(sel)} DE 3 · ${cat?gvEsc(cat):gvIndisp()} · <code>${gvEsc(d.pergunta||'?')}</code></h3><div class="gv-grid">`
++          +gvCaixa('gv-mlp','1 · PREVISÃO DA MLP <small>P(acerto) estimada por nível</small>',gvMLP(d))
++          +gvCaixa('gv-pol','2 · ESCOLHA DA POLÍTICA <small>'+(pol?gvEsc(pol.nome):'política indisponível')+'</small>',gvEscolha(d,pol))
++          +gvCaixa('gv-grad '+pr.cls,'3 · PROTEÇÃO GRADUAL',pr.txt)+'</div>';
++      }else{
++        h+=`<h3 class="gv-perg">PERGUNTA ${gvEsc(sel)} DE 3</h3><p>${gvIndisp('linha GUARDIA,decisao desta pergunta ausente no log')}</p>`;
++        if(q.gradual){const pr=gvProtecao(q.gradual,pol,null);h+='<div class="gv-grid gv-grid-1">'+gvCaixa('gv-grad '+pr.cls,'3 · PROTEÇÃO GRADUAL',pr.txt)+'</div>';}
++      }
++    }
++    h+='<div class="gv-tabela"><table><thead><tr><th>Pergunta</th><th>Nível escolhido</th><th>Estimativa da MLP<br><small>p/ nível escolhido</small></th><th>Resultado</th><th>Tempo</th><th>Dica</th><th>Proteção gradual</th></tr></thead><tbody>';
++    let acertos=0,respondidas=0,dicas=0,dicaOk=true,tempo=0,tempoOk=true;
++    for(const o of ordens){
++      const q=m.perguntas[o]||{},d=q.decisao,r=q.resposta;
++      const falta=m.fim?gvIndisp('ausente no log'):m.erros.length?'<span class="gv-na">não aconteceu</span>':'<span class="gv-na">aguardando</span>';
++      const res=gvResultado(r);
++      if(r){respondidas++;if(r.acertou==='1')acertos++;if(r.usou_dica==='1')dicas++;else if(r.usou_dica!=='0')dicaOk=false;
++        const t=gvNum(r.tempo_gasto_s);if(t===null)tempoOk=false;else tempo+=t;}
++      const tg=r?gvNum(r.tempo_gasto_s):null,tl=r?gvNum(r.tempo_limite_s):null;
++      h+=`<tr data-ordem="${o}" tabindex="0" class="${o===sel?'gv-sel':''}"><td>${o}/3</td>`
++        +`<td>${d?(gvNivel(d.nivel_escolhido)?gvEsc(gvNivel(d.nivel_escolhido)):gvIndisp()):falta}</td>`
++        +`<td>${d?gvPTxt(gvP(d.p_escolhido),null):falta}</td>`
++        +`<td class="gv-res-${res?res.replace(' ','-'):'na'}">${r?(res||gvIndisp()):falta}</td>`
++        +`<td>${r?(tg!==null?gvFmt(tg)+' s':gvIndisp())+(tl!==null?' de '+gvFmt(tl,0)+' s':''):falta}</td>`
++        +`<td>${r?(r.usou_dica==='1'?'sim':r.usou_dica==='0'?'não':gvIndisp()):falta}</td>`
++        +`<td>${d||q.gradual?gvProtecao(q.gradual,pol,d).curto:falta}</td></tr>`;
++    }
++    h+='</tbody></table></div>';
++    const fa=m.fim?gvNum(m.fim.acertos):null,desb=m.fim&&m.fim.desbloqueio;
++    h+=`<div class="gv-totais"><span>Acertos: <b>${m.fim?(fa!==null?fa+'/3':gvIndisp()):acertos+'/3'+(m.erros.length?'':' até agora')}</b></span>`
++      +`<span>Dicas usadas: <b>${respondidas?(dicaOk?dicas:gvIndisp()):'0'}</b></span>`
++      +`<span>Tempo somado das respostas: <b>${respondidas?(tempoOk?gvFmt(tempo)+' s':gvIndisp()):'0 s'}</b></span>`
++      +`<span>Desbloqueio: <b>${m.fim?(desb==='SIM'?'SIM · cofre aberto':desb==='NAO'?'NÃO':gvIndisp()):m.erros.length?'NÃO · partida interrompida':'aguardando fim da partida'}</b></span></div>`;
++    el.innerHTML=h;
++  }
++  function gvAgendarRender(){gvMonAgendar();if(!gvRaf)gvRaf=requestAnimationFrame(()=>{gvRaf=0;gvRender();});}
++  // Gancho chamado por packet(): só lê a linha. Erros aqui nunca afetam o protocolo AG.
++  function guardiaVisUSB(line){
++    try{if(gvLinha(gvModelos.usb,line)){gvMonAgendar();if(gvFonte==='usb')gvAgendarRender();else{gvLinhasAoVivoDuranteDemo++;gvAgendarRender();}}}catch(e){}
++  }
++  // ---- Reprodução de arquivo de log (DADOS DE DEMONSTRAÇÃO) ----
++  const gvRep={linhas:[],i:0,timer:null,tocando:false};
++  function gvBotoes(){
++    const tem=gvFonte==='demo',fim=gvRep.i>=gvRep.linhas.length;
++    $('gvPlay').disabled=!tem||fim;$('gvPlay').textContent=gvRep.tocando?'❚❚ PAUSAR':'▶ REPRODUZIR';
++    $('gvPasso').disabled=!tem||fim||gvRep.tocando;$('gvFim').disabled=!tem||fim;$('gvSair').disabled=!tem;
++    $('gvProg').textContent=tem?`linha ${gvRep.i} de ${gvRep.linhas.length}`+(gvRep.i&&Number.isFinite(gvRep.linhas[gvRep.i-1].t)?' · '+new Date(gvRep.linhas[gvRep.i-1].t).toISOString().slice(11,19)+' UTC':''):'';
++  }
++  function gvCarregar(texto,nome){
++    const brutas=texto.split(/\r?\n/);
++    // Linhas '#' antes do primeiro dado formam o cabeçalho; as do meio viram notas do trecho.
++    const inicio=brutas.findIndex(l=>l.trim()&&!l.startsWith('#'));
++    const cab=brutas.slice(0,inicio<0?brutas.length:inicio).filter(l=>l.startsWith('#')).map(l=>l.replace(/^#\s*/,'')).join(' ');
++    gvRep.linhas=(inicio<0?[]:brutas.slice(inicio)).filter(l=>l.trim()).map(l=>{
++      if(l.startsWith('#'))return {t:NaN,s:'',nota:l.replace(/^#\s*/,'')};
++      const x=/^(\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d+)?Z)\s+(.*)$/.exec(l);
++      return x?{t:Date.parse(x[1]),s:x[2]}:{t:NaN,s:l.trim()};
++    });
++    clearTimeout(gvRep.timer);gvRep.i=0;gvRep.tocando=false;
++    gvModelos.demo=gvNovoModelo();gvFonte='demo';gvSel=null;gvLinhasAoVivoDuranteDemo=0;
++    $('gvDemo').hidden=false;
++    $('gvDemoInfo').textContent=`Arquivo: ${nome} · ${gvRep.linhas.length} linhas. `+(cab?'Cabeçalho do arquivo: '+cab:'O arquivo não traz cabeçalho de origem.');
++    gvBotoes();gvRender();
++  }
++  function gvPassoUm(){if(gvRep.i>=gvRep.linhas.length)return false;const l=gvRep.linhas[gvRep.i++];if(l.nota!==undefined){gvModelos.demo.nota=l.nota;return true;}return gvLinha(gvModelos.demo,l.s);}
++  function gvAgendar(){
++    clearTimeout(gvRep.timer);
++    if(!gvRep.tocando)return;
++    if(gvRep.i>=gvRep.linhas.length){gvRep.tocando=false;gvBotoes();return;}
++    const a=gvRep.linhas[gvRep.i-1],b=gvRep.linhas[gvRep.i],vel=Number($('gvVel').value)||1;
++    const dt=a&&Number.isFinite(a.t)&&Number.isFinite(b.t)?Math.max(0,b.t-a.t):250;
++    gvRep.timer=setTimeout(()=>{
++      gvPassoUm();
++      while(gvRep.i<gvRep.linhas.length&&Number.isFinite(gvRep.linhas[gvRep.i].t)&&gvRep.linhas[gvRep.i].t===gvRep.linhas[gvRep.i-1].t)gvPassoUm();
++      gvAgendarRender();gvBotoes();gvAgendar();
++    },Math.min(dt/vel,1500));
++  }
++  const gvis=document.createElement('section');gvis.className='gvis';gvis.id='guardiaVis';gvis.setAttribute('aria-label','Atuação da Guardiã IA no Quiz');
++  gvis.innerHTML=`<div class="gv-head"><strong>GUARDIÃ IA · ATUAÇÃO NO QUIZ</strong><span id="gvFonte" class="gv-tag">AO VIVO · USB</span></div>
++  <div id="gvDemo" class="gv-demo" hidden><b>DADOS DE DEMONSTRAÇÃO</b> · reprodução de arquivo de log; não vêm do cofre conectado nem de crianças.<small id="gvDemoInfo"></small><small id="gvAoVivo"></small><strong id="gvDemoNota" class="gv-demo-nota" hidden></strong></div>
++  <div id="gvConteudo" aria-live="polite"></div>
++  <div class="gv-replay"><span>Reproduzir log:</span><label class="gv-btn gv-file">ABRIR ARQUIVO…<input type="file" id="gvArquivo" accept=".txt,.log,text/plain"></label><button class="gv-btn" id="gvPlay" disabled>▶ REPRODUZIR</button><button class="gv-btn" id="gvPasso" disabled>PRÓXIMO EVENTO</button><button class="gv-btn" id="gvFim" disabled>IR AO FIM</button><label>Velocidade <select id="gvVel"><option value="1">1×</option><option value="4" selected>4×</option><option value="16">16×</option><option value="64">64×</option></select></label><button class="gv-btn" id="gvSair" disabled>VOLTAR AO VIVO</button><span id="gvProg"></span></div>
++  <p class="gv-nota">Somente leitura: este quadro não envia comandos ao ESP32 e não muda o Quiz nem a missão. No Agente Secreto a Guardiã não participa.</p>`;
++  panel.insertBefore(gvis,$('guardiaLogs'));
++  $('gvArquivo').onchange=()=>{const f=$('gvArquivo').files[0];if(!f)return;f.text().then(t=>gvCarregar(t,f.name));$('gvArquivo').value='';};
++  $('gvPlay').onclick=()=>{gvRep.tocando=!gvRep.tocando;gvBotoes();gvAgendar();};
++  $('gvPasso').onclick=()=>{while(gvRep.i<gvRep.linhas.length&&!gvPassoUm()){}gvRender();gvBotoes();};
++  $('gvFim').onclick=()=>{gvRep.tocando=false;clearTimeout(gvRep.timer);while(gvRep.i<gvRep.linhas.length)gvPassoUm();gvRender();gvBotoes();};
++  $('gvSair').onclick=()=>{gvRep.tocando=false;clearTimeout(gvRep.timer);gvFonte='usb';gvSel=null;$('gvDemo').hidden=true;gvBotoes();gvRender();};
++  $('gvConteudo').addEventListener('click',e=>{const tr=e.target.closest('tr[data-ordem]');if(tr){gvSel=tr.dataset.ordem;gvRender();}});
++  $('gvConteudo').addEventListener('keydown',e=>{const tr=e.target.closest('tr[data-ordem]');if(tr&&(e.key==='Enter'||e.key===' ')){e.preventDefault();gvSel=tr.dataset.ordem;gvRender();}});
++  // gvRender() inicial fica no fim de rede_guardia.js, depois de a rede ser montada.
++  // ===== Rede neural da Guardiã no painel principal · CÁLCULO REPRODUZIDO NO PAINEL (proposta) =====
++  // O ESP32 envia as features (GUARDIA,features, 6 casas) e as previsões finais (GUARDIA,decisao, 6 casas).
++  // A inferência é refeita com os mesmos pesos, padronização e funções (CoflumeGuardia, em guardia_comum.js)
++  // e a saída é conferida com a previsão do ESP32. As ativações intermediárias NÃO são medições da placa.
++  // Só lê o que já foi calculado: não envia nada ao ESP32 nem mexe em áudio, protocolo AG ou controles.
++  const GC=window.CoflumeGuardia;
++  const GVR_TOL=GC.TOL,gvrExp=GC.exp;
++  // Refaz as avaliações de uma pergunta e confere com o ESP32. Chamado quando chega a linha features.
++  function gvrConferir(m,q){
++    const d=q.decisao,f=q.features,r={avaliacoes:[],erro:null};
++    q.rep=r;
++    const mod=d.modelo||(m.sessao&&m.sessao.modelo)||(m.modelo&&m.modelo.id);
++    if(mod&&mod!==GC.modelo.id){r.erro='o log é do modelo '+mod+'; o painel tem os pesos de '+GC.modelo.id;return;}
++    if(m.modelo&&m.modelo.hash&&m.modelo.hash!==GC.modelo.hash_parametros){r.erro='hash dos parâmetros do log diferente do modelo do painel';return;}
++    if(!mod)r.aviso='o log não informa o modelo; usados os pesos de '+GC.modelo.id;
++    if(d.categoria!==undefined&&f.categoria!==undefined&&d.categoria!==f.categoria){r.erro='categoria da linha features diferente da decisão';return;}
++    if(d.nivel_escolhido!==undefined&&f.nivel_candidato!==undefined&&d.nivel_escolhido!==f.nivel_candidato)r.aviso='a linha features é de outro nível candidato; os demais campos foram usados';
++    const ordem=(gvLista(d.niveis_disponiveis)||[]).length?d.niveis_disponiveis.split('|').map(Number).filter(n=>n>=0&&n<3):[0,1,2];
++    for(const n of [0,1,2].filter(n=>!ordem.includes(n)))ordem.push(n);
++    for(const n of ordem){
++      const p=gvP(d['p'+n]);if(p.tipo==='na'||p.tipo==='ausente')continue;
++      const raw=GC.entrada(f,n,gvNum);if(!raw){r.avaliacoes=[];r.erro='linha GUARDIA,features incompleta';return;}
++      const valida=GC.valida(raw),c=valida?GC.calcular(raw):null,esp=p.tipo==='ok'?p.v:null;
++      const dif=c&&esp!==null?Math.abs(c.p-esp):null;
++      r.avaliacoes.push({nivel:n,raw,c,esp,bruto:d['p'+n],dif,ok:dif!==null&&dif<=GVR_TOL,invalida:!valida});
++      if(dif!==null){m.conf.n++;if(dif<=GVR_TOL)m.conf.ok++;m.conf.max=Math.max(m.conf.max,dif);}
++    }
++  }
++  const gvRede=document.createElement('details');gvRede.id='gvRede';gvRede.className='gv-rede';gvRede.open=true;
++  gvRede.innerHTML=`<summary>REDE NEURAL DA GUARDIÃ · 13 → 8 → 1 · <b>cálculo reproduzido no painel</b></summary>
++  <p class="gv-rede-aviso">As ativações são calculadas <b>neste computador</b>, com os mesmos pesos do firmware (<code>${gvEsc(GC.modelo.id)}</code>, hash ${gvEsc(GC.modelo.hash_parametros.slice(0,12))}…), a mesma padronização e as mesmas funções (ReLU e sigmoide), a partir das features enviadas pelo ESP32. <b>Não são medições internas da placa:</b> o ESP32 envia só as features e a previsão final, usada aqui para conferir o cálculo.</p>
++  <p id="gvrMsg" class="gv-rede-msg" hidden></p>
++  <div class="gv-rede-topo"><span id="gvrAvaliando" class="gv-rede-avaliando"></span><span class="gv-rede-lenta" id="gvrLenta">visualização em câmera lenta · o pulso nas conexões é recurso visual, não o tempo real do cálculo</span>
++  <span class="gv-rede-ctl"><label><input type="checkbox" id="gvrAnimar"> animar</label><label>ritmo <select id="gvrRitmo"><option value="1">câmera lenta</option><option value="0.3">mais rápido</option></select></label><button class="gv-btn" id="gvrRepetir">↻ REPETIR</button></span></div>
++  <div class="gv-rede-corpo"><div class="gv-rede-svg"><svg id="gvrSvg" viewBox="0 0 760 450" role="img" aria-label="Rede neural 13 entradas, 8 neurônios ocultos, 1 saída"></svg></div>
++  <div class="gv-rede-lado"><p class="gv-rede-tit">Avaliações da rede nesta pergunta</p><ol id="gvrSeq" class="gv-rede-seq"></ol>
++  <div id="gvrDecisao" class="gv-rede-decisao" hidden></div></div></div>
++  <p id="gvrConf" class="gv-rede-conf"></p>
++  <p class="gv-legenda">Cores: entrada padronizada acima da média em âmbar, abaixo em azul; neurônio oculto aceso conforme a ativação ReLU (apagado = 0); saída conforme P(acerto). Conexões: verde = peso positivo, laranja = negativo; espessura = |peso|. Passe o mouse para ver os valores.</p>`;
++  $('gvConteudo').after(gvRede);
++  const svg=$('gvrSvg'),gvrRede=GC.criarRede(svg,'gvr');
++  // ---- Sequência, decisão e animação ----
++  let gvrChave=null,gvrQ=null,gvrCtl=null;
++  const gvrAnimadas=new WeakSet(); // cada pergunta anima uma vez; ao voltar a ela, estado final parado
++  function gvrParar(){if(gvrCtl){gvrCtl.parar();gvrCtl=null;}gvrRede.pulso(1,false);gvrRede.pulso(2,false);}
++  function gvrSeq(r,atual,feitas,d){
++    const esc=d.nivel_escolhido,ol=$('gvrSeq');let h='';
++    r.avaliacoes.forEach((a,k)=>{
++      const st=k<feitas?'feita':k===atual?'avaliando':'pendente';
++      let det='';
++      if(k<feitas){
++        if(a.invalida)det='entrada fora da faixa: o runtime devolveria INVALIDO';
++        else det=`rede reproduzida: ${a.c.p.toFixed(6)} (≈ ${gvPct(a.c.p)}) · ESP32 registrou: ${gvEsc(a.bruto)}`
++          +(a.dif===null?' · '+gvIndisp('previsão do ESP32 inválida'):` · |Δ| = ${gvrExp(a.dif)} · <b class="${a.ok?'gvr-ok':'gvr-nok'}">${a.ok?'confere':'NÃO CONFERE'}</b>`);
++      }
++      h+=`<li class="gvr-${st}" data-k="${k}" tabindex="0"><span class="gvr-seq-cab">${k+1} de ${r.avaliacoes.length} · ${GV_NIVEIS[a.nivel]}`
++        +`${st==='avaliando'?' <b>▶ avaliando</b>':st==='pendente'?' · aguardando':''}${k<feitas&&String(a.nivel)===esc&&r.fim?' <span class="gvr-esc">◆ escolhido pela política</span>':''}</span>`
++        +(det?`<span class="gvr-seq-det">${det}</span>`:'')+'</li>';
++    });
++    ol.innerHTML=h;
++  }
++  function gvrMostrarDecisao(d){
++    const box=$('gvrDecisao'),nv=gvNivel(d.nivel_escolhido),pol=gvPolitica(gvModelos[gvFonte]);
++    box.innerHTML=`<b>DECISÃO DA POLÍTICA</b> <small>(não é a rede)</small><br>${pol?gvEsc(pol.nome)+': ':''}<b>${nv?gvEsc(nv):gvIndisp()}</b><br><small>${gvMotivoTxt(d.motivo,pol)}</small>`;
++    box.hidden=false;
++  }
++  function gvrMensagem(t){const e=$('gvrMsg');e.hidden=!t;e.innerHTML=t||'';}
++  function gvrAnimar(jaVista){
++    const q=gvrQ;if(!q||!q.rep)return;
++    gvrParar();
++    const r=q.rep,d=q.decisao,hmax=GC.hmax(r.avaliacoes),k=r.avaliacoes.length;r.fim=false;
++    $('gvrDecisao').hidden=true;
++    const anima=$('gvrAnimar').checked&&!jaVista;
++    $('gvrLenta').hidden=!anima;
++    if(!anima){ // estado final, sem movimento
++      r.fim=true;gvrSeq(r,-1,k,d);const ult=r.avaliacoes.find(a=>String(a.nivel)===d.nivel_escolhido)||r.avaliacoes[k-1];
++      gvrRede.desenhar(ult,3,hmax);$('gvrAvaliando').textContent=ult?(jaVista?'Pergunta já animada':'Sem animação')+' · mostrando a avaliação de '+GV_NIVEIS[ult.nivel]+'; clique numa avaliação para rever'+(jaVista?' ou use ↻ REPETIR':''):'';gvrMostrarDecisao(d);return;
++    }
++    gvrCtl=GC.animar(gvrRede,r.avaliacoes,{ritmo:Number($('gvrRitmo').value)||1,
++      aoIniciar:i=>{gvrSeq(r,i,i,d);$('gvrAvaliando').textContent=`Avaliando: ${GV_NIVEIS[r.avaliacoes[i].nivel]} (${i+1} de ${k})`;},
++      aoSaida:i=>gvrSeq(r,-1,i+1,d),
++      aoFim:()=>{r.fim=true;gvrCtl=null;gvrSeq(r,-1,k,d);$('gvrAvaliando').textContent=`Avaliações concluídas · a rede mostra a última (${GV_NIVEIS[r.avaliacoes[k-1].nivel]}); clique numa avaliação para rever`;gvrMostrarDecisao(d);}});
++  }
++  function gvrConfTxt(m){
++    const c=m.conf,e=$('gvrConf');
++    if(!c.n){e.textContent='';return;}
++    const tudo=c.ok===c.n;
++    e.className='gv-rede-conf'+(tudo?'':' gvr-nok');
++    e.innerHTML=`Conferência acumulada (${gvFonte==='demo'?'reprodução de log':'ao vivo'}): ${c.ok} de ${c.n} previsões do ESP32 recalculadas no painel dentro da tolerância de ${gvrExp(GVR_TOL)} `
++      +`(features e previsões chegam com 6 casas decimais; maior |Δ| = ${gvrExp(c.max)}).`+(tudo?'':' <b>Há previsões que não conferem: o cálculo do painel não reproduz a placa nesses casos.</b>');
++  }
++  // Chamado pelo gvRender(). Só reinicia a animação quando muda a pergunta mostrada; nunca acumula.
++  function gvRedeSincronizar(m,sel){
++    gvrConfTxt(m);
++    if(m.agente){
++      if(gvrChave==='agente')return;
++      gvrChave='agente';gvrParar();$('gvrLenta').hidden=true;gvRede.classList.add('gvr-agente');
++      gvrQ=null;gvrRede.desenhar(null,0,1);$('gvrSeq').innerHTML='';$('gvrDecisao').hidden=true;$('gvrAvaliando').textContent='';
++      svg.classList.add('gvr-desligada');
++      gvrMensagem('<b>Modo Agente Secreto:</b> a Guardiã IA não participa desta modalidade. A rede não é calculada nem animada.');
++      return;
++    }
++    svg.classList.remove('gvr-desligada');gvRede.classList.remove('gvr-agente');
++    const q=sel&&m.perguntas[sel];
++    const chave=gvFonte+'|'+(m.sessao&&m.sessao.sessao)+'|'+sel+'|'+(q&&q.decisao?'d':'-')+(q&&q.rep?'r':'-');
++    if(chave===gvrChave)return;
++    gvrChave=chave;gvrParar();gvrQ=q||null;$('gvrLenta').hidden=true;
++    gvrRede.desenhar(null,0,1);$('gvrSeq').innerHTML='';$('gvrDecisao').hidden=true;$('gvrAvaliando').textContent='';
++    if(!q||!q.decisao){gvrMensagem('Aguardando uma pergunta do Quiz com as linhas GUARDIA,decisao e GUARDIA,features.');return;}
++    if(!q.features){gvrMensagem(gvIndisp('reprodução indisponível: linha GUARDIA,features desta pergunta ausente no log'));gvrMostrarDecisao(q.decisao);return;}
++    const r=q.rep;
++    if(!r||r.erro){gvrMensagem(gvIndisp('reprodução indisponível: '+(r?r.erro:'sem dados')));gvrMostrarDecisao(q.decisao);return;}
++    if(!r.avaliacoes.length){gvrMensagem('A rede não foi avaliada nesta pergunta (nenhuma previsão registrada). '+gvMotivoTxt(q.decisao.motivo,gvPolitica(m)));gvrMostrarDecisao(q.decisao);return;}
++    gvrMensagem(r.aviso?gvIndisp(r.aviso):'');
++    const jaVista=gvrAnimadas.has(q);gvrAnimadas.add(q);
++    gvrAnimar(jaVista);
++  }
++  $('gvrSeq').addEventListener('click',e=>{ // mostra uma avaliação parada
++    const li=e.target.closest('li[data-k]');if(!li||!gvrQ||!gvrQ.rep)return;
++    const r=gvrQ.rep,a=r.avaliacoes[Number(li.dataset.k)];if(!a||!r.fim)return;
++    gvrRede.desenhar(a,3,GC.hmax(r.avaliacoes));$('gvrAvaliando').textContent='Mostrando a avaliação de '+GV_NIVEIS[a.nivel]+' (previsão da rede, não a decisão)';
++  });
++  $('gvrRepetir').onclick=()=>{if(gvrQ&&gvrQ.rep&&!gvModelos[gvFonte].agente)gvrAnimar();};
++  $('gvrAnimar').onchange=()=>{if(gvrQ&&gvrQ.rep&&!gvModelos[gvFonte].agente)gvrAnimar();};
++  try{$('gvrAnimar').checked=!window.matchMedia('(prefers-reduced-motion: reduce)').matches;}catch(e){$('gvrAnimar').checked=true;}
++  // ===== Ponte para o MONITOR DA IA (janela de exposição, proposta) =====
++  // Só este painel fala com a USB. A janela de exposição é este mesmo arquivo aberto com ?monitor=ia.
++  // Comunicação: window.open + postMessage (funciona com o HTML aberto localmente, file://).
++  // O monitor recebe um resumo pronto para exibição: nunca a senha, as pistas nem linhas AG.
++  // Fechar ou recarregar o monitor não afeta o jogo, o áudio nem a USB: aqui só se lê o estado.
++  let gvMon=null,gvMonSeq=0,gvMonUltimo='',gvMonTimer=null;
++  const gvMonUrl=()=>location.href.split(/[?#]/)[0]+'?monitor=ia';
++  function gvMonAberto(){try{return !!gvMon&&!gvMon.closed;}catch(e){return false;}}
++  function gvMonConexao(){ // leitura apenas; chamada só depois do carregamento (setTimeout/setInterval)
++    try{
++      if(connected)return ready?'conectado':'identificando';
++      return $('status').textContent==='CONEXAO INTERROMPIDA'?'perdida':'desconectado';
++    }catch(e){return 'indisponivel';}
++  }
++  function gvMonExplica(q,pol){ // explicação curta da política, em texto simples
++    const d=q.decisao,g=q.gradual;
++    if(g&&(g.motivo==='sem_nivel_compativel'||g.nivel==='-1'))return 'Nenhum nível compatível com a regra gradual tinha pergunta: a Guardiã recusou em vez de violar a regra.';
++    if(!d)return null;
++    const nv=gvNivel(d.nivel_escolhido)||'nível indisponível';
++    if(d.motivo==='nivel_inicial_pergunta_1')return 'Pergunta 1: o nível é o escolhido pela criança no menu. A previsão da rede só é registrada.';
++    if(d.motivo==='fallback_sem_modelo'||d.motivo==='fallback_previsao_invalida')return 'Sem previsões válidas: a política usou o nível disponível mais próximo do inicial.';
++    if(d.motivo==='guardia'){
++      if(g&&g.limitou==='1')return `A previsão mais próxima de 70% levaria a ${gvNivel(g.nivel_sem_regra)||'outro nível'}; a proteção gradual limitou a ${nv}.`;
++      return `${nv} tem a previsão mais próxima do alvo de 70%`+(pol&&pol.nome===GV_GRADUAL?' entre os níveis compatíveis com a regra gradual.':' entre os níveis permitidos.');
++    }
++    return d.motivo?'Motivo registrado: '+d.motivo+' (sem descrição).':'Motivo indisponível no log.';
++  }
++  function gvMonEstado(){
++    const m=gvModelos[gvFonte],pol=gvPolitica(m),ordens=['1','2','3'];
++    const ultima=[...ordens].reverse().find(o=>m.perguntas[o]&&(m.perguntas[o].decisao||m.perguntas[o].gradual));
++    const q=ultima&&m.perguntas[ultima];
++    let pergunta=null;
++    if(q){
++      const d=q.decisao||{},r=q.rep;
++      pergunta={ordem:ultima,categoria:gvCat(d.categoria),id:d.pergunta||null,alvo:gvNum(d.alvo),tem_decisao:!!q.decisao,
++        nivel_escolhido:gvNum(d.nivel_escolhido),motivo:d.motivo||null,explicacao:gvMonExplica(q,pol),
++        previsoes:[0,1,2].map(n=>{const p=gvP(d['p'+n]);return p.tipo==='ok'?p.v:p.tipo;}),
++        protecao:q.decisao||q.gradual?gvProtecao(q.gradual,pol,q.decisao||null).curto:null,
++        resultado:q.resposta?gvResultado(q.resposta):null,
++        recusada:!!(q.gradual&&(q.gradual.motivo==='sem_nivel_compativel'||q.gradual.nivel==='-1')),
++        rede:!q.decisao?{estado:'sem_decisao'}:!q.features?{estado:'sem_features'}:!r?{estado:'sem_dados'}:r.erro?{estado:'erro',erro:r.erro}
++          :{estado:'ok',aviso:r.aviso||null,avaliacoes:r.avaliacoes.map(a=>({nivel:a.nivel,raw:a.raw,c:a.c&&{x:a.c.x,h:a.c.h,z:a.c.z,p:a.c.p},
++            bruto:a.bruto,dif:a.dif,ok:a.ok,invalida:a.invalida}))}};
++    }
++    let acertos=0,respondidas=0;
++    for(const o of ordens){const r=m.perguntas[o]&&m.perguntas[o].resposta;if(r){respondidas++;if(r.acertou==='1')acertos++;}}
++    return {
++      fonte:gvFonte,
++      demo:gvFonte==='demo'?{info:$('gvDemoInfo').textContent,nota:m.nota||null}:null,
++      conexao:gvFonte==='usb'?gvMonConexao():null,
++      agente:m.agente||null,
++      politica:pol?pol.nome:null,
++      modelo:{id:GC.modelo.id,hash:GC.modelo.hash_parametros.slice(0,12)},
++      partida:m.sessao?{id:m.sessao.sessao||null,nivel_inicial:gvNivel(m.sessao.nivel_inicial),
++        status:m.fim?'encerrada':m.erros.length?'interrompida':'em andamento',
++        acertos:m.fim?gvNum(m.fim.acertos):acertos,respondidas,desbloqueio:m.fim?m.fim.desbloqueio||null:null}:null,
++      erros:m.erros.map(e=>({motivo:e.motivo||'sem motivo',texto:GV_ERROS[e.motivo]||null})),
++      pergunta,
++      conf:{n:m.conf.n,ok:m.conf.ok,max:m.conf.max,tol:GC.TOL},
++    };
++  }
++  function gvMonEnviar(completo){
++    if(!gvMonAberto())return;
++    const est=gvMonEstado(),txt=JSON.stringify(est);
++    if(!completo&&txt===gvMonUltimo)return;
++    gvMonUltimo=txt;
++    try{gvMon.postMessage({canal:GC.CANAL,tipo:'estado',seq:++gvMonSeq,completo:!!completo,estado:est},'*');}catch(e){}
++  }
++  function gvMonAgendar(){ // chamado a cada mudança; junta rajadas de linhas em um envio
++    if(gvMonTimer||!gvMonAberto())return;
++    gvMonTimer=setTimeout(()=>{gvMonTimer=null;gvMonEnviar(false);},60);
++  }
++  function gvMonBotao(){
++    const b=$('gvMonitor');if(!b)return;
++    const a=gvMonAberto();b.textContent=a?'MONITOR DA IA ABERTO · TRAZER À FRENTE':'ABRIR MONITOR DA IA';b.classList.toggle('gv-mon-aberto',a);
++  }
++  const gvMonBtn=document.createElement('button');gvMonBtn.className='gv-btn gv-mon-btn';gvMonBtn.id='gvMonitor';gvMonBtn.type='button';
++  gvMonBtn.title='Abre uma janela de exposição para o segundo monitor. Ela recebe os dados deste painel; só este painel usa a USB.';
++  $('gvFonte').before(gvMonBtn);gvMonBotao();
++  gvMonBtn.onclick=()=>{
++    if(gvMonAberto()){try{gvMon.focus();}catch(e){}gvMonEnviar(true);return;}
++    const w=window.open(gvMonUrl(),'coflume_monitor_ia','popup,width=1280,height=760');
++    if(!w){$('gvMonAviso').hidden=false;$('gvMonAviso').textContent='O navegador bloqueou a janela do monitor. Permita pop-ups para este arquivo e tente de novo.';return;}
++    $('gvMonAviso').hidden=true;gvMon=w;gvMonUltimo='';gvMonBotao(); // o monitor pede o estado completo ao terminar de carregar
++  };
++  const gvMonAvisoEl=document.createElement('p');gvMonAvisoEl.id='gvMonAviso';gvMonAvisoEl.className='gv-alerta';gvMonAvisoEl.hidden=true;
++  $('gvConteudo').before(gvMonAvisoEl);
++  // O monitor avisa que carregou (inclusive depois de recarregar): responde com o estado completo.
++  window.addEventListener('message',e=>{
++    const d=e.data;
++    if(!d||d.canal!==GC.CANAL||d.tipo!=='pronto'||!e.source||e.source===window)return;
++    gvMon=e.source;gvMonEnviar(true);gvMonBotao();
++  });
++  // Batida a cada segundo: o monitor detecta perda de comunicação. Também capta mudança no estado da USB.
++  setInterval(()=>{
++    gvMonBotao();
++    if(!gvMonAberto())return;
++    gvMonEnviar(false);
++    try{gvMon.postMessage({canal:GC.CANAL,tipo:'batida',seq:gvMonSeq},'*');}catch(e){}
++  },1000);
++  window.addEventListener('pagehide',()=>{if(gvMonAberto())try{gvMon.postMessage({canal:GC.CANAL,tipo:'principal_fechado'},'*');}catch(e){}});
++  gvRender();
+   let port=null,reader=null,writer=null,connected=false,ready=false,closing=false;
+   let session='',prepared='',stage='IDLE',remoteRemaining=90000,receivedAt=0,missed=false,startPending=false,lastSecond=-1;
+   let lastMessage=0,handshakeTimer=null,startTimer=null,trackUrl=null,audioContext=null,previousClues=null;
+@@ -206,6 +1052,7 @@
+     setTimeout(()=>URL.revokeObjectURL(url),1000);
+   }
+   function packet(line){
++    guardiaVisUSB(line);
+     if(!line.startsWith('AG,')){guardiaLog(line);return;}lastMessage=performance.now();missed=false;
+     const v=line.split(',');
+     if(v[1]==='HELLO'){
+@@ -326,6 +1173,158 @@
+ <style>
+ .controls{margin:25px 0 0;border-top:1px solid #205b39;padding:20px 0}.status{display:flex;align-items:center;justify-content:space-between;gap:15px;letter-spacing:.1em;font-size:12px}#clock{font-size:42px;color:#baffd5;font-variant-numeric:tabular-nums}#clock.urgent{color:#ff8888}#feedback{font-size:13px;line-height:1.6;min-height:42px}.buttons{display:flex;flex-wrap:wrap;gap:9px}button{background:#092d1b;color:#caffdd;border:1px solid #3b9c66;padding:12px 16px;font:inherit;cursor:pointer}button:hover:enabled{background:#145535}button:disabled{opacity:.35;cursor:default}details{font-size:12px;line-height:1.7;margin-top:17px;color:#8dbba1}summary{cursor:pointer}input{max-width:100%;accent-color:#51ff9a}label{display:inline-block;margin:7px 12px 7px 0}.connection-note{font-size:11px;color:#7ab390;line-height:1.7}.frame{padding-top:35px;padding-bottom:35px}.topline{margin-bottom:18px}.line{margin:22px auto}.heading{font-size:clamp(29px,4vw,52px)}.clue{min-height:62px;padding-top:12px;padding-bottom:12px}.label{margin-bottom:16px}.demo-hint{display:none!important}
+ .logs pre{max-height:220px;overflow:auto;margin:8px 0;padding:8px;background:rgba(0,10,5,.72);border:1px solid #205b39;color:#a8f5c7;font-size:11px;line-height:1.45;white-space:pre;user-select:text}
++/* Visualização da Guardiã IA (proposta) */
++.gvis{margin-top:22px;border:1px solid #205b39;background:rgba(0,12,6,.78);padding:12px 14px;font-size:12.5px;line-height:1.55;color:#bdf5d3;text-align:left}
++.gv-head{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;letter-spacing:.12em;font-size:12px;color:#a5ffd0}
++.gv-tag{border:1px solid #3b9c66;padding:2px 8px;font-size:11px;letter-spacing:.08em}
++.gv-tag-demo{border-color:#ffd36b;color:#ffd36b}
++.gv-demo{margin:10px 0;padding:8px 10px;color:#ffe39a;border:1px solid #ffd36b;background:repeating-linear-gradient(45deg,#2c2100 0 12px,#1d1600 12px 24px)}
++.gv-demo-nota{display:block;margin-top:6px;padding:4px 6px;background:#3a1010;border:1px solid #ff6b6b;color:#ffd0d0;letter-spacing:.02em}
++.gv-demo-nota[hidden]{display:none}
++.gv-demo b{letter-spacing:.14em}.gv-demo small{display:block;color:#e8d394;margin-top:3px}
++.gv-ctx{display:flex;flex-wrap:wrap;gap:4px 18px;margin:10px 0 6px;color:#9fd8b6}.gv-ctx small{color:#6fae8a}
++.gv-partida{margin:8px 0 4px;color:#8dbba1}
++.gv-perg{font-size:13px;letter-spacing:.06em;margin:12px 0 8px;color:#d6ffe6;font-weight:normal}
++.gv-perg code,.gvis code{color:#9fe8ff}
++.gv-grid{display:grid;grid-template-columns:1.25fr 1fr 1fr;gap:10px}
++@media(max-width:820px){.gv-grid{grid-template-columns:1fr}}
++.gv-grid-1{grid-template-columns:1fr}
++.gv-box{border:1px solid #205b39;padding:8px 10px;background:rgba(0,20,10,.6)}
++.gv-box h4{margin:0 0 6px;font-size:11.5px;letter-spacing:.1em;color:#a5ffd0;font-weight:bold}
++.gv-box h4 small{display:block;font-weight:normal;letter-spacing:0;color:#6fae8a}
++.gv-box p{margin:4px 0}
++.gv-mlp{border-style:dashed}
++.gv-pol{border-color:#3b9c66}
++.gv-grande{font-size:20px;color:#e9fff1;letter-spacing:.05em}
++.gv-bar-row{display:grid;grid-template-columns:78px 1fr;gap:2px 8px;align-items:center;margin:5px 0}
++.gv-bar-nome{grid-row:span 2}
++.gv-bar{position:relative;height:12px;background:#06301c;border:1px solid #205b39}
++.gv-fill{position:absolute;left:0;top:0;bottom:0;background:#2f7f53}
++.gv-fill-na{background:repeating-linear-gradient(135deg,#183b29 0 4px,transparent 4px 8px)}
++.gv-escolhido .gv-fill{background:#51ff9a}
++.gv-escolhido .gv-bar-nome{color:#e9fff1;font-weight:bold}
++.gv-alvo{position:absolute;top:-4px;bottom:-4px;border-left:2px dashed #ffd36b}
++.gv-bar-txt{font-size:11.5px;color:#9fd8b6}
++.gv-marca{color:#51ff9a;font-weight:bold}
++.gv-empate{font-size:11.5px;color:#ffe39a;border-left:3px solid #ffd36b;padding:3px 8px;margin:6px 0 0!important;background:rgba(60,45,0,.3)}
++.gv-legenda{font-size:11px;color:#7fb596;margin-top:6px!important}
++.gv-na{color:#c9a96b;font-style:italic}
++.gv-off{opacity:.8}
++.gv-alerta{border-left:3px solid #ffd36b;padding:3px 8px;color:#ffe39a;background:rgba(60,45,0,.35)}
++.gv-atuou{border-color:#ffd36b}
++.gv-recusa{border-color:#ff6b6b}.gv-recusa .gv-alerta,.gv-erro{border-left-color:#ff6b6b;color:#ffc2c2;background:rgba(70,0,0,.35)}
++.gv-tabela{overflow-x:auto;margin-top:10px}
++.gv-tabela table{border-collapse:collapse;width:100%;font-size:11.5px}
++.gv-tabela th,.gv-tabela td{border-bottom:1px solid #174a2f;padding:4px 6px;text-align:left;white-space:nowrap}
++.gv-tabela th{color:#7fb596;font-weight:normal;letter-spacing:.05em}
++.gv-tabela tbody tr{cursor:pointer}.gv-tabela tbody tr:hover,.gv-tabela tbody tr:focus{background:#0d3a24;outline:none}
++.gv-tabela tr.gv-sel{background:#0f4229}
++.gv-res-acertou{color:#51ff9a}.gv-res-errou{color:#ffb3b3}.gv-res-tempo-esgotado{color:#ffd36b}
++.gv-totais{display:flex;flex-wrap:wrap;gap:4px 20px;margin-top:8px}
++.gv-vazio{color:#8dbba1;margin:10px 0}
++.gv-agente{margin:12px 0;padding:14px;border:1px dashed #3b9c66;text-align:center}
++.gv-agente strong{letter-spacing:.12em;color:#a5ffd0}
++.gv-replay{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;margin-top:12px;padding-top:10px;border-top:1px solid #174a2f;font-size:11.5px}
++.gv-btn{padding:5px 9px!important;font-size:11px!important;letter-spacing:.05em}
++.gv-file{display:inline-block;background:#092d1b;color:#caffdd;border:1px solid #3b9c66;cursor:pointer}
++.gv-file input{display:none}
++.gv-replay select{background:#092d1b;color:#caffdd;border:1px solid #3b9c66;font:inherit}
++#gvProg{color:#7fb596}
++.gv-nota{font-size:11px;color:#6fae8a;margin:8px 0 0}
++/* Rede neural (cálculo reproduzido no painel) */
++.gv-rede{margin-top:12px;border:1px solid #205b39;padding:8px 10px;background:rgba(0,16,8,.7);font-size:12px;color:#bdf5d3}
++.gv-rede summary{cursor:pointer;letter-spacing:.08em;color:#a5ffd0}
++.gv-rede summary b{color:#9fe8ff;font-weight:normal;border:1px solid #2f6f86;padding:0 6px;margin-left:4px}
++.gv-rede-aviso{margin:8px 0;padding:6px 8px;border-left:3px solid #6bc8ff;background:rgba(0,30,45,.45);color:#cfeeff;font-size:11.5px}
++.gv-rede-topo{display:flex;flex-wrap:wrap;gap:6px 14px;align-items:center;margin:6px 0}
++.gv-rede-avaliando{font-size:14px;color:#e9fff1;letter-spacing:.04em;min-width:14em}
++.gv-rede-lenta{font-size:11px;color:#ffe39a;border:1px dashed #ffd36b;padding:1px 6px}
++.gv-rede-lenta[hidden]{display:none}
++.gv-rede-ctl{display:flex;gap:8px;align-items:center;margin-left:auto}
++.gv-rede-ctl select{background:#092d1b;color:#caffdd;border:1px solid #3b9c66;font:inherit}
++.gv-rede-corpo{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(0,1fr);gap:10px}
++@media(max-width:820px){.gv-rede-corpo{grid-template-columns:minmax(0,1fr)}}
++.gv-rede-svg{overflow-x:auto}
++.gv-rede-svg svg{width:100%;min-width:520px;height:auto;display:block}
++.gvr-cab{fill:#7fb596;font:11px Consolas,monospace;letter-spacing:.06em}
++.gvr-rot{fill:#9fd8b6;font:10.5px Consolas,monospace}
++.gvr-val{fill:#ffe39a;font:10px Consolas,monospace}
++.gvr-val-s{fill:#e9fff1;font:bold 15px Consolas,monospace}
++.gvr-nome{fill:#04140b;font:bold 10px Consolas,monospace;pointer-events:none}
++.gvr-no{stroke:#3b9c66;stroke-width:1.2;transition:fill .35s}
++.gvr-inativo{stroke-dasharray:3 3}
++.gvr-arestas line{stroke-linecap:round;transition:opacity .35s}
++.gvr-pulso line{stroke-dasharray:3 10;animation:gvrPulso .6s linear infinite}
++@keyframes gvrPulso{to{stroke-dashoffset:-13}}
++.gvr-desligada{opacity:.25}
++.gv-rede-tit{margin:0 0 4px;color:#7fb596;letter-spacing:.05em}
++.gv-rede-seq{margin:0;padding-left:0;list-style:none}
++.gv-rede-seq li{border:1px solid #174a2f;padding:5px 7px;margin-bottom:5px;cursor:pointer}
++.gv-rede-seq li.gvr-avaliando{border-color:#51ff9a;background:rgba(20,80,45,.4)}
++.gv-rede-seq li.gvr-pendente{opacity:.55}
++.gvr-seq-cab{display:block;color:#e9fff1}.gvr-seq-det{display:block;font-size:11px;color:#9fd8b6;margin-top:2px}
++.gvr-ok{color:#51ff9a}.gvr-nok,.gv-rede-conf.gvr-nok{color:#ff9a9a}
++.gvr-esc{color:#51ff9a}
++.gv-rede-decisao{margin-top:8px;padding:7px 9px;border:2px solid #3b9c66;background:rgba(0,30,15,.7)}
++.gv-rede-decisao[hidden]{display:none}
++.gv-rede-msg{color:#c9a96b;margin:6px 0}.gv-rede-msg[hidden]{display:none}
++.gv-rede-conf{font-size:11.5px;color:#9fd8b6;margin:6px 0 0}
++.gvr-agente .gv-rede-msg{font-size:14px;color:#e9fff1;border:1px dashed #3b9c66;padding:10px;text-align:center}
++.gvr-agente .gv-rede-ctl{opacity:.35;pointer-events:none}
++/* Botão do monitor no painel principal */
++.gv-mon-btn{margin-left:auto}
++.gv-mon-aberto{border-color:#51ff9a!important;color:#51ff9a!important}
++#gvMonAviso[hidden]{display:none}
++/* ===== Monitor da IA (janela de exposição, ?monitor=ia) ===== */
++html.modo-monitor body>*:not(#monitorIA){display:none!important}
++html.modo-monitor,html.modo-monitor body{background:#010a06;overflow:auto}
++.mon{min-height:100vh;display:flex;flex-direction:column;gap:1vh;padding:1.6vh 1.8vw;box-sizing:border-box;color:#d6ffe6;font-family:Consolas,'Courier New',monospace;font-size:clamp(14px,1.25vw,26px)}
++.mon-topo{display:flex;align-items:center;gap:1.2vw;flex-wrap:wrap}
++.mon-marca{font-size:1.5em;letter-spacing:.14em;color:#a5ffd0;font-weight:bold}.mon-marca span{font-size:.55em;font-weight:normal;color:#7fb596;letter-spacing:.08em}
++.mon-chip{border:1px solid #3b9c66;padding:.25em .7em;font-size:.8em;letter-spacing:.06em}
++.mon-chip:empty,.mon-chip[hidden]{display:none}
++.mon-chip-demo{border-color:#ffd36b;color:#1d1600;background:#ffd36b;font-weight:bold}
++.mon-cx-conectado{border-color:#51ff9a;color:#51ff9a}.mon-cx-perdida{border-color:#ff6b6b;color:#ffb3b3;font-weight:bold}.mon-cx-desconectado{color:#c9a96b;border-color:#c9a96b}
++.mon-btn{margin-left:auto;background:#092d1b;color:#caffdd;border:1px solid #3b9c66;padding:.4em .9em;font:inherit;font-size:.8em;cursor:pointer}
++.mon-ctl .mon-btn{margin-left:0}
++.mon-demo{padding:.5em .9em;color:#ffe39a;border:2px solid #ffd36b;background:repeating-linear-gradient(45deg,#2c2100 0 14px,#1d1600 14px 28px);font-size:.9em}
++.mon-demo b{letter-spacing:.14em}.mon-demo-nota{display:block;margin-top:.3em;color:#ffd0d0;font-size:.85em}
++.mon-demo[hidden],.mon-aviso[hidden],.mon-decisao[hidden],.mon-lenta[hidden]{display:none}
++.mon-aviso{padding:.7em 1em;border:2px dashed #3b9c66;text-align:center;font-size:1.05em;line-height:1.5}
++.mon-aviso-agente{font-size:1.6em;border-color:#51ff9a;padding:6vh 2vw;margin:6vh 0}
++.mon-aviso-erro{border-color:#ff6b6b;color:#ffd0d0;background:rgba(70,0,0,.35)}
++.mon-corpo{flex:1;display:grid;grid-template-columns:minmax(0,1.85fr) minmax(0,1fr);gap:1.6vw;align-items:start}
++@media(max-aspect-ratio:4/3){.mon-corpo{grid-template-columns:minmax(0,1fr)}}
++.mon-oculto{display:none}
++.mon-antigo{filter:grayscale(1);opacity:.35}
++.mon-rede{border:1px solid #205b39;padding:1vh 1vw;background:rgba(0,16,8,.7)}
++.mon-titulo{font-size:1.45em;letter-spacing:.06em;color:#e9fff1;min-height:1.4em}
++.mon-titulo small{display:block;font-size:.5em;color:#7fb596;letter-spacing:.03em}
++.mon svg{width:100%;height:auto;display:block;max-height:68vh}
++.mon .gvr-cab{font-size:13px}.mon .gvr-rot{font-size:13px}.mon .gvr-val{font-size:12px}.mon .gvr-val-s{font-size:20px}.mon .gvr-nome{font-size:11px}
++.mon-rodape-rede{display:flex;flex-wrap:wrap;gap:.4em 1.2em;justify-content:space-between;font-size:.7em}
++.mon-reproduzido{color:#9fd3e8}
++.mon-lenta{color:#ffe39a;border:1px dashed #ffd36b;padding:0 .5em}
++.mon-lado h3{font-size:.8em;letter-spacing:.1em;color:#7fb596;margin:1.2em 0 .5em;font-weight:normal}
++.mon-perg{font-size:1.15em;letter-spacing:.08em;color:#a5ffd0}
++.mon-barra{display:grid;grid-template-columns:7.5em 1fr;gap:.2em .6em;align-items:center;margin:.55em 0}
++.mon-bn{grid-row:span 2;font-size:1.05em}.mon-esc .mon-bn{color:#e9fff1;font-weight:bold}
++.mon-bt{position:relative;height:1.05em;background:#06301c;border:1px solid #205b39}
++.mon-bf{position:absolute;left:0;top:0;bottom:0;background:#2f7f53;transition:width .6s}
++.mon-esc .mon-bf{background:#51ff9a}
++.mon-alvo{position:absolute;top:-.3em;bottom:-.3em;border-left:3px dashed #ffd36b}
++.mon-bv{font-size:.95em;color:#bdf5d3}.mon-bv b{color:#51ff9a}
++.mon-nota{font-size:.62em;color:#7fb596;margin:.4em 0 1em}
++.mon-decisao{border:3px solid #51ff9a;padding:.7em .9em;background:rgba(0,40,20,.75)}
++.mon-dec-cab{font-size:.75em;letter-spacing:.1em;color:#a5ffd0}.mon-dec-cab small{color:#7fb596;letter-spacing:0}
++.mon-dec-nivel{font-size:2.1em;letter-spacing:.06em;color:#e9fff1;margin:.15em 0}
++.mon-dec-txt{font-size:.9em;line-height:1.45}
++.mon-partida{margin-top:1em;font-size:.8em;color:#9fd8b6}
++.mon-tec{font-size:.62em;color:#9fd8b6;border-top:1px solid #174a2f;padding-top:.5em}
++.mon-tec summary{cursor:pointer;color:#7fb596}
++.mon-tec table{border-collapse:collapse;margin:.4em 0}.mon-tec td,.mon-tec th{border-bottom:1px solid #174a2f;padding:.15em .6em;text-align:left}
++.mon-ok{color:#51ff9a}.mon-nok{color:#ff9a9a;font-weight:bold}
++.mon-ctl select{background:#092d1b;color:#caffdd;border:1px solid #3b9c66;font:inherit}
+ </style>
+ </body>
+ </html>

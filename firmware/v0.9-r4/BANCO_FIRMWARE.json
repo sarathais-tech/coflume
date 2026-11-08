@@ -1,0 +1,29 @@
+{
+  "descricao": "Versao e hash do banco de perguntas usado no firmware. Separado de ORIGEM_GUARDIA.json, que registra a origem historica do modelo e do banco_v08 e nao e alterado.",
+  "status": "v0.9-r4 EXPERIMENTAL - nao validada na placa fisica; r2 e r3 continuam com banco_v08",
+  "banco_versao": "banco_v09",
+  "perguntas": 36,
+  "perguntas_por_celula_min": 3,
+  "csv": {
+    "arquivo": "ferramentas/banco_v09.csv",
+    "origem": "coflume-guardian-ai: questoes/banco_v09.csv",
+    "sha256": "e7ec56dc7365852339418c53150d7ca2610c3a344cf527c1d9ed951fc9f1dc3c"
+  },
+  "cabecalho": {
+    "arquivo": "coflume_v09/coflume_banco.h",
+    "sha256": "dcd78cc513e3284b8c3391b94aac49fa4d319d4c3ba35d786b540643b99b066b",
+    "defines": {
+      "COFLUME_BANCO_VERSAO": "banco_v09",
+      "COFLUME_BANCO_N": 36
+    }
+  },
+  "banco_anterior": {
+    "versao": "banco_v08",
+    "csv_sha256": "5e9c14e22ae5dd1d4af3f494038a4bb1e8ba41c6839b7847513fc80134d06daa",
+    "obs": "continua em simulations/wokwi/v0.8 e nas r2/r3, sem alteracao"
+  },
+  "modelo": {
+    "modelo_id": "mlp8-sint-20261101-e6a4cf00",
+    "obs": "inalterado; o modelo usa nivel e categoria, nao o texto nem o id das perguntas"
+  }
+}
