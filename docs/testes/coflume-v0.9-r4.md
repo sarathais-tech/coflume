@@ -1,8 +1,8 @@
 # Testes: Coflume v0.9-r4 EXPERIMENTAL
 
-**Versão:** `v0.9-agente-usb-experimental-r4` · **Pasta:** [`firmware/v0.9-r4/`](../../firmware/v0.9-r4/) · **Data:** 08/11/2026
+**Versão:** `v0.9-agente-usb-experimental-r4` · **Pasta:** [`firmware/v0.9-r4/`](../../firmware/v0.9-r4/) · **Atualizado em:** 09/11/2026
 
-> **A r4 não foi validada na placa física.** A seção 1 vem de testes no PC, com imitações de hardware. A seção 2 reúne testes manuais relatados: em simulação e, para a **r3** com a política gradual desligada, na placa física. O modelo da Guardiã foi treinado com dados **sintéticos**: nada aqui comprova eficácia educacional. O teste lacrado (fase C) não foi aberto, e a latência na placa física continua pendente.
+> **A r4 tem testes físicos funcionais relatados em 09/11/2026**, com logs do Quiz, vídeo do monitor ao vivo e confirmações manuais de Sara Thais (seção 2.4). Isso não representa aprovação integral de todos os casos da seção 3. A identificação completa do firmware e do banco no boot ainda precisa ser registrada. O modelo foi treinado com dados **sintéticos**: estes testes não comprovam eficácia educacional. A bancada formal de latência (fase D) continua pendente; há uma medição informativa na placa.
 
 ## 1. Testes automatizados (PC)
 
@@ -172,50 +172,108 @@ As duas pendências de clareza dos itens 1 e 2 da seção 2.2 foram tratadas no 
 
 **Limites e pendências restantes:** não foi repetido `demo_gradual.txt` após essa alteração; a revisão manual de outra dificuldade, a revisita e o modo sem animação continuam cobertos apenas pela verificação em Node citada acima. Os vídeos não demonstram sincronização quadro a quadro, todos os estados de recusa possíveis ou execução integral dos testes automatizados do navegador. O layout continua adiado. Nenhum teste físico foi aprovado por esta alteração; F18 e a execução de F23 no equipamento do evento continuam pendentes.
 
-## 3. Testes físicos pendentes (r4)
+### 2.4 Testes físicos funcionais relatados em 09/11/2026
 
-Preencha as colunas de resultado ao executar. Guarde o arquivo salvo pelo painel (SALVAR LOGS) e fotos ou vídeo. Um teste só pode ser marcado como aprovado depois de executado e registrado.
+**Execução:** Sara Thais, com os componentes físicos e o painel USB. O sketch enviado na conversa (`Texto colado(20261109-163532).txt`) foi comparado com o `.ino` da r4 e confere, desconsiderando espaços externos e finais de linha. A configuração do código é adaptativa ligada e proteção gradual desligada; os logs confirmam **`politica=fluxo-0.8`** e **`guardia_ativa=1`**.
+
+**Limite de identificação:** os logs fornecidos são da Guardiã e não contêm a linha `COFLUME,versao=…-r4,banco=banco_v09,perguntas=36,banco_csv_sha256=…`. Os IDs `V09-…` evidenciam perguntas novas, mas não comprovam sozinhos versão completa, quantidade ou hash do banco gravado. F2 permanece pendente.
+
+#### Evidências e rastreabilidade
+
+Os originais estão anexados à conversa de desenvolvimento, não ao repositório:
+
+- **L1:** `Markdown colado(1).md`: cinco partidas completas de Quiz.
+- **L2:** `Markdown colado(2).md`: histórico acumulado, acrescentando a sessão de 0 acertos.
+- **L3:** `Markdown colado(3).md`: histórico acumulado, acrescentando a sessão de 2 acertos.
+- **L4:** `Markdown colado(4).md`: histórico acumulado, acrescentando a sessão de 1 acerto.
+- **V1:** `20261109-1659-09.5443620.mp4`: gravação do monitor identificado como **AO VIVO · USB / cofre conectado**. A revisão foi visual e amostral; o movimento físico do servo e o Agente Secreto não aparecem no vídeo.
+
+L1–L4 se sobrepõem: o conjunto reúne **8 sessões distintas**, não quatro conjuntos independentes de partidas. Os horários dos logs terminados em `Z` estão em UTC.
+
+#### Resultados do Quiz registrados nos logs
+
+| Sessão | Nível inicial | Resultado final | Evidência |
+|---|---|---|---|
+| `BEF6B428` | Explorador | 3/3, `desbloqueio=SIM` | L1–L4 |
+| `75B5D6B1` | Desafiante | 3/3, `desbloqueio=SIM` | L1–L4 |
+| `1A7A6A0F` | Mestre | 3/3, `desbloqueio=SIM`; terceira pergunta escolhida em Desafiante | L1–L4 |
+| `5045E700` | Explorador | 3/3, `desbloqueio=SIM`; dica usada nas três respostas | L1–L4 |
+| `9F34A5B4` | Explorador | 3/3, `desbloqueio=SIM` | L1–L4 e V1, com valores e sequência compatíveis |
+| `8EDA5EF6` | Desafiante | 0/3, `desbloqueio=NAO`; duas respostas com `esgotou=1`, 30 s, contadas como erro | L2–L4 |
+| `CFFD2B1F` | Desafiante | 2/3, `desbloqueio=SIM` | L3–L4 |
+| `E544C3F6` | Desafiante | 1/3, `desbloqueio=NAO` | L4 |
+
+**Movimento do servo:** Sara confirmou manualmente que o servo se comportou corretamente nos testes de desbloqueio e confirmou que **`#` fecha o servo e retorna ao menu após uma vitória**. Os logs acima registram a decisão de desbloqueio; a observação do movimento vem do relato da responsável.
+
+**Autoteste e desempenho informativo:** o diagnóstico registra 21 vetores, zero falhas, `invalidos_ok=2/2`, `modelo_confere=sim` e `resultado=OK`. Registra também **8,13 µs de média em 1.000 chamadas**, CPU de 240 MHz, explicitamente como medição informativa. Não há pior caso nem execução da bancada formal da fase D; **F10 não está concluído**.
+
+**Monitor ao vivo (V1):** foram observadas atualização das três perguntas e animações; ao final, 3 acertos e indicação de cofre aberto. Na terceira pergunta, a interface mostra Explorador **0,724100** e Desafiante **0,587198**, ambos com indicação **confere** entre cálculo reproduzido no painel e previsão recebida. As ativações são reproduzidas no computador com os mesmos pesos; o vídeo não mede diretamente ativações internas ou latência da placa.
+
+#### Confirmações manuais adicionais de Sara
+
+Os casos abaixo foram conduzidos em sequência na conversa e confirmados pela responsável. Não há logs específicos do protocolo AG nem vídeos desses casos.
+
+| Caso | Resultado confirmado |
+|---|---|
+| Agente Secreto iniciado com **A**, painel conectado | Pistas, música e cronômetro começam automaticamente; o monitor informa que a Guardiã não participa |
+| Senha correta, confirmada com **#** | Servo abre; música e contagem param |
+| 90 s sem senha correta | Missão termina; música para; servo permanece fechado |
+| **D** durante a missão | Cancela, para a música e retorna ao menu com servo fechado |
+| Senha errada confirmada com **#** | Recusada; servo permanece fechado |
+| **\*** após digitar números | Apaga a entrada para digitar novamente |
+| **A** sem o painel aberto, placa ligada | Aviso **PAINEL USB AUSENTE**, conforme o caso orientado de cerca de 5 s; servo permanece fechado |
+| Fechar o painel principal durante a missão | Aviso **CONEXAO PERDIDA**, conforme o caso orientado de cerca de 5 s; servo permanece fechado |
+| Fechar apenas o monitor da IA durante o Quiz e reabrir | Quiz continua; monitor reaberto recupera a pergunta atual |
+| Retirar o cabo USB durante o Quiz | Sara confirmou que painel e monitor avisam. Não confirmou separadamente a marcação dos dados como não atuais; F22 permanece parcial |
+
+Os intervalos de cerca de 5 s foram confirmados no contexto das instruções, sem cronometragem independente. Não se extrapola a resposta às condições não observadas, como ausência de senha/pistas no monitor em todos os estados, áudio contínuo durante o Quiz ou estabilidade prolongada.
+
+**Pendências prioritárias:** F2 (boot completo), F3 (36 perguntas na tela), F4 (16 teclas), F9 (mecanismo montado e reinicializações), F10 (bancada formal), F17–F18 (equipamentos do evento), F24 (sessão longa) e complementos dos casos parciais da seção 3. A política gradual ligada não foi testada fisicamente nesta rodada.
+
+## 3. Acompanhamento dos testes físicos (r4)
+
+Situação atualizada em 09/11/2026. As evidências e seus limites estão na seção 2.4. «Confirmado por relato» identifica observação física da responsável, sem vídeo específico; «parcial» preserva itens ainda não verificados. Guarde logs e fotos ou vídeo ao complementar os casos.
 
 ### 3.1 Placa e tela
 
 | # | Caso | Esperado | Resultado | Data / quem |
 |---|---|---|---|---|
-| F1 | Ligar a placa com a r4 | Tela de início com "Autoteste: OK 21 vet.", "Politica: fluxo-0.8" e "Servo real / LEDs simul." | | |
-| F2 | Monitor Serial | `COFLUME,versao=…-r4,banco=banco_v09,perguntas=36,banco_csv_sha256=…` igual ao `BANCO_FIRMWARE.json` | | |
-| F3 | Legibilidade das 36 perguntas na tela real | Sem cortes; leitura confortável a distância de uso; cores corretas (`TFT_PAINEL`) | | |
-| F4 | Todas as teclas | `KEY:<tecla>` correto para as 16 teclas | | |
+| F1 | Ligar a placa com a r4 | Tela de início com "Autoteste: OK 21 vet.", "Politica: fluxo-0.8" e "Servo real / LEDs simul." | Parcial: autoteste OK (21 vetores) nos logs; falta registro da tela inicial completa | 09/11/2026, Sara Thais |
+| F2 | Monitor Serial | `COFLUME,versao=…-r4,banco=banco_v09,perguntas=36,banco_csv_sha256=…` igual ao `BANCO_FIRMWARE.json` | Pendente: logs da Guardiã não incluem versão, quantidade e hash do banco no boot | 09/11/2026, Sara Thais |
+| F3 | Legibilidade das 36 perguntas na tela real | Sem cortes; leitura confortável a distância de uso; cores corretas (`TFT_PAINEL`) | Pendente: não há inspeção documentada das 36 perguntas na tela real | 09/11/2026, Sara Thais |
+| F4 | Todas as teclas | `KEY:<tecla>` correto para as 16 teclas | Pendente: uso funcional não substitui conferir as 16 teclas | 09/11/2026, Sara Thais |
 
 ### 3.2 Quiz e servo
 
 | # | Caso | Esperado | Resultado | Data / quem |
 |---|---|---|---|---|
-| F5 | Quiz com 3 acertos, nos níveis 1, 2 e 3 | Servo abre; `#` fecha | | |
-| F6 | Quiz com 2 acertos | Servo abre | | |
-| F7 | Quiz com 0 ou 1 acerto | Servo fechado | | |
-| F8 | Dica e tempo esgotado | Dica na tela; "Tempo esgotado!" conta como erro | | |
-| F9 | Servo e mecanismo | A trava abre e fecha sem travar; a placa não reinicia quando o servo se move | | |
-| F10 | Latência da Guardiã na placa (fase D, bancada do coflume-guardian-ai com `BANCADA_AMBIENTE "placa"`) | Menor que 1 ms, com média e pior caso registrados | | |
+| F5 | Quiz com 3 acertos, nos níveis 1, 2 e 3 | Servo abre; `#` fecha | Confirmado: 3/3 nos três níveis iniciais (logs); abertura e retorno com # confirmados por relato (§2.4) | 09/11/2026, Sara Thais |
+| F6 | Quiz com 2 acertos | Servo abre | Confirmado: sessão CFFD2B1F, 2/3 e desbloqueio SIM; servo confirmado por relato | 09/11/2026, Sara Thais |
+| F7 | Quiz com 0 ou 1 acerto | Servo fechado | Confirmado: sessões 8EDA5EF6 (0/3) e E544C3F6 (1/3), desbloqueio NAO; servo confirmado por relato | 09/11/2026, Sara Thais |
+| F8 | Dica e tempo esgotado | Dica na tela; "Tempo esgotado!" conta como erro | Parcial: uso de dica e timeout como erro constam dos logs; falta confirmação específica da mensagem e apresentação da dica na tela | 09/11/2026, Sara Thais |
+| F9 | Servo e mecanismo | A trava abre e fecha sem travar; a placa não reinicia quando o servo se move | Parcial: movimentos corretos relatados; mecanismo final e ausência de reinicializações não verificados especificamente | 09/11/2026, Sara Thais |
+| F10 | Latência da Guardiã na placa (fase D, bancada do coflume-guardian-ai com `BANCADA_AMBIENTE "placa"`) | Menor que 1 ms, com média e pior caso registrados | Pendente na bancada formal; diagnóstico informativo: média 8,13 µs em 1.000 chamadas, sem pior caso | 09/11/2026, Sara Thais |
 
 ### 3.3 Painel, Agente Secreto e música
 
 | # | Caso | Esperado | Resultado | Data / quem |
 |---|---|---|---|---|
-| F11 | Conectar o painel r4 | "COFRE PRONTO"; logs com `reenvio_diagnostico_boot` | | |
-| F12 | Quiz com o painel conectado | Quadro da Guardiã e rede animam a cada pergunta; "confere" nas avaliações | | |
-| F13 | Agente Secreto com senha correta | Pistas, música e contagem começam sozinhas; o servo abre | | |
-| F14 | Senha errada, `*`, `D` e 90 s esgotados | Comportamento do guia de uso, seção 4 | | |
-| F15 | **A** com o painel fechado | "PAINEL USB AUSENTE" depois de 5 s | | |
-| F16 | Fechar a aba do painel durante a missão | "CONEXAO PERDIDA" depois de 5 s; servo fechado | | |
-| F17 | Música e volume na caixa de som do evento | Toca, ajusta o volume e para no fim da missão | | |
+| F11 | Conectar o painel r4 | "COFRE PRONTO"; logs com `reenvio_diagnostico_boot` | Parcial: conexão e reenvio_diagnostico_boot registrados; texto COFRE PRONTO não confirmado separadamente | 09/11/2026, Sara Thais |
+| F12 | Quiz com o painel conectado | Quadro da Guardiã e rede animam a cada pergunta; "confere" nas avaliações | Confirmado no cenário observado: USB ao vivo, animações e previsões confere em V1; funcionamento relatado | 09/11/2026, Sara Thais |
+| F13 | Agente Secreto com senha correta | Pistas, música e contagem começam sozinhas; o servo abre | Confirmado por relato: início automático, senha correta abre, música e contagem param | 09/11/2026, Sara Thais |
+| F14 | Senha errada, `*`, `D` e 90 s esgotados | Comportamento do guia de uso, seção 4 | Confirmado por relato: senha errada, *, D e esgotamento de 90 s conforme §2.4 | 09/11/2026, Sara Thais |
+| F15 | **A** com o painel fechado | "PAINEL USB AUSENTE" depois de 5 s | Confirmado por relato: aviso PAINEL USB AUSENTE e servo fechado; tempo não medido independentemente | 09/11/2026, Sara Thais |
+| F16 | Fechar a aba do painel durante a missão | "CONEXAO PERDIDA" depois de 5 s; servo fechado | Confirmado por relato: aviso CONEXAO PERDIDA e servo fechado; tempo não medido independentemente | 09/11/2026, Sara Thais |
+| F17 | Música e volume na caixa de som do evento | Toca, ajusta o volume e para no fim da missão | Pendente no equipamento do evento; música funcional confirmada no ambiente de teste | 09/11/2026, Sara Thais |
 
 ### 3.4 Dois monitores e demonstração
 
 | # | Caso | Esperado | Resultado | Data / quem |
 |---|---|---|---|---|
-| F18 | Monitor da IA no segundo monitor físico, em tela cheia (anotar a resolução) | Rede grande legível à distância; brilho dos neurônios perceptível na animação; decisão, previsões e resultado da partida visíveis sem rolagem | | |
-| F19 | Partidas seguidas com o monitor aberto | Animação a cada pergunta; "ÚLTIMA AVALIAÇÃO" entre elas; nada atrasa o jogo | | |
-| F20 | Agente Secreto com o monitor aberto | Aviso de que a Guardiã não participa; nenhuma senha ou pista no monitor | | |
-| F21 | Fechar e reabrir o monitor durante uma partida | O jogo, o áudio e a USB seguem; o monitor volta com o estado atual | | |
-| F22 | Desconectar o cabo USB | Painel e monitor avisam; dados marcados como não atuais | | |
+| F18 | Monitor da IA no segundo monitor físico, em tela cheia (anotar a resolução) | Rede grande legível à distância; brilho dos neurônios perceptível na animação; decisão, previsões e resultado da partida visíveis sem rolagem | Pendente no segundo monitor do evento; rolagem observada no ambiente pessoal | 09/11/2026, Sara Thais |
+| F19 | Partidas seguidas com o monitor aberto | Animação a cada pergunta; "ÚLTIMA AVALIAÇÃO" entre elas; nada atrasa o jogo | Parcial: oito sessões nos logs e um Quiz em V1; não se verificou monitor aberto em todas nem atrasos de forma mensurada | 09/11/2026, Sara Thais |
+| F20 | Agente Secreto com o monitor aberto | Aviso de que a Guardiã não participa; nenhuma senha ou pista no monitor | Parcial: aviso de que a Guardiã não participa confirmado por relato; ausência de senha e pistas não auditada especificamente | 09/11/2026, Sara Thais |
+| F21 | Fechar e reabrir o monitor durante uma partida | O jogo, o áudio e a USB seguem; o monitor volta com o estado atual | Parcial: continuidade do Quiz e recuperação do estado confirmadas por relato; áudio e USB não avaliados separadamente | 09/11/2026, Sara Thais |
+| F22 | Desconectar o cabo USB | Painel e monitor avisam; dados marcados como não atuais | Parcial: avisos em painel e monitor confirmados por relato; marcação dos dados como não atuais não confirmada | 09/11/2026, Sara Thais |
 | F23 | Demonstração sem o cofre no notebook do evento | Os 3 logs de `demo/` reproduzem com "DADOS DE DEMONSTRAÇÃO" | Evidência parcial em computador pessoal: M1–M3, seção 2.2. Confirmar no equipamento do evento; pendências visuais registradas | 08/11/2026, Sara Thais (parcial) |
-| F24 | Sessão longa (por exemplo, 30 minutos alternando Quiz e Agente) | Sem travar, sem reiniciar, sem perder a USB | | |
+| F24 | Sessão longa (por exemplo, 30 minutos alternando Quiz e Agente) | Sem travar, sem reiniciar, sem perder a USB | Pendente: não há sessão longa de 30 minutos documentada | 09/11/2026, Sara Thais |
