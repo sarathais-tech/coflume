@@ -1,0 +1,65 @@
+name: v0.8 experimental (Guardia IA)
+
+# Testa a v0.8 experimental sem tocar na v0.7. Roda só quando a v0.8, a v0.7
+# (para detectar qualquer alteração indevida) ou este workflow mudam.
+on:
+  push:
+    paths:
+      - "simulations/wokwi/v0.8/**"
+      - "simulations/wokwi/v0.7/**"
+      - ".github/workflows/v08.yml"
+  pull_request:
+    paths:
+      - "simulations/wokwi/v0.8/**"
+      - "simulations/wokwi/v0.7/**"
+      - ".github/workflows/v08.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  v08:
+    name: Testes e compilação para ESP32-S3 (Arduino-ESP32 3.x)
+    runs-on: ubuntu-latest
+    env:
+      URL_ESP32: https://espressif.github.io/arduino-esp32/package_esp32_index.json
+      FQBN: esp32:esp32:esp32s3:FlashSize=16M,PSRAM=opi
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # o teste da v0.7 compara com origin/main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: pip install pytest
+      - uses: arduino/setup-arduino-cli@v2
+      - run: arduino-cli core update-index --additional-urls "$URL_ESP32"
+      - run: arduino-cli core install esp32:esp32 --additional-urls "$URL_ESP32"
+      - run: arduino-cli lib install "Keypad" "Adafruit GFX Library" "Adafruit ILI9341"
+      - run: arduino-cli core list && arduino-cli lib list
+      - name: Testes automatizados (PC)
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m pytest -v -rs simulations/wokwi/v0.8/testes 2>&1 | tee pytest.log || {
+            grep -E "^(FAILED|ERROR)|Error" pytest.log | head -15 | sed 's/^/::error title=pytest::/'; exit 1; }
+          grep -E "SKIPPED" pytest.log | sed 's/^/::warning title=pytest::/' || true
+      - name: Compila a v0.8 (Guardia IA ativa)
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p "$RUNNER_TEMP/v08/sketch"
+          cp simulations/wokwi/v0.8/sketch.ino simulations/wokwi/v0.8/*.h "$RUNNER_TEMP/v08/sketch/"
+          arduino-cli compile --warnings all --fqbn "$FQBN" "$RUNNER_TEMP/v08/sketch" 2>&1 | tee v08.log || {
+            grep -iE "error|erro" v08.log | head -15 | sed 's/^/::error title=arduino-v08::/'; exit 1; }
+          grep -E "Sketch uses|Global variables" v08.log | sed 's/^/::notice title=v0.8::/'
+      - name: Compila a v0.7 sem alteracoes (referencia)
+        shell: bash
+        run: |
+          set -o pipefail
+          mkdir -p "$RUNNER_TEMP/v07/sketch"
+          cp simulations/wokwi/v0.7/sketch.ino "$RUNNER_TEMP/v07/sketch/"
+          arduino-cli compile --warnings all --fqbn "$FQBN" "$RUNNER_TEMP/v07/sketch" 2>&1 | tee v07.log || {
+            grep -iE "error|erro" v07.log | head -15 | sed 's/^/::error title=arduino-v07::/'; exit 1; }
+          grep -E "Sketch uses|Global variables" v07.log | sed 's/^/::notice title=v0.7::/'

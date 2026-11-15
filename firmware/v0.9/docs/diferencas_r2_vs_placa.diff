@@ -1,0 +1,221 @@
+--- placa/sketch.ino
++++ v0.9/coflume_v09/coflume_v09.ino
+@@ -38,7 +38,7 @@
+ #endif
+ static_assert(GUARDIA_CONTRATO_MAJOR == 1, "Contrato da Guardia incompativel");
+ 
+-#define COFLUME_VERSAO "v0.9-agente-usb-experimental"
++#define COFLUME_VERSAO "v0.9-agente-usb-experimental-r2"
+ 
+ // Pinagem validada no hardware fisico.
+ constexpr uint8_t TFT_CS=14, TFT_RST=16, TFT_DC=15, TFT_MOSI=17, TFT_SCLK=18;
+@@ -158,7 +158,8 @@
+   texto(tela::MARGEM_X,72,1,ST77XX_WHITE,l);
+   texto(tela::MARGEM_X,84,1,ST77XX_WHITE,guardiaAtiva?"Modo: adaptativo":"Modo: nivel fixo");
+   texto(tela::MARGEM_X,108,1,ST77XX_YELLOW,"Dados sinteticos");
+-  texto(tela::MARGEM_X,118,1,ST77XX_YELLOW,"Servo real / LEDs simul.");
++  if(servoPronto) texto(tela::MARGEM_X,118,1,ST77XX_YELLOW,"Servo real / LEDs simul.");
++  else texto(tela::MARGEM_X,118,1,ST77XX_RED,"SERVO COM FALHA (GPIO 12)");
+ }
+ void menu(){
+   estado=MENU;
+@@ -170,7 +171,8 @@
+   texto(tela::MARGEM_X,36,2,ST77XX_YELLOW,"1 Explorador");
+   texto(tela::MARGEM_X,56,2,ST77XX_YELLOW,"2 Desafiante");
+   texto(tela::MARGEM_X,76,2,ST77XX_YELLOW,"3 Mestre");
+-  texto(tela::MARGEM_X,97,1,ST77XX_CYAN,"A Agente Secreto (USB)");
++  if(servoPronto) texto(tela::MARGEM_X,97,1,ST77XX_CYAN,"A Agente Secreto (USB)");
++  else texto(tela::MARGEM_X,97,1,ST77XX_RED,"A Agente: SERVO C/ FALHA");
+   texto(tela::MARGEM_X,107,1,ST77XX_WHITE,"Escolha 1-3 ou A");
+   texto(tela::MARGEM_X,116,1,guardiaAtiva?ST77XX_GREEN:ST77XX_YELLOW,
+         guardiaAtiva?"Guardia IA: ativa":"Guardia IA: nivel fixo");
+@@ -381,6 +383,20 @@
+ }
+ 
+ // --- Diagnostico da Guardia ao ligar (igual a v0.8) ----------------------------
++// As linhas GUARDIA do boot ficam guardadas e sao reenviadas quando o painel USB
++// se conecta (AG,HELLO), porque o painel costuma abrir a porta depois do boot.
++// Sao linhas comuns de log: o protocolo AG nao muda.
++char diagBoot[1024]="";
++size_t nDiagBoot=0;
++void registrarDiag(const char* linha){
++  Serial.print(linha);
++  const size_t n=strlen(linha);
++  if(nDiagBoot+n<sizeof(diagBoot)){memcpy(diagBoot+nDiagBoot,linha,n);nDiagBoot+=n;diagBoot[nDiagBoot]='\0';}
++}
++void reenviarDiagBoot(){
++  Serial.print("GUARDIA,reenvio_diagnostico_boot,motivo=painel_conectado\n");
++  Serial.print(diagBoot);
++}
+ bool autotesteGuardia(){
+   float erroP=0.0f, erroF=0.0f;
+   long falhas=0;
+@@ -407,8 +423,10 @@
+   const int invalidosOk=(guardia::prever(inv1)==guardia::INVALIDO)+(guardia::prever(inv2)==guardia::INVALIDO);
+   const bool idOk=strcmp(GUARDIA_AUTOTESTE_MODELO_ID,GUARDIA_MODELO_ID)==0;
+   const bool ok=idOk&&falhas==0&&erroP<1e-5f&&erroF<=1e-6f&&invalidosOk==2;
+-  Serial.printf("GUARDIA,autoteste,vetores=%d,erro_p_max=%.3g,erro_features_max=%.3g,falhas=%ld,invalidos_ok=%d/2,modelo_confere=%s,resultado=%s\n",
+-                GUARDIA_AUTOTESTE_N,(double)erroP,(double)erroF,falhas,invalidosOk,idOk?"sim":"nao",ok?"OK":"FALHA");
++  char l[256];
++  snprintf(l,sizeof(l),"GUARDIA,autoteste,vetores=%d,erro_p_max=%.3g,erro_features_max=%.3g,falhas=%ld,invalidos_ok=%d/2,modelo_confere=%s,resultado=%s\n",
++           GUARDIA_AUTOTESTE_N,(double)erroP,(double)erroF,falhas,invalidosOk,idOk?"sim":"nao",ok?"OK":"FALHA");
++  registrarDiag(l);
+   return ok;
+ }
+ // Latencia real de prever() NESTA placa (informativa; nao substitui a bancada da fase D).
+@@ -422,8 +440,10 @@
+   }
+   const int64_t t1=esp_timer_get_time();
+   latenciaPreverUs=(float)(t1-t0)/N_LATENCIA;
+-  Serial.printf("GUARDIA,latencia_informativa,chamadas=%d,prever_us_media=%.2f,cpu_mhz=%lu,obs=medida_nesta_placa_nao_e_bancada_fase_D\n",
+-                N_LATENCIA,(double)latenciaPreverUs,(unsigned long)getCpuFrequencyMhz());
++  char l[192];
++  snprintf(l,sizeof(l),"GUARDIA,latencia_informativa,chamadas=%d,prever_us_media=%.2f,cpu_mhz=%lu,obs=medida_nesta_placa_nao_e_bancada_fase_D\n",
++           N_LATENCIA,(double)latenciaPreverUs,(unsigned long)getCpuFrequencyMhz());
++  registrarDiag(l);
+ }
+ 
+ #include "coflume_agente.h"
+@@ -436,10 +456,11 @@
+     SERVO_RESOLUCAO
+   );
+ 
+-  Serial.printf("SERVO,inicializacao=%s\n",
+-                servoPronto ? "OK" : "FALHA");
+   const uint32_t t0=millis();
+   while(!Serial&&millis()-t0<3000) delay(10);  // USB CDC: espera o monitor por ate 3 s
++  // Impressa DEPOIS da espera: com USB CDC, antes dela a linha podia se perder.
++  Serial.printf("SERVO,inicializacao=%s\n",
++                servoPronto ? "OK" : "FALHA");
+   SPI.begin(TFT_SCLK,-1,TFT_MOSI,TFT_CS);
+   tft.initR(TFT_PAINEL);
+   tft.setRotation(TFT_ROTACAO);
+@@ -449,16 +470,19 @@
+                 "tft_cs=%d,tft_dc=%d,tft_rst=%d,tft_mosi=%d,tft_sclk=%d,teclado_linhas=8|9|10|11,teclado_colunas=4|5|6|7,"
+                 "servo=REAL_GPIO12,leds=SIMULADOS\n",
+                 ESP.getChipModel(),(int)tft.width(),(int)tft.height(),TFT_ROTACAO,TFT_CS,TFT_DC,TFT_RST,TFT_MOSI,TFT_SCLK);
+-  Serial.printf("GUARDIA,modelo,id=%s,hash=%s,contrato=%s,fonte=%s,uso=%s,parametros=%d\n",GUARDIA_MODELO_ID,
+-                GUARDIA_MODELO_HASH,GUARDIA_CONTRATO_VERSAO,GUARDIA_MODELO_FONTE,GUARDIA_MODELO_USO,
+-                GUARDIA_MODELO_N_PARAMETROS);
++  char l[320];
++  snprintf(l,sizeof(l),"GUARDIA,modelo,id=%s,hash=%s,contrato=%s,fonte=%s,uso=%s,parametros=%d\n",GUARDIA_MODELO_ID,
++           GUARDIA_MODELO_HASH,GUARDIA_CONTRATO_VERSAO,GUARDIA_MODELO_FONTE,GUARDIA_MODELO_USO,
++           GUARDIA_MODELO_N_PARAMETROS);
++  registrarDiag(l);
+   coflume::rodizio_limpar(rodizio);
+   bancoOK=coflume::banco_viavel();
+   autotesteOK=autotesteGuardia();
+   medirLatencia();
+   guardiaAtiva=GUARDIA_ADAPTATIVA&&autotesteOK;
+-  Serial.printf("GUARDIA,estado,adaptativa_configurada=%d,banco_viavel=%d,guardia_ativa=%d\n",GUARDIA_ADAPTATIVA,
+-                bancoOK?1:0,guardiaAtiva?1:0);
++  snprintf(l,sizeof(l),"GUARDIA,estado,adaptativa_configurada=%d,banco_viavel=%d,guardia_ativa=%d,servo=%s\n",
++           GUARDIA_ADAPTATIVA,bancoOK?1:0,guardiaAtiva?1:0,servoPronto?"OK":"FALHA");
++  registrarDiag(l);
+   fechar();ledVermelhoSet(false);
+   telaBoot();
+   delay(BOOT_TELA_MS);
+--- placa/coflume_agente.h
++++ v0.9/coflume_v09/coflume_agente.h
+@@ -10,6 +10,7 @@
+ char senha[5]="", anterior[5]="", digitada[5]="";
+ uint8_t n=0;
+ char linha[96]; size_t pos=0; bool descartando=false;
++const char* motivoFim="";  // ultimo motivo de encerramento (so para o texto da tela)
+ const char* nome(){
+   switch(fase){case PREPARANDO:return "PREP";case JOGANDO:return "PLAYING";case GANHOU:return "WIN";case PERDEU:return "LOSE";default:return "IDLE";}
+ }
+@@ -32,6 +33,16 @@
+   }else if(fase==GANHOU){
+     texto(3,30,2,ST77XX_GREEN,"MISSAO");texto(3,49,2,ST77XX_GREEN,"CUMPRIDA!");
+     texto(3,83,1,ST77XX_WHITE,"Cofre desbloqueado.");texto(3,113,1,ST77XX_WHITE,"# fecha e volta ao menu");
++  }else if(fase==PERDEU&&strcmp(motivoFim,"PANEL_TIMEOUT")==0){
++    // Aviso: o painel USB nao confirmou as pistas (nao conectado ou fechado).
++    texto(3,30,2,ST77XX_RED,"PAINEL USB");texto(3,49,2,ST77XX_RED,"AUSENTE");
++    texto(3,77,1,ST77XX_WHITE,"Conecte o painel no");texto(3,87,1,ST77XX_WHITE,"notebook e tente de novo.");
++    texto(3,113,1,ST77XX_WHITE,"# volta ao menu");
++  }else if(fase==PERDEU&&strcmp(motivoFim,"DISCONNECTED")==0){
++    // Aviso: a comunicacao com o painel caiu durante a missao.
++    texto(3,30,2,ST77XX_RED,"CONEXAO");texto(3,49,2,ST77XX_RED,"PERDIDA");
++    texto(3,77,1,ST77XX_WHITE,"O painel USB parou de");texto(3,87,1,ST77XX_WHITE,"responder.");
++    texto(3,113,1,ST77XX_WHITE,"# volta ao menu");
+   }else if(fase==PERDEU){
+     texto(3,30,2,ST77XX_YELLOW,"MISSAO");texto(3,49,2,ST77XX_YELLOW,"ENCERRADA");
+     texto(3,83,1,ST77XX_WHITE,"Veja o painel do agente.");texto(3,113,1,ST77XX_WHITE,"# volta ao menu");
+@@ -42,7 +53,7 @@
+ }
+ void terminar(bool venceu,const char* motivo){
+   if(fase!=JOGANDO&&fase!=PREPARANDO)return;
+-  fase=venceu?GANHOU:PERDEU;
++  fase=venceu?GANHOU:PERDEU;motivoFim=motivo;
+   if(venceu)abrir();else{fechar();ledVermelhoSet(true);}
+   Serial.printf("AG,EVENT,%08lX,%s\n",(unsigned long)id,motivo);
+   publicar();tela();
+@@ -73,7 +84,9 @@
+   if(strcmp(cmd,"HELLO")==0){
+     Serial.printf("AG,HELLO,1,%d\n",servoPronto?1:0);
+     if(estado==AGENTE&&(fase==PREPARANDO||fase==JOGANDO))prepararPainel();
+-    publicar();return;
++    publicar();
++    reenviarDiagBoot();  // linhas GUARDIA para a area de logs do painel (fora do protocolo AG)
++    return;
+   }
+   if(strcmp(cmd,"START")==0){iniciar();return;}
+   const char* sessao=strtok_r(nullptr,",",&contexto);
+--- placa/Coflume_Agente_Secreto_USB.html
++++ v0.9/painel/Coflume_Agente_Secreto_USB.html
+@@ -128,6 +128,7 @@
+   <p id="feedback" role="status">Conecte o ESP32 por USB. A senha sera digitada somente no teclado fisico do cofre.</p>
+   <div class="buttons"><button id="connect">CONECTAR ESP32</button><button id="start" disabled>INICIAR MISSÃO</button><button id="next" disabled>PRÓXIMO AGENTE</button><button id="cancel" disabled>ENCERRAR MISSÃO</button><button id="full">TELA CHEIA</button></div>
+   <details><summary>Musica e volume</summary><p>Selecione seu arquivo de audio no computador. Ele sera tocado nesta caixa de som, sem envio para a internet.</p><label>Musica <input id="track" type="file" accept="audio/*"></label><label> Volume <input id="volume" type="range" min="0" max="1" step="0.05" value="0.4"></label><label><input id="mute" type="checkbox"> Silenciar</label><p id="audioStatus">Nenhuma musica selecionada. Efeitos sonoros disponiveis.</p></details>
++  <details id="guardiaLogs" class="logs"><summary>Logs da Guardia IA (<span id="logCount">0</span>)</summary><p>Linhas GUARDIA enviadas pelo ESP32 (quiz e diagnostico de inicializacao). Apenas leitura: nao alteram a missao. Modelo experimental, dados sinteticos.</p><pre id="logView" aria-live="off"></pre><div class="buttons"><button id="logSave" type="button">SALVAR LOGS (.TXT)</button><button id="logClear" type="button">LIMPAR</button></div></details>
+   <p class="connection-note">USB · 115200 baud · senha no teclado fisico · * apaga · # confirma · D cancela/volta</p>`;
+   document.querySelector('.terminal').append(panel);
+   let port=null,reader=null,writer=null,connected=false,ready=false,closing=false;
+@@ -184,8 +185,28 @@
+     const random=()=>{seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;return (seed>>>0)/4294967296;};
+     return [...digits].map((d,i)=>clueFor(Number(d),i,random));
+   }
++  // Logs da Guardia: guarda as linhas GUARDIA,... recebidas pela USB para ver e salvar.
++  // Nao envia nada ao ESP32 e nao altera estado, relogio, audio ou pistas.
++  const LOG_MAX=5000,LOG_TELA=300,guardiaLinhas=[];
++  function guardiaLog(line){
++    if(!line.startsWith('GUARDIA,'))return;
++    guardiaLinhas.push(new Date().toISOString()+' '+line);
++    if(guardiaLinhas.length>LOG_MAX)guardiaLinhas.splice(0,guardiaLinhas.length-LOG_MAX);
++    $('logCount').textContent=String(guardiaLinhas.length);
++    const view=$('logView'),fim=view.scrollTop+view.clientHeight>=view.scrollHeight-4;
++    view.textContent=guardiaLinhas.slice(-LOG_TELA).join('\n');
++    if(fim)view.scrollTop=view.scrollHeight;
++  }
++  function salvarLogs(){
++    const agora=new Date(),dois=n=>String(n).padStart(2,'0');
++    const nome='coflume_logs_guardia_'+agora.getFullYear()+dois(agora.getMonth()+1)+dois(agora.getDate())+'_'+dois(agora.getHours())+dois(agora.getMinutes())+dois(agora.getSeconds())+'.txt';
++    const cabecalho='# Coflume - logs da Guardia IA (experimental; modelo treinado com dados sinteticos)\n# Salvo em '+agora.toISOString()+' - '+guardiaLinhas.length+' linhas\n';
++    const url=URL.createObjectURL(new Blob([cabecalho+guardiaLinhas.join('\n')+'\n'],{type:'text/plain;charset=utf-8'}));
++    const a=document.createElement('a');a.href=url;a.download=nome;document.body.append(a);a.click();a.remove();
++    setTimeout(()=>URL.revokeObjectURL(url),1000);
++  }
+   function packet(line){
+-    if(!line.startsWith('AG,'))return;lastMessage=performance.now();missed=false;
++    if(!line.startsWith('AG,')){guardiaLog(line);return;}lastMessage=performance.now();missed=false;
+     const v=line.split(',');
+     if(v[1]==='HELLO'){
+       if(v[2]!=='1'){ready=false;$('feedback').textContent='Versao de protocolo incompativel.';controls();return;}
+@@ -280,6 +301,8 @@
+     if(trackUrl)music.src=trackUrl;else music.removeAttribute('src');
+     $('audioStatus').textContent=f?'Trilha selecionada: '+f.name:'Nenhuma musica selecionada.';unlockAudio();if(stage==='PLAYING')playMusic();else primeMusic();
+   };
++  $('logSave').onclick=salvarLogs;
++  $('logClear').onclick=()=>{guardiaLinhas.length=0;$('logCount').textContent='0';$('logView').textContent='';};
+   $('volume').oninput=()=>{music.volume=Number($('volume').value);};$('mute').onchange=()=>{music.muted=$('mute').checked;};
+   $('full').onclick=()=>{const p=document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();p?.catch(()=>{});};
+   setInterval(()=>{
+@@ -302,6 +325,7 @@
+ </script>
+ <style>
+ .controls{margin:25px 0 0;border-top:1px solid #205b39;padding:20px 0}.status{display:flex;align-items:center;justify-content:space-between;gap:15px;letter-spacing:.1em;font-size:12px}#clock{font-size:42px;color:#baffd5;font-variant-numeric:tabular-nums}#clock.urgent{color:#ff8888}#feedback{font-size:13px;line-height:1.6;min-height:42px}.buttons{display:flex;flex-wrap:wrap;gap:9px}button{background:#092d1b;color:#caffdd;border:1px solid #3b9c66;padding:12px 16px;font:inherit;cursor:pointer}button:hover:enabled{background:#145535}button:disabled{opacity:.35;cursor:default}details{font-size:12px;line-height:1.7;margin-top:17px;color:#8dbba1}summary{cursor:pointer}input{max-width:100%;accent-color:#51ff9a}label{display:inline-block;margin:7px 12px 7px 0}.connection-note{font-size:11px;color:#7ab390;line-height:1.7}.frame{padding-top:35px;padding-bottom:35px}.topline{margin-bottom:18px}.line{margin:22px auto}.heading{font-size:clamp(29px,4vw,52px)}.clue{min-height:62px;padding-top:12px;padding-bottom:12px}.label{margin-bottom:16px}.demo-hint{display:none!important}
++.logs pre{max-height:220px;overflow:auto;margin:8px 0;padding:8px;background:rgba(0,10,5,.72);border:1px solid #205b39;color:#a8f5c7;font-size:11px;line-height:1.45;white-space:pre;user-select:text}
+ </style>
+ </body>
+ </html>

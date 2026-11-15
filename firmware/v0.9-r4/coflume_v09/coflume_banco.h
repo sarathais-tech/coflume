@@ -1,0 +1,102 @@
+// =============================================================================
+//  coflume_banco.h — banco de perguntas banco_v09 (Coflume — O Conhecimento Abre Portas)
+// ARQUIVO GERADO por ferramentas/gerar_banco_v09.py — NÃO EDITAR À MÃO.
+//  Origem: questoes/banco_v09.csv do coflume-guardian-ai (versão e hash em BANCO_FIRMWARE.json).
+//  Textos convertidos para a fonte clássica da Adafruit GFX (cp437).
+// =============================================================================
+#pragma once
+#include <stdint.h>
+
+#define COFLUME_BANCO_VERSAO "banco_v09"
+#define COFLUME_BANCO_CSV_SHA256 "e7ec56dc7365852339418c53150d7ca2610c3a344cf527c1d9ed951fc9f1dc3c"
+#define COFLUME_BANCO_N 36
+#define COFLUME_MAX_POR_CELULA 8
+
+namespace coflume {
+
+struct Pergunta {
+  const char* id;
+  uint8_t nivel;      // 0 Explorador, 1 Desafiante, 2 Mestre
+  uint8_t categoria;  // 0 Matematica, 1 Portugues, 2 Logica, 3 Conhecimentos gerais
+  const char* enunciado;
+  const char* alt[4];
+  char correta;       // 'A'..'D'
+  const char* dica;
+};
+
+const Pergunta BANCO[COFLUME_BANCO_N] = {
+  {"V07-EXP-1-R1", 0, 0, "6 x 7 = ?",
+   {"36", "42", "48", "40"}, 'B', "6 grupos de 7"},
+  {"V09-EXP-MAT-1", 0, 0, "8 + 5 = ?",
+   {"13", "12", "14", "15"}, 'A', "Complete 10 primeiro"},
+  {"V09-EXP-MAT-2", 0, 0, "15 - 7 = ?",
+   {"7", "8", "9", "6"}, 'B', "Quanto falta de 7 para 15?"},
+  {"V07-EXP-3-R1", 0, 1, "Qual palavra esta correta?",
+   {"Caza", "Casa", "Kasa", "Casza"}, 'B', "S entre vogais tem som de Z"},
+  {"V09-EXP-POR-1", 0, 1, "Rima com gato?",
+   {"Pato", "Peixe", "Bola", "Mesa"}, 'A', "Termina em -ato"},
+  {"V09-EXP-POR-2", 0, 1, "Plural de bola?",
+   {"Bolaz", "Boles", "Bolas", "Bolass"}, 'C', "Acrescente S no final"},
+  {"V08-EXP-LOG-1", 0, 2, "Continue: 1,3,5,7",
+   {"8", "9", "10", "11"}, 'B', "Pule de 2 em 2"},
+  {"V09-EXP-LOG-1", 0, 2, "Qual e o intruso?",
+   {"Uva", "Pera", "Sapo", "Kiwi"}, 'C', "Separe por tipo"},
+  {"V09-EXP-LOG-2", 0, 2, "Continue: A,C,E,G",
+   {"J", "K", "H", "I"}, 'D', "Pule uma letra"},
+  {"V07-EXP-2", 0, 3, "Qual e um planeta?",
+   {"Lua", "Sol", "Marte", "Nuvem"}, 'C', "Orbita o Sol"},
+  {"V09-EXP-CG-1", 0, 3, "Patas da aranha?",
+   {"4", "6", "10", "8"}, 'D', "Mais que um inseto"},
+  {"V09-EXP-CG-2", 0, 3, "Qual animal voa?",
+   {"Coruja", "Gato", "Peixe", "Cavalo"}, 'A', "Tem penas e asas"},
+  {"V07-DES-1-R1", 1, 0, "12 x 8 = ?",
+   {"86", "94", "96", "108"}, 'C', "10x8 + 2x8"},
+  {"V09-DES-MAT-1", 1, 0, "Metade de 46?",
+   {"23", "22", "24", "26"}, 'A', "Metade de 40 + metade de 6"},
+  {"V09-DES-MAT-3", 1, 0, "96 dividido por 4?",
+   {"22", "23", "24", "26"}, 'C', "Metade da metade de 96"},
+  {"V08-DES-POR-1", 1, 1, "Plural de flor?",
+   {"Flors", "Flores", "Floris", "Floros"}, 'B', "Se termina em R, use ES"},
+  {"V09-DES-POR-3", 1, 1, "Feminino de ator?",
+   {"Atora", "Atoa", "Atriza", "Atriz"}, 'D', "Como imperador e imperatriz"},
+  {"V09-DES-POR-4", 1, 1, "Qual escrita esta certa?",
+   {"Tijela", "Tegela", "Tijella", "Tigela"}, 'D', "Mesma letra de GELO"},
+  {"V07-DES-3", 1, 2, "Proximo: 2,4,8,16...",
+   {"18", "24", "30", "32"}, 'D', "Dobra a cada vez"},
+  {"V09-DES-LOG-1", 1, 2, "Continue: 1,4,9,16",
+   {"25", "20", "23", "32"}, 'A', "1x1, 2x2, 3x3..."},
+  {"V09-DES-LOG-3", 1, 2, "Intruso: 6,12,18,22",
+   {"6", "12", "18", "22"}, 'D', "Pense na tabuada do 6"},
+  {"V07-DES-2", 1, 3, "Qual e um mamifero?",
+   {"Tubarao", "Golfinho", "Polvo", "Sardinha"}, 'B', "Respira ar"},
+  {"V09-DES-CG-1", 1, 3, "Maior oceano da Terra?",
+   {"Indico", "Artico", "Atlantico", "Pacifico"}, 'D', "O nome lembra paz"},
+  {"V09-DES-CG-4", 1, 3, "Estado do gelo?",
+   {"Solido", "Liquido", "Gasoso", "Plasma"}, 'A', "Tem forma propria, como uma pedra"},
+  {"V07-MES-1-R1", 2, 0, "Binario 1010 = decimal?",
+   {"8", "9", "10", "12"}, 'C', "Use pot" "\x88" "ncias de 2"},
+  {"V09-MES-MAT-1", 2, 0, "25% de 80?",
+   {"20", "15", "25", "40"}, 'A', "25% e um quarto"},
+  {"V09-MES-MAT-2", 2, 0, "3/4 de 20?",
+   {"12", "15", "16", "5"}, 'B', "Ache 1/4 e multiplique por 3"},
+  {"V08-MES-POR-1", 2, 1, "Ontem eles ___ bola.",
+   {"jogou", "jogaram", "jogam", "joga"}, 'B', "Eles: plural. Ontem: passado"},
+  {"V09-MES-POR-1", 2, 1, "Coletivo de lobos?",
+   {"Alcateia", "Cardume", "Enxame", "Rebanho"}, 'A', "Coletivo e o nome do grupo"},
+  {"V09-MES-POR-2", 2, 1, "Qual esta certa?",
+   {"Exceso", "Esceso", "Excesso", "Ecesso"}, 'C', "Vem de EXCEDER"},
+  {"V08-MES-LOG-1", 2, 2, "Continue: 1,1,2,3,5",
+   {"6", "7", "8", "9"}, 'C', "Some os dois anteriores"},
+  {"V09-MES-LOG-1", 2, 2, "Continue: 2,6,12,20",
+   {"26", "28", "30", "32"}, 'C', "Some 4, depois 6, depois 8"},
+  {"V09-MES-LOG-3", 2, 2, "Continue: 3,5,9,17",
+   {"33", "31", "25", "34"}, 'A', "Dobre e tire 1"},
+  {"V07-MES-2-R1", 2, 3, "Phishing e...",
+   {"Backup", "Golpe digital", "Antivirus", "Hardware"}, 'B', "Engana o usuario"},
+  {"V07-MES-3", 2, 3, "Qual senha e melhor?",
+   {"123456", "senha123", "nome2026", "G7!mP2#x"}, 'D', "Unica e aleatoria"},
+  {"V09-MES-CG-1", 2, 3, "Planeta mais perto do Sol?",
+   {"Venus", "Terra", "Marte", "Mercurio"}, 'D', "Tem nome de deus mensageiro"},
+};
+
+}  // namespace coflume

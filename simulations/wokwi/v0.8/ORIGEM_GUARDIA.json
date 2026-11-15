@@ -1,0 +1,33 @@
+{
+  "descricao": "Origem dos arquivos da Guardia IA usados na v0.8 experimental do Coflume. Arquivos copiados byte a byte; nao editar.",
+  "repositorio": "sarathais-tech/coflume-guardian-ai",
+  "branch": "feat/validacao-final-ab",
+  "commit": "0741455b8ce71a370602b0c2f555d009f72442ec",
+  "modelo_id": "mlp8-sint-20261101-e6a4cf00",
+  "modelo_hash_parametros_sha256": "e6a4cf0086ccf5ab1eccecbe7aea02f3962a6ad7ced29b136d36c5b37b5b9991",
+  "contrato": "1.0.0",
+  "fonte_dados": "SINTETICO",
+  "uso": "v0.8 EXPERIMENTAL no Wokwi; nao e release de producao; teste lacrado e placa fisica pendentes",
+  "arquivos": {
+    "guardia_modelo.h": {
+      "origem": "embarcado/bancada_wokwi/guardia_modelo.h",
+      "sha256": "9a98304baaf92bdc508a94a4861bf73bbbd4267da8ed34532f63e251693bc42e"
+    },
+    "guardia_runtime.h": {
+      "origem": "embarcado/bancada_wokwi/guardia_runtime.h",
+      "sha256": "79b3d9a98eccc25ec76fcc383a53a73539ca5239971ac25ef0d7daa36eb112c0"
+    },
+    "MODELO.json": {
+      "origem": "embarcado/bancada_wokwi/MODELO.json",
+      "sha256": "7ebe34d7ec05edb18a521c7568f148011c2a65bab8573361e44c540db1ebb4ea"
+    },
+    "testes/vetores_teste.h": {
+      "origem": "embarcado/bancada_wokwi/vetores_teste.h",
+      "sha256": "8187d46ebb28c988592a891822642014271df94d447390e3cc5ec5e2e932ae70"
+    },
+    "ferramentas/banco_v08.csv": {
+      "origem": "questoes/banco_v08.csv",
+      "sha256": "5e9c14e22ae5dd1d4af3f494038a4bb1e8ba41c6839b7847513fc80134d06daa"
+    }
+  }
+}

@@ -1,0 +1,63 @@
+# DADOS DE DEMONSTRACAO - gerados pelo firmware v0.9-agente-usb-experimental-r4, banco banco_v09 (GUARDIA_POLITICA_GRADUAL=1) rodando em SIMULACAO no PC.
+# BANCO INVIAVEL PARA A REGRA GRADUAL: banco_v09 sem as celulas Desafiante x Portugues e Desafiante x Conhecimentos gerais.
+# Parte 1 - uso normal: a verificacao inicial detecta o banco inviavel e bloqueia o Quiz (BANCO INCOMPLETO).
+# Parte 2 - CENARIO FORCADO PARA TESTE: o gerador define bancoGradualOK=true para passar pela verificacao inicial e testar a protecao defensiva (recusa sem_nivel_compativel). Nao acontece em uso normal.
+# Respostas roteirizadas; nao sao dados de criancas nem do cofre fisico. Modelo experimental (dados sinteticos).
+2026-11-08T10:00:21.500Z SERVO,inicializacao=OK
+2026-11-08T10:00:21.500Z COFLUME,versao=v0.9-agente-usb-experimental-r4,banco=banco_v09,perguntas=30,banco_csv_sha256=e7ec56dc7365852339418c53150d7ca2610c3a344cf527c1d9ed951fc9f1dc3c
+2026-11-08T10:00:21.500Z HARDWARE,placa=ESP32-S3 DevKitC-1 N16R8,chip=ESP32-S3,tela=ST7735 160x128,rotacao=1,tft_cs=14,tft_dc=15,tft_rst=16,tft_mosi=17,tft_sclk=18,teclado_linhas=8|9|10|11,teclado_colunas=4|5|6|7,servo=REAL_GPIO12,leds=SIMULADOS
+2026-11-08T10:00:21.500Z GUARDIA,modelo,id=mlp8-sint-20261101-e6a4cf00,hash=e6a4cf0086ccf5ab1eccecbe7aea02f3962a6ad7ced29b136d36c5b37b5b9991,contrato=1.0.0,fonte=SINTETICO,uso=bancada (nao e versao de producao),parametros=121
+2026-11-08T10:00:21.500Z GUARDIA,autoteste,vetores=21,erro_p_max=5.96e-08,erro_features_max=0,falhas=0,invalidos_ok=2/2,modelo_confere=sim,resultado=OK
+2026-11-08T10:00:21.500Z GUARDIA,latencia_informativa,chamadas=1000,prever_us_media=0.00,cpu_mhz=240,obs=medida_nesta_placa_nao_e_bancada_fase_D
+2026-11-08T10:00:21.500Z GUARDIA,estado,adaptativa_configurada=1,banco_viavel=1,guardia_ativa=1,servo=OK,politica=gradual-v2-exp,banco_viavel_gradual=0
+2026-11-08T10:00:21.500Z SERVO,angulo=90
+2026-11-08T10:00:21.500Z MENU
+2026-11-08T10:00:21.500Z AG,HELLO,1,1
+2026-11-08T10:00:21.500Z AG,STATE,00000000,IDLE,0,0
+2026-11-08T10:00:21.500Z GUARDIA,reenvio_diagnostico_boot,motivo=painel_conectado
+2026-11-08T10:00:21.500Z GUARDIA,modelo,id=mlp8-sint-20261101-e6a4cf00,hash=e6a4cf0086ccf5ab1eccecbe7aea02f3962a6ad7ced29b136d36c5b37b5b9991,contrato=1.0.0,fonte=SINTETICO,uso=bancada (nao e versao de producao),parametros=121
+2026-11-08T10:00:21.500Z GUARDIA,autoteste,vetores=21,erro_p_max=5.96e-08,erro_features_max=0,falhas=0,invalidos_ok=2/2,modelo_confere=sim,resultado=OK
+2026-11-08T10:00:21.500Z GUARDIA,latencia_informativa,chamadas=1000,prever_us_media=0.00,cpu_mhz=240,obs=medida_nesta_placa_nao_e_bancada_fase_D
+2026-11-08T10:00:21.500Z GUARDIA,estado,adaptativa_configurada=1,banco_viavel=1,guardia_ativa=1,servo=OK,politica=gradual-v2-exp,banco_viavel_gradual=0
+2026-11-08T10:00:25.500Z KEY:2
+2026-11-08T10:00:25.500Z GUARDIA,sessao,sessao=C6E5747A,modelo=mlp8-sint-20261101-e6a4cf00,adaptativa=1,nivel_inicial=1,ordem_categorias=2013,politica=gradual-v2-exp
+2026-11-08T10:00:25.500Z SIMULACAO,led_vermelho=1
+2026-11-08T10:00:25.500Z GUARDIA,erro,banco_inviavel_gradual,politica=gradual-v2-exp
+2026-11-08T10:00:29.500Z KEY:#
+2026-11-08T10:00:29.500Z SIMULACAO,led_vermelho=0
+2026-11-08T10:00:29.500Z MENU
+# CENARIO FORCADO a partir daqui: o gerador definiu bancoGradualOK=true para passar pela verificacao inicial e testar a protecao defensiva em jogo. Em uso normal o Quiz continuaria bloqueado (BANCO INCOMPLETO).
+2026-11-08T10:00:53.900Z KEY:#
+2026-11-08T10:00:53.900Z SIMULACAO,led_vermelho=0
+2026-11-08T10:00:53.900Z MENU
+2026-11-08T10:01:14.300Z KEY:#
+2026-11-08T10:01:14.300Z SIMULACAO,led_vermelho=0
+2026-11-08T10:01:14.300Z MENU
+2026-11-08T10:01:14.300Z KEY:3
+2026-11-08T10:01:14.300Z GUARDIA,sessao,sessao=4CE3AB42,modelo=mlp8-sint-20261101-e6a4cf00,adaptativa=1,nivel_inicial=2,ordem_categorias=2013,politica=gradual-v2-exp
+2026-11-08T10:01:14.300Z GUARDIA,politica_gradual,politica=gradual-v2-exp,sessao=4CE3AB42,ordem=1,anterior=-,anterior_acertou=-,niveis_compativeis=2,candidatos=2,categoria_fluxo08=2,categoria=2,nivel_sem_regra=-1,nivel=2,limitou=0,motivo=nivel_inicial_pergunta_1
+2026-11-08T10:01:14.300Z GUARDIA,decisao,modelo=mlp8-sint-20261101-e6a4cf00,sessao=4CE3AB42,ordem=1,nivel_inicial=2,categoria_sorteada=2,categoria=2,categoria_substituida=0,niveis_permitidos=2,niveis_disponiveis=2,celula_vazia=0,p0=NA,p1=NA,p2=0.604624,alvo=0.70,nivel_escolhido=2,p_escolhido=0.604624,motivo=nivel_inicial_pergunta_1,pergunta=V08-MES-LOG-1,decisao_us=0
+2026-11-08T10:01:14.300Z GUARDIA,features,sessao=4CE3AB42,ordem=1,nivel_candidato=2,nivel_inicial=2,n_respondidas=0,categoria=2,taxa_acerto_sessao=0.500000,taxa_acerto_categoria=0.500000,tempo_medio_norm=0.500000,dicas_por_questao=0.000000,resultado_ultima=0,sequencia=0
+2026-11-08T10:01:14.300Z QUESTAO:1 NIVEL:3 ID:V08-MES-LOG-1
+2026-11-08T10:01:16.800Z KEY:A
+2026-11-08T10:01:16.800Z KEY:#
+2026-11-08T10:01:16.800Z GUARDIA,resposta,sessao=4CE3AB42,ordem=1,pergunta=V08-MES-LOG-1,categoria=2,nivel=2,acertou=0,usou_dica=0,tempo_gasto_s=2.5,tempo_limite_s=30,esgotou=0,historico_n=1
+2026-11-08T10:01:16.800Z SIMULACAO,led_vermelho=1
+2026-11-08T10:01:16.800Z RESULTADO:ERRO
+2026-11-08T10:01:20.400Z SIMULACAO,led_vermelho=0
+2026-11-08T10:01:20.400Z GUARDIA,politica_gradual,politica=gradual-v2-exp,sessao=4CE3AB42,ordem=2,anterior=2,anterior_acertou=0,niveis_compativeis=1|2,candidatos=1|2,categoria_fluxo08=0,categoria=0,nivel_sem_regra=1,nivel=1,limitou=0,motivo=guardia
+2026-11-08T10:01:20.400Z GUARDIA,decisao,modelo=mlp8-sint-20261101-e6a4cf00,sessao=4CE3AB42,ordem=2,nivel_inicial=2,categoria_sorteada=0,categoria=0,categoria_substituida=0,niveis_permitidos=1|2,niveis_disponiveis=1|2,celula_vazia=0,p0=NA,p1=0.783827,p2=0.614866,alvo=0.70,nivel_escolhido=1,p_escolhido=0.783827,motivo=guardia,pergunta=V07-DES-1-R1,decisao_us=0
+2026-11-08T10:01:20.400Z GUARDIA,features,sessao=4CE3AB42,ordem=2,nivel_candidato=1,nivel_inicial=2,n_respondidas=1,categoria=0,taxa_acerto_sessao=0.000000,taxa_acerto_categoria=0.000000,tempo_medio_norm=0.083333,dicas_por_questao=0.000000,resultado_ultima=-1,sequencia=-1
+2026-11-08T10:01:20.400Z QUESTAO:2 NIVEL:2 ID:V07-DES-1-R1
+2026-11-08T10:01:23.600Z KEY:A
+2026-11-08T10:01:23.600Z KEY:#
+2026-11-08T10:01:23.600Z GUARDIA,resposta,sessao=4CE3AB42,ordem=2,pergunta=V07-DES-1-R1,categoria=0,nivel=1,acertou=0,usou_dica=0,tempo_gasto_s=3.3,tempo_limite_s=30,esgotou=0,historico_n=2
+2026-11-08T10:01:23.600Z SIMULACAO,led_vermelho=1
+2026-11-08T10:01:23.600Z RESULTADO:ERRO
+2026-11-08T10:01:27.200Z SIMULACAO,led_vermelho=0
+2026-11-08T10:01:27.200Z GUARDIA,politica_gradual,politica=gradual-v2-exp,sessao=4CE3AB42,ordem=3,anterior=1,anterior_acertou=0,niveis_compativeis=1,candidatos=-,categoria_fluxo08=1,categoria=-1,nivel_sem_regra=-1,nivel=-1,limitou=0,motivo=sem_nivel_compativel
+2026-11-08T10:01:27.200Z SIMULACAO,led_vermelho=1
+2026-11-08T10:01:27.200Z GUARDIA,erro,sem_nivel_compativel,politica=gradual-v2-exp
+2026-11-08T10:01:31.200Z KEY:#
+2026-11-08T10:01:31.200Z SIMULACAO,led_vermelho=0
+2026-11-08T10:01:31.200Z MENU

@@ -2,7 +2,7 @@
 
 Cofre educacional interativo desenvolvido com **ESP32-S3**, combinando perguntas escolares, um mecanismo físico de abertura e uma rede neural para apoiar a adaptação da dificuldade durante o Quiz.
 
-Projeto desenvolvido por **Sara Thais e Gabriel Henrique de Medeiros Penha**, para a **InovaTech 2026**.
+Projeto desenvolvido por **Sara Thais e Gabriel Henrique de Medeiros Penha** e apresentado na **InovaTech 2026**.
 
 ## Proposta educacional e público
 
@@ -50,13 +50,13 @@ O desenvolvimento da IA fica no repositório [coflume-guardian](https://github.c
 - **Servo real no GPIO 12**, alimentado por fonte externa com GND comum ao ESP32.
 - **Painel HTML no computador**, conectado por USB, para o Agente Secreto, logs e visualização da IA.
 - **Monitor da IA em janela separada**, que pode ser exibida em outra tela.
-- No firmware atual, os **LEDs são simulados nos logs**.
+- **LEDs físicos:** vermelho no GPIO 13 e verde no GPIO 2.
 
 As ativações mostradas no computador são **calculadas novamente no painel** e conferidas com a previsão enviada pela placa. Não são medições diretas das ativações internas do ESP32. A animação pode ser exibida em câmera lenta; ela não representa a duração real da inferência.
 
 ## Estado atual — 09/11/2026
 
-**A r4 foi submetida a testes físicos funcionais**, com evidências e limites registrados no [relatório de testes](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/docs/testes/coflume-v0.9-r4.md).
+**A r4 foi submetida a testes físicos funcionais**, com evidências e limites registrados no [relatório de testes](docs/testes/coflume-v0.9-r4.md).
 
 | Verificação | Evidência disponível |
 |---|---|
@@ -77,38 +77,39 @@ Os testes funcionais não representam validação integral do sistema. **O model
 
 ## Versões e código
 
-O firmware e a documentação da r4 estão na branch [feat/coflume-v09-placa](https://github.com/sarathais-tech/coflume/tree/feat/coflume-v09-placa). Os links abaixo abrem os arquivos dessa branch; para baixar a versão atual, selecione essa branch antes de usar **Code → Download ZIP**.
+O firmware e a documentação da r4 estão neste repositório. Para baixar o projeto, use **Code → Download ZIP**.
 
 | Versão | Conteúdo |
 |---|---|
-| [v0.7 — Wokwi](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/simulations/wokwi/v0.7/sketch.ino) | Referência da simulação, com níveis fixos e sem Guardiã |
-| [v0.8 — Wokwi experimental](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/simulations/wokwi/v0.8/README.md) | Integração inicial da Guardiã |
-| [v0.9 — r2](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/firmware/v0.9/README.md) | Firmware físico com ST7735 e Agente Secreto USB |
-| [v0.9 — r3](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/firmware/v0.9-r3/README.md) | Política gradual opcional, desligada por padrão |
-| **[v0.9 — r4](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/firmware/v0.9-r4/README.md)** | Banco de 36 perguntas, painel da Guardiã e monitor da IA |
+| [v0.7 — Wokwi](simulations/wokwi/v0.7/sketch.ino) | Referência da simulação, com níveis fixos e sem Guardiã |
+| [v0.8 — Wokwi experimental](simulations/wokwi/v0.8/README.md) | Integração inicial da Guardiã |
+| [v0.9 — r2](firmware/v0.9/README.md) | Firmware físico com ST7735 e Agente Secreto USB |
+| [v0.9 — r3](firmware/v0.9-r3/README.md) | Política gradual opcional, desligada por padrão |
+| **[v0.9 — r4](firmware/v0.9-r4/README.md)** | Banco de 36 perguntas, painel da Guardiã e monitor da IA |
 
-Para abrir o firmware atual no Arduino IDE, use **[`firmware/v0.9-r4/coflume_v09/coflume_v09.ino`](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/firmware/v0.9-r4/coflume_v09/coflume_v09.ino)**, mantendo todos os arquivos `.h` da pasta juntos.
+Para abrir o firmware atual no Arduino IDE, use **[`firmware/v0.9-r4/coflume_v09/coflume_v09.ino`](firmware/v0.9-r4/coflume_v09/coflume_v09.ino)**, mantendo todos os arquivos `.h` da pasta juntos.
 
-O painel fica em **[`firmware/v0.9-r4/painel/Coflume_Agente_Secreto_USB.html`](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/firmware/v0.9-r4/painel/Coflume_Agente_Secreto_USB.html)**. Para conexão ao cofre, utilize um navegador compatível com Web Serial, como Chrome ou Edge. O [guia de uso](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/docs/guia_de_uso.md) descreve a conexão e a demonstração sem hardware.
+O painel fica em **[`firmware/v0.9-r4/painel/Coflume_Agente_Secreto_USB.html`](firmware/v0.9-r4/painel/Coflume_Agente_Secreto_USB.html)**. Para conexão ao cofre, utilize um navegador compatível com Web Serial, como Chrome ou Edge. O [guia de uso](docs/guia_de_uso.md) descreve a conexão e a demonstração sem hardware.
 
 ## Guias e testes
 
-- [Guia para iniciantes](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/docs/guia_iniciantes.md): componentes, alimentação, pinagem, montagem, bibliotecas, gravação e testes.
-- [Guia de uso](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/docs/guia_de_uso.md): Quiz, Agente Secreto, música, USB, monitor da IA e reprodução de demonstrações.
-- [Relatório de testes da r4](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/docs/testes/coflume-v0.9-r4.md): testes automatizados, vídeos, sessões físicas e pendências.
-- [Pendências da montagem](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/docs/montagem_pendencias.md): fotos e informações ainda não documentadas.
-- [Relatório v0.7](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/docs/testes/coflume-v0.7-wokwi.md) e [relatório v0.8](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/docs/testes/coflume-v0.8-wokwi.md): histórico da simulação.
+- [Guia para iniciantes](docs/guia_iniciantes.md): componentes, alimentação, pinagem, montagem, bibliotecas, gravação e testes.
+- [Guia de uso](docs/guia_de_uso.md): Quiz, Agente Secreto, música, USB, monitor da IA e reprodução de demonstrações.
+- [Relatório de testes da r4](docs/testes/coflume-v0.9-r4.md): testes automatizados, vídeos, sessões físicas e pendências.
+- [Pendências da montagem](docs/montagem_pendencias.md): fotos e informações ainda não documentadas.
+- [Relatório v0.7](docs/testes/coflume-v0.7-wokwi.md) e [relatório v0.8](docs/testes/coflume-v0.8-wokwi.md): histórico da simulação.
 
 ## Executar a referência no Wokwi
 
 Crie um projeto ESP32-S3 no [Wokwi](https://wokwi.com/) e copie os arquivos de `simulations/wokwi/v0.7/`:
 
-- [Sketch](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/simulations/wokwi/v0.7/sketch.ino).
-- [Diagrama](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/simulations/wokwi/v0.7/diagram.json).
-- [Bibliotecas](https://github.com/sarathais-tech/coflume/blob/feat/coflume-v09-placa/simulations/wokwi/v0.7/libraries.txt).
+- [Sketch](simulations/wokwi/v0.7/sketch.ino).
+- [Diagrama](simulations/wokwi/v0.7/diagram.json).
+- [Bibliotecas](simulations/wokwi/v0.7/libraries.txt).
 
 A simulação v0.7 usa **ILI9341**; o hardware físico da v0.9 usa **ST7735**.
 
 ## Créditos
 
 Projeto de Sara Thais e Gabriel Henrique de Medeiros Penha, desenvolvido com apoio de ferramentas de IA. A autoria individual de contribuições deve ser mantida conforme sua origem.
+

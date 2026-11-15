@@ -1,0 +1,172 @@
+--- v0.9/coflume_v09/coflume_v09.ino
++++ v0.9-r3/coflume_v09/coflume_v09.ino
+@@ -22,6 +22,7 @@
+ #include "coflume_banco.h"
+ #include "coflume_politica.h"
+ #include "coflume_tela.h"
++#include "coflume_politica_gradual.h"
+ 
+ // 1 = Guardia escolhe o nivel das perguntas 2 e 3; 0 = nivel fixo, como na v0.7.
+ #ifndef GUARDIA_ADAPTATIVA
+@@ -36,9 +37,14 @@
+ #ifndef TFT_ROTACAO
+ #define TFT_ROTACAO 1
+ #endif
++// Politica EXPERIMENTAL gradual-v2-exp (coflume-guardian-ai, docs/politica_gradual_exp.md):
++// 0 = fluxo-0.8 (padrao, igual a r2); 1 = mudanca gradual entre perguntas, so com banco viavel.
++#ifndef GUARDIA_POLITICA_GRADUAL
++#define GUARDIA_POLITICA_GRADUAL 0
++#endif
+ static_assert(GUARDIA_CONTRATO_MAJOR == 1, "Contrato da Guardia incompativel");
+ 
+-#define COFLUME_VERSAO "v0.9-agente-usb-experimental-r2"
++#define COFLUME_VERSAO "v0.9-agente-usb-experimental-r3"
+ 
+ // Pinagem validada no hardware fisico.
+ constexpr uint8_t TFT_CS=14, TFT_RST=16, TFT_DC=15, TFT_MOSI=17, TFT_SCLK=18;
+@@ -82,6 +88,10 @@
+ // --- Estado da Guardia e da partida (igual a v0.8) -----------------------------
+ bool guardiaAtiva=false;
+ bool bancoOK=false;
++bool bancoGradualOK=false;          // banco viavel para a politica gradual (so com GUARDIA_POLITICA_GRADUAL 1)
++coflume::gradual::Anterior anteriorGradual;   // resultado da pergunta anterior, na mesma partida
++coflume::gradual::Decisao decisaoGradual;     // ultima decisao gradual (campos de auditoria)
++const char* nomePolitica(){return GUARDIA_POLITICA_GRADUAL?coflume::gradual::VERSAO:"fluxo-0.8";}
+ bool autotesteOK=false;
+ uint32_t sessaoId=0;
+ uint8_t ordemCategorias[coflume::N_CATEGORIAS];
+@@ -157,6 +167,8 @@
+   snprintf(l,sizeof(l),"prever(): %.1f us",(double)latenciaPreverUs);
+   texto(tela::MARGEM_X,72,1,ST77XX_WHITE,l);
+   texto(tela::MARGEM_X,84,1,ST77XX_WHITE,guardiaAtiva?"Modo: adaptativo":"Modo: nivel fixo");
++  texto(tela::MARGEM_X,96,1,GUARDIA_POLITICA_GRADUAL?ST77XX_CYAN:ST77XX_WHITE,
++        GUARDIA_POLITICA_GRADUAL?"Politica: gradual (exp.)":"Politica: fluxo-0.8");
+   texto(tela::MARGEM_X,108,1,ST77XX_YELLOW,"Dados sinteticos");
+   if(servoPronto) texto(tela::MARGEM_X,118,1,ST77XX_YELLOW,"Servo real / LEDs simul.");
+   else texto(tela::MARGEM_X,118,1,ST77XX_RED,"SERVO COM FALHA (GPIO 12)");
+@@ -178,7 +190,7 @@
+         guardiaAtiva?"Guardia IA: ativa":"Guardia IA: nivel fixo");
+   Serial.println("MENU");
+ }
+-void erroBanco(){
++void erroBanco(const char* motivo){
+   estado=ERRO_BANCO;
+   fechar();ledVermelhoSet(true);
+   limpar();
+@@ -186,7 +198,7 @@
+   texto(tela::MARGEM_X,20,2,ST77XX_RED,"INCOMPLETO");
+   paragrafo(tela::MARGEM_X,48,1,ST77XX_YELLOW,"Faltam perguntas para esta partida.",0);
+   texto(tela::MARGEM_X,116,1,ST77XX_WHITE,"# volta ao menu");
+-  Serial.println("GUARDIA,erro,banco_inviavel");
++  Serial.printf("GUARDIA,erro,%s,politica=%s\n",motivo,nomePolitica());
+ }
+ void desenharTempo(int s){
+   // Contador no canto superior direito e barra proporcional ao tempo restante.
+@@ -265,14 +277,49 @@
+   inicioPergunta=millis();
+ }
+ 
++// Copia os campos comuns da decisao gradual para a decisao usada no resto do jogo e no log.
++void copiarDecisaoGradual(const coflume::gradual::Decisao& g){
++  decisao=coflume::Decisao();
++  decisao.viavel=g.viavel;decisao.ordem=g.ordem;decisao.nivel_inicial=g.nivel_inicial;
++  decisao.categoria_sorteada=g.categoria_sorteada;decisao.categoria=g.categoria;
++  decisao.n_permitidos=g.n_permitidos;decisao.n_disponiveis=g.n_disponiveis;
++  for(int i=0;i<coflume::N_NIVEIS;++i){
++    decisao.permitidos[i]=g.permitidos[i];decisao.disponiveis[i]=g.disponiveis[i];
++    decisao.previsoes[i]=g.previsoes[i];decisao.avaliado[i]=g.avaliado[i];
++  }
++  decisao.nivel=g.nivel;decisao.p_previsto=g.p_previsto;decisao.motivo=g.motivo;
++}
++void listaNiveis(const uint8_t* v,int n){for(int i=0;i<n;++i) Serial.printf("%s%d",i?"|":"",v[i]);if(!n)Serial.print("-");}
++// Campos de auditoria da politica gradual (docs/politica_gradual_exp.md, secao 5).
++void logGradual(){
++  const coflume::gradual::Decisao& g=decisaoGradual;
++  Serial.printf("GUARDIA,politica_gradual,politica=%s,sessao=%08lX,ordem=%d,anterior=",nomePolitica(),(unsigned long)sessaoId,indice+1);
++  if(anteriorGradual.existe) Serial.printf("%d,anterior_acertou=%d",anteriorGradual.nivel,anteriorGradual.acertou?1:0);
++  else Serial.print("-,anterior_acertou=-");
++  Serial.print(",niveis_compativeis=");listaNiveis(g.compativeis,g.n_compativeis);
++  Serial.print(",candidatos=");listaNiveis(g.candidatos,g.n_candidatos);
++  Serial.printf(",categoria_fluxo08=%d,categoria=%d,nivel_sem_regra=%d,nivel=%d,limitou=%d,motivo=%s\n",
++                g.categoria_fluxo08,g.viavel?g.categoria:-1,g.nivel_sem_regra,g.viavel?g.nivel:-1,g.limitou()?1:0,g.nome_motivo());
++}
+ void prepararPergunta(){
+   const int64_t t0=esp_timer_get_time();
+-  decisao=coflume::decidir_pergunta(indice,(uint8_t)nivelInicial,restantes,nRestantes,
+-                                    guardiaAtiva?preverGuardia:nullptr,nullptr);
+-  decisaoUs=esp_timer_get_time()-t0;
+-  if(!decisao.viavel){erroBanco();return;}
++  if(GUARDIA_POLITICA_GRADUAL){
++    decisaoGradual=coflume::gradual::decidir_pergunta(indice,(uint8_t)nivelInicial,restantes,nRestantes,
++                                                      coflume::gradual::tem_pergunta_banco,nullptr,
++                                                      guardiaAtiva?preverGuardia:nullptr,nullptr,anteriorGradual);
++    decisaoUs=esp_timer_get_time()-t0;
++    logGradual();
++    // Sem nivel compativel: recusa explicita. NUNCA volta ao fluxo-0.8 para contornar.
++    if(!decisaoGradual.viavel){erroBanco("sem_nivel_compativel");return;}
++    copiarDecisaoGradual(decisaoGradual);
++  }else{
++    decisao=coflume::decidir_pergunta(indice,(uint8_t)nivelInicial,restantes,nRestantes,
++                                      guardiaAtiva?preverGuardia:nullptr,nullptr);
++    decisaoUs=esp_timer_get_time()-t0;
++  }
++  if(!decisao.viavel){erroBanco("banco_inviavel");return;}
+   const int idx=coflume::escolher_pergunta(rodizio,decisao.nivel,decisao.categoria,usada);
+-  if(idx<0){erroBanco();return;}
++  if(idx<0){erroBanco("banco_inviavel");return;}
+   perguntaAtual=idx;usada[idx]=true;nivel=decisao.nivel;
+   int w=0;
+   for(int k=0;k<nRestantes;++k) if(restantes[k]!=decisao.categoria) restantes[w++]=restantes[k];
+@@ -289,10 +336,13 @@
+   nRestantes=coflume::N_CATEGORIAS;
+   for(int i=0;i<COFLUME_BANCO_N;++i) usada[i]=false;
+   guardia::historico_limpar(historico);  // nada da partida anterior e herdado
+-  Serial.printf("GUARDIA,sessao,sessao=%08lX,modelo=%s,adaptativa=%d,nivel_inicial=%d,ordem_categorias=%d%d%d%d\n",
++  anteriorGradual=coflume::gradual::Anterior();
++  Serial.printf("GUARDIA,sessao,sessao=%08lX,modelo=%s,adaptativa=%d,nivel_inicial=%d,ordem_categorias=%d%d%d%d,politica=%s\n",
+                 (unsigned long)sessaoId,GUARDIA_MODELO_ID,guardiaAtiva?1:0,nivelInicial,
+-                ordemCategorias[0],ordemCategorias[1],ordemCategorias[2],ordemCategorias[3]);
+-  if(!bancoOK){erroBanco();return;}
++                ordemCategorias[0],ordemCategorias[1],ordemCategorias[2],ordemCategorias[3],nomePolitica());
++  if(!bancoOK){erroBanco("banco_inviavel");return;}
++  // Politica gradual: o quiz so comeca com banco validado (verificado ao ligar).
++  if(GUARDIA_POLITICA_GRADUAL&&!bancoGradualOK){erroBanco("banco_inviavel_gradual");return;}
+   prepararPergunta();
+ }
+ 
+@@ -302,6 +352,7 @@
+   if(gasto>TEMPO_LIMITE_S) gasto=TEMPO_LIMITE_S;
+   const guardia::Resposta r{decisao.categoria,(uint8_t)nivel,acertou,gasto,TEMPO_LIMITE_S,dicaExibida};
+   guardia::historico_adicionar(historico,r);
++  anteriorGradual.existe=true;anteriorGradual.nivel=(uint8_t)nivel;anteriorGradual.acertou=acertou;
+   if(acertou) acertos++;
+   Serial.printf("GUARDIA,resposta,sessao=%08lX,ordem=%d,pergunta=%s,categoria=%d,nivel=%d,acertou=%d,usou_dica=%d,"
+                 "tempo_gasto_s=%.1f,tempo_limite_s=%.0f,esgotou=%d,historico_n=%d\n",
+@@ -477,11 +528,13 @@
+   registrarDiag(l);
+   coflume::rodizio_limpar(rodizio);
+   bancoOK=coflume::banco_viavel();
++  bancoGradualOK=GUARDIA_POLITICA_GRADUAL&&coflume::gradual::banco_viavel(coflume::gradual::tem_pergunta_banco,nullptr);
+   autotesteOK=autotesteGuardia();
+   medirLatencia();
+   guardiaAtiva=GUARDIA_ADAPTATIVA&&autotesteOK;
+-  snprintf(l,sizeof(l),"GUARDIA,estado,adaptativa_configurada=%d,banco_viavel=%d,guardia_ativa=%d,servo=%s\n",
+-           GUARDIA_ADAPTATIVA,bancoOK?1:0,guardiaAtiva?1:0,servoPronto?"OK":"FALHA");
++  snprintf(l,sizeof(l),"GUARDIA,estado,adaptativa_configurada=%d,banco_viavel=%d,guardia_ativa=%d,servo=%s,politica=%s,banco_viavel_gradual=%s\n",
++           GUARDIA_ADAPTATIVA,bancoOK?1:0,guardiaAtiva?1:0,servoPronto?"OK":"FALHA",nomePolitica(),
++           GUARDIA_POLITICA_GRADUAL?(bancoGradualOK?"1":"0"):"NA");
+   registrarDiag(l);
+   fechar();ledVermelhoSet(false);
+   telaBoot();
+--- v0.9/testes/teste_v09.cpp
++++ v0.9-r3/testes/teste_v09.cpp
+@@ -423,7 +423,7 @@
+     capturar("feedback_tempo_" + id);
+     sem_violacoes("feedback tempo " + id);
+   }
+-  erroBanco();
++  erroBanco("banco_inviavel");  // r3: erroBanco recebe o motivo
+   capturar("erro_banco");
+   sem_violacoes("erro banco");
+ 
+Arquivos novos na r3: coflume_v09/coflume_politica_gradual.h (copia de firmware/experimentos/politica_gradual/), testes/teste_gradual_jogo.cpp, testes/test_r3.py, testes/r2_sha256.txt
