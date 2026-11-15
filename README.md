@@ -2,7 +2,7 @@
 
 Cofre educacional interativo desenvolvido com **ESP32-S3**, combinando perguntas escolares, um mecanismo físico de abertura e uma rede neural para apoiar a adaptação da dificuldade durante o Quiz.
 
-Projeto desenvolvido por **Sara Thais e Gabriel Henrique de Medeiros Penha**, para a **InovaTech 2026**.
+Projeto desenvolvido por **Sara Thais e Gabriel Henrique de Medeiros Penha** e apresentado na **InovaTech 2026**.
 
 ## Proposta educacional e público
 
@@ -77,6 +77,8 @@ Os testes funcionais não representam validação integral do sistema. **O model
 
 ## Versões e código
 
+O firmware e a documentação da r4 estão neste repositório. Para baixar o projeto, use **Code → Download ZIP**.
+
 | Versão | Conteúdo |
 |---|---|
 | [v0.7 — Wokwi](simulations/wokwi/v0.7/sketch.ino) | Referência da simulação, com níveis fixos e sem Guardiã |
@@ -110,3 +112,4 @@ A simulação v0.7 usa **ILI9341**; o hardware físico da v0.9 usa **ST7735**.
 ## Créditos
 
 Projeto de Sara Thais e Gabriel Henrique de Medeiros Penha, desenvolvido com apoio de ferramentas de IA. A autoria individual de contribuições deve ser mantida conforme sua origem.
+
