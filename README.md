@@ -4,7 +4,7 @@ Cofre educacional interativo desenvolvido com **ESP32-S3**, combinando perguntas
 
 Projeto desenvolvido por **Sara Thais** e apresentado na **InovaTech 2026**.
 
-**[Baixar a versão da InovaTech 2026](https://github.com/sarathais-tech/coflume/releases/tag/v0.9-r4-inovatech)** · [Guia de montagem](docs/guia_iniciantes.md) · [Guia de uso](docs/guia_de_uso.md) · [Guardiã IA](#como-funciona-a-guardiã-ia)
+**[Baixar a versão da InovaTech 2026](https://github.com/sarathais-tech/coflume/releases/tag/v0.9-r4-inovatech)** · [Guia de montagem](docs/guia_iniciantes.md) · [Guia de uso](docs/guia_de_uso.md) · [Guardiã IA](#como-funciona-a-guardiã-ia) · [Experimente a Guardiã](#experimente-a-guardiã-ia)
 
 ## Proposta educacional e público
 
@@ -48,6 +48,25 @@ Na r4, a configuração padrão usa **`fluxo-0.8`**, com IA adaptativa ligada e 
 | [Modelo embarcado](firmware/v0.9-r4/coflume_v09/guardia_modelo.h) | Pesos e parâmetros do modelo `mlp8-sint-20261101-e6a4cf00` usado na r4 |
 | [Inferência no ESP32-S3](firmware/v0.9-r4/coflume_v09/guardia_runtime.h) | Código C++ que transforma as entradas em uma estimativa de acerto |
 | [Monitor da Guardiã](firmware/v0.9-r4/painel/README.md#monitor-da-ia-dois-monitores) | Como abrir a segunda janela e acompanhar as decisões durante o Quiz |
+
+## Experimente a Guardiã IA
+
+### No computador, sem o cofre
+
+1. Na [página da versão da InovaTech](https://github.com/sarathais-tech/coflume/releases/tag/v0.9-r4-inovatech), baixe **Source code (zip)** e extraia o arquivo.
+2. Na pasta `firmware/v0.9-r4/painel/`, abra `Coflume_Agente_Secreto_USB.html` no Chrome ou Edge.
+3. Em **Reproduzir log**, clique em **ABRIR ARQUIVO…** e escolha `demo/demo_fluxo08.txt` na pasta do painel.
+4. Clique em **ABRIR MONITOR DA IA** para acompanhar a rede em uma janela separada. No painel principal, clique em **▶ REPRODUZIR** ou avance com **PRÓXIMO EVENTO**.
+5. Acompanhe as chances de acerto por nível e a dificuldade escolhida para as perguntas 2 e 3. O aviso **DADOS DE DEMONSTRAÇÃO** identifica a reprodução de uma partida simulada.
+
+### Ao vivo, com o ESP32-S3
+
+1. Monte o cofre e grave o firmware seguindo o [guia de montagem](docs/guia_iniciantes.md).
+2. Conecte o ESP32-S3 por USB e feche o Monitor Serial e o Plotter Serial do Arduino IDE para liberar a porta.
+3. Abra o HTML no Chrome ou Edge, clique em **CONECTAR ESP32**, selecione a porta da placa e aguarde **COFRE PRONTO**.
+4. Abra o **MONITOR DA IA** pelo painel e inicie um **Quiz** pelo teclado do cofre. Responda à primeira pergunta para acompanhar a escolha da dificuldade da segunda.
+
+O [guia de uso](docs/guia_de_uso.md) traz os passos para exibir o monitor em uma segunda tela e usar os outros arquivos de demonstração.
 
 ## Hardware e painel
 
