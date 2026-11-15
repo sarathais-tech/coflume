@@ -1,6 +1,6 @@
 # Painel USB da v0.9-r4: quadro da Guardiã IA, rede neural e monitor da IA
 
-**Situação:** painel da **v0.9-r4 EXPERIMENTAL**, ainda **não testado na placa física**. Os painéis da r2 e da r3 continuam intactos (hash conferido nos testes). Instruções do apresentador: [`LEIA_PRIMEIRO.txt`](LEIA_PRIMEIRO.txt).
+**Situação:** painel experimental da **v0.9-r4**, usado na apresentação do Coflume na **InovaTech 2026**. O HTML da apresentação corresponde ao arquivo deste repositório. Os painéis da r2 e da r3 continuam intactos (hash conferido nos testes). Instruções do apresentador: [`LEIA_PRIMEIRO.txt`](LEIA_PRIMEIRO.txt).
 
 ## O que é
 
