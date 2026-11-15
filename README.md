@@ -4,6 +4,8 @@ Cofre educacional interativo desenvolvido com **ESP32-S3**, combinando perguntas
 
 Projeto desenvolvido por **Sara Thais e Gabriel Henrique de Medeiros Penha** e apresentado na **InovaTech 2026**.
 
+**[Baixar a versão da InovaTech 2026](https://github.com/sarathais-tech/coflume/releases/tag/v0.9-r4-inovatech)** · [Guia de montagem](docs/guia_iniciantes.md) · [Guia de uso](docs/guia_de_uso.md)
+
 ## Proposta educacional e público
 
 O **Quiz é voltado principalmente para crianças**: a proposta é incentivar a participação e o contato com conteúdos de Matemática, Português, Lógica e Conhecimentos Gerais por meio de um desafio físico.
