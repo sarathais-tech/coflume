@@ -4,6 +4,8 @@ Cofre educacional interativo desenvolvido com **ESP32-S3**, combinando perguntas
 
 Projeto desenvolvido por **Sara Thais** e apresentado na **InovaTech 2026**.
 
+<img src="docs/imagens/coflume-prototipo.jpg" alt="Protótipo do Coflume com a porta aberta, o LED verde aceso e o teclado ao lado do display." width="360">
+
 **[Baixar a versão da InovaTech 2026](https://github.com/sarathais-tech/coflume/releases/tag/v0.9-r4-inovatech)** · [Guia de montagem](docs/guia_iniciantes.md) · [Guia de uso](docs/guia_de_uso.md) · [Guardiã IA](#como-funciona-a-guardiã-ia) · [Experimente a Guardiã](#experimente-a-guardiã-ia)
 
 ## Proposta educacional e público
