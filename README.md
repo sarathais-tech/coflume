@@ -113,5 +113,5 @@ A simulação v0.7 usa **ILI9341**; o hardware físico da v0.9 usa **ST7735**.
 
 ## Créditos
 
-Projeto de Sara Thais e Gabriel Henrique de Medeiros Penha, desenvolvido com apoio de ferramentas de IA. A autoria individual de contribuições deve ser mantida conforme sua origem.
+Projeto de Sara Thais, desenvolvido com apoio de ferramentas de IA. A autoria individual de contribuições deve ser mantida conforme sua origem.
 
