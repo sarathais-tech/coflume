@@ -39,7 +39,7 @@ O quiz funciona **sem** o notebook. O Agente Secreto precisa do painel no notebo
 | Servo motor | Ligado ao GPIO 12; 90° = fechado, 0° = aberto. **Modelo e tensão de trabalho: [a confirmar]** | [documentado] |
 | Cabo USB **de dados** | Para gravar e para o painel (cabo só de carga não serve) | [documentado] |
 | Protoboard e jumpers | Montagem de bancada | [documentado] |
-| LEDs e resistores | **Opcionais nesta versão.** O firmware **simula** os LEDs (linhas `SIMULACAO,led_*` na serial) e não usa GPIO para eles | [documentado] |
+| LEDs e resistores | LEDs físicos com acionamento em nível alto. As mudanças de estado aparecem como `LED,led_*` na serial | [documentado] |
 | Notebook com Chrome ou Edge | Painel USB (Agente Secreto, logs, Guardiã) | [documentado] |
 | Caixa de som ligada ao notebook | Música do Agente Secreto; o cofre não tem buzzer | [documentado] |
 | Segundo monitor (opcional) | Monitor da IA | [documentado] |
@@ -78,7 +78,8 @@ Pinos usados pelo firmware (constantes no início de `coflume_v09.ino`):
 | | Colunas 1 a 4 | **4, 5, 6, 7** |
 | Servo | Sinal (PWM LEDC, 50 Hz, pulso de 500 a 2.400 µs) | **12** |
 | | Alimentação e GND | **[a confirmar]** (ver seção 3) |
-| LEDs | — | **nenhum** (simulados) |
+| LEDs | Vermelho | **13** |
+| | Verde | **2** |
 
 **Mapa do teclado no firmware:**
 
@@ -92,7 +93,7 @@ linha4   *    0    #    D
 
 **[a confirmar]** A ordem dos fios do conector do teclado. É comum que os 8 fios venham na ordem linha 1–4 e depois coluna 1–4, mas isso varia entre fabricantes. Se as teclas aparecerem trocadas na seção 9, inverta os fios.
 
-**Não use** estes GPIOs para LEDs reais no futuro:
+Evite mover os LEDs para os seguintes GPIOs:
 - 14, que já é o CS da tela;
 - 0, 3, 45 e 46, que são de boot;
 - 19 e 20, que são do USB;
@@ -169,7 +170,7 @@ Com o Monitor Serial aberto a 115200 baud:
 
 | # | Faça | Esperado |
 |---|---|---|
-| 1 | Ligue a placa | Tela de início: "COFLUME", "Autoteste: OK 21 vet.", "Politica: fluxo-0.8", "Servo real / LEDs simul." |
+| 1 | Ligue a placa | Tela de início: "COFLUME", "Autoteste: OK 21 vet.", "Politica: fluxo-0.8", "Servo e LEDs reais" |
 | 2 | Leia o Monitor Serial | `COFLUME,versao=v0.9-agente-usb-experimental-r4,banco=banco_v09,perguntas=36,banco_csv_sha256=…` e `GUARDIA,autoteste,…,resultado=OK` |
 | 3 | Aperte cada tecla no menu | `KEY:<tecla>` na serial; o menu responde a 1, 2, 3 e A |
 | 4 | Jogue um quiz (1, 2 ou 3) acertando 2 ou 3 perguntas | Perguntas legíveis, sem cortes; com 2 ou mais acertos, o servo vai a 0° (aberto); `#` fecha e volta ao menu |

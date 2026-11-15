@@ -3,7 +3,7 @@
 // Guardia IA: MLP mlp8-sint-20261101-e6a4cf00 (13 -> 8 -> 1), treinada com dados SINTETICOS,
 // executada offline no ESP32-S3 (sem Wi-Fi, sem servidor). NAO e versao de producao:
 // teste lacrado e bancada de latencia na placa pendentes; nao validada com criancas reais.
-// Servo REAL no GPIO 12 via LEDC; LEDs permanecem simulados no monitor serial.
+// Servo REAL no GPIO 12 via LEDC; LEDs reais nos GPIOs 13 (vermelho) e 2 (verde).
 // Agente Secreto: painel USB + senha fisica, sem inferencias da Guardia nessa modalidade.
 // Abertura: validador de 2/3 no quiz OU senha correta no Agente Secreto; nunca pela Guardia.
 #include <Arduino.h>
@@ -55,6 +55,8 @@ constexpr uint32_t FEEDBACK_ERRO_MS=3500UL;   // erro: tempo para ler a alternat
 constexpr uint32_t BOOT_TELA_MS=1500UL;       // tela de diagnostico ao ligar
 constexpr int ANGULO_FECHADO=90, ANGULO_ABERTO=0;
 constexpr uint8_t SERVO_PIN = 12;
+constexpr uint8_t LED_VERMELHO_PIN = 13;
+constexpr uint8_t LED_VERDE_PIN = 2;
 constexpr uint32_t SERVO_FREQ = 50;
 constexpr uint8_t SERVO_RESOLUCAO = 14;
 
@@ -109,7 +111,7 @@ float latenciaPreverUs=0.0f;    // media medida ao ligar, informativa
 int yAlternativa[4]={0,0,0,0};
 int linhasAlternativa[4]={0,0,0,0};
 
-// --- Servo real (LEDC) e LEDs simulados ---------------------------------------
+// --- Servo real (LEDC) e LEDs físicos ---------------------------------------
 int anguloServo=-1;
 bool ledVermelho=false, ledVerde=false;
 
@@ -134,13 +136,14 @@ void servoAngulo(int graus){
 
   Serial.printf("SERVO,angulo=%d\n", graus);
 }
-void ledSimulado(const char* nome,bool& estadoLed,bool ligado){
+void atualizarLed(uint8_t pino,const char* nome,bool& estadoLed,bool ligado){
   if(estadoLed==ligado) return;
+  digitalWrite(pino, ligado ? HIGH : LOW);
   estadoLed=ligado;
-  Serial.printf("SIMULACAO,%s=%d\n",nome,ligado?1:0);
+  Serial.printf("LED,%s=%d\n",nome,ligado?1:0);
 }
-void ledVermelhoSet(bool v){ledSimulado("led_vermelho",ledVermelho,v);}
-void ledVerdeSet(bool v){ledSimulado("led_verde",ledVerde,v);}
+void ledVermelhoSet(bool v){atualizarLed(LED_VERMELHO_PIN,"led_vermelho",ledVermelho,v);}
+void ledVerdeSet(bool v){atualizarLed(LED_VERDE_PIN,"led_verde",ledVerde,v);}
 void fechar(){servoAngulo(ANGULO_FECHADO);ledVerdeSet(false);}
 void abrir(){servoAngulo(ANGULO_ABERTO);ledVerdeSet(true);ledVermelhoSet(false);}
 
@@ -170,7 +173,7 @@ void telaBoot(){
   texto(tela::MARGEM_X,96,1,GUARDIA_POLITICA_GRADUAL?ST77XX_CYAN:ST77XX_WHITE,
         GUARDIA_POLITICA_GRADUAL?"Politica: gradual (exp.)":"Politica: fluxo-0.8");
   texto(tela::MARGEM_X,108,1,ST77XX_YELLOW,"Dados sinteticos");
-  if(servoPronto) texto(tela::MARGEM_X,118,1,ST77XX_YELLOW,"Servo real / LEDs simul.");
+  if(servoPronto) texto(tela::MARGEM_X,118,1,ST77XX_YELLOW,"Servo e LEDs reais");
   else texto(tela::MARGEM_X,118,1,ST77XX_RED,"SERVO COM FALHA (GPIO 12)");
 }
 void menu(){
@@ -500,6 +503,10 @@ void medirLatencia(){
 #include "coflume_agente.h"
 
 void setup(){
+  pinMode(LED_VERMELHO_PIN, OUTPUT);
+  pinMode(LED_VERDE_PIN, OUTPUT);
+  digitalWrite(LED_VERMELHO_PIN, LOW);
+  digitalWrite(LED_VERDE_PIN, LOW);
   Serial.begin(115200);
   servoPronto = ledcAttach(
     SERVO_PIN,
@@ -519,8 +526,8 @@ void setup(){
   Serial.printf("COFLUME,versao=%s,banco=%s,perguntas=%d,banco_csv_sha256=%s\n",COFLUME_VERSAO,COFLUME_BANCO_VERSAO,COFLUME_BANCO_N,COFLUME_BANCO_CSV_SHA256);
   Serial.printf("HARDWARE,placa=ESP32-S3 DevKitC-1 N16R8,chip=%s,tela=ST7735 %dx%d,rotacao=%d,"
                 "tft_cs=%d,tft_dc=%d,tft_rst=%d,tft_mosi=%d,tft_sclk=%d,teclado_linhas=8|9|10|11,teclado_colunas=4|5|6|7,"
-                "servo=REAL_GPIO12,leds=SIMULADOS\n",
-                ESP.getChipModel(),(int)tft.width(),(int)tft.height(),TFT_ROTACAO,TFT_CS,TFT_DC,TFT_RST,TFT_MOSI,TFT_SCLK);
+                "servo=REAL_GPIO12,leds=REAIS,led_vermelho_gpio=%d,led_verde_gpio=%d\n",
+                ESP.getChipModel(),(int)tft.width(),(int)tft.height(),TFT_ROTACAO,TFT_CS,TFT_DC,TFT_RST,TFT_MOSI,TFT_SCLK,LED_VERMELHO_PIN,LED_VERDE_PIN);
   char l[320];
   snprintf(l,sizeof(l),"GUARDIA,modelo,id=%s,hash=%s,contrato=%s,fonte=%s,uso=%s,parametros=%d\n",GUARDIA_MODELO_ID,
            GUARDIA_MODELO_HASH,GUARDIA_CONTRATO_VERSAO,GUARDIA_MODELO_FONTE,GUARDIA_MODELO_USO,

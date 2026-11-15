@@ -50,7 +50,7 @@ O desenvolvimento da IA fica no repositório [coflume-guardian](https://github.c
 - **Servo real no GPIO 12**, alimentado por fonte externa com GND comum ao ESP32.
 - **Painel HTML no computador**, conectado por USB, para o Agente Secreto, logs e visualização da IA.
 - **Monitor da IA em janela separada**, que pode ser exibida em outra tela.
-- No firmware atual, os **LEDs são simulados nos logs**.
+- **LEDs físicos:** vermelho no GPIO 13 e verde no GPIO 2.
 
 As ativações mostradas no computador são **calculadas novamente no painel** e conferidas com a previsão enviada pela placa. Não são medições diretas das ativações internas do ESP32. A animação pode ser exibida em câmera lenta; ela não representa a duração real da inferência.
 
