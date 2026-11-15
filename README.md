@@ -4,7 +4,7 @@ Cofre educacional interativo desenvolvido com **ESP32-S3**, combinando perguntas
 
 Projeto desenvolvido por **Sara Thais** e apresentado na **InovaTech 2026**.
 
-**[Baixar a versão da InovaTech 2026](https://github.com/sarathais-tech/coflume/releases/tag/v0.9-r4-inovatech)** · [Guia de montagem](docs/guia_iniciantes.md) · [Guia de uso](docs/guia_de_uso.md)
+**[Baixar a versão da InovaTech 2026](https://github.com/sarathais-tech/coflume/releases/tag/v0.9-r4-inovatech)** · [Guia de montagem](docs/guia_iniciantes.md) · [Guia de uso](docs/guia_de_uso.md) · [Guardiã IA](#como-funciona-a-guardiã-ia)
 
 ## Proposta educacional e público
 
@@ -42,7 +42,12 @@ Na primeira pergunta, vale o nível escolhido no menu; a previsão é apenas reg
 
 Na r4, a configuração padrão usa **`fluxo-0.8`**, com IA adaptativa ligada e **proteção gradual experimental desligada**. A opção gradual e seu log de demonstração são configurações experimentais separadas.
 
-O desenvolvimento da IA fica no repositório [coflume-guardian](https://github.com/sarathais-tech/coflume-guardian) — o acesso depende das permissões desse repositório.
+| Onde encontrar | Conteúdo |
+|---|---|
+| [coflume-guardian](https://github.com/sarathais-tech/coflume-guardian) (privado) | Desenvolvimento da Guardiã, treinamento com dados sintéticos, avaliação e exportação para C++ |
+| [Modelo embarcado](firmware/v0.9-r4/coflume_v09/guardia_modelo.h) | Pesos e parâmetros do modelo `mlp8-sint-20261101-e6a4cf00` usado na r4 |
+| [Inferência no ESP32-S3](firmware/v0.9-r4/coflume_v09/guardia_runtime.h) | Código C++ que transforma as entradas em uma estimativa de acerto |
+| [Monitor da Guardiã](firmware/v0.9-r4/painel/README.md#monitor-da-ia-dois-monitores) | Como abrir a segunda janela e acompanhar as decisões durante o Quiz |
 
 ## Hardware e painel
 
