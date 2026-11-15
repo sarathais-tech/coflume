@@ -137,5 +137,6 @@ A simulação v0.7 usa **ILI9341**; o hardware físico da v0.9 usa **ST7735**.
 
 ## Créditos
 
-Projeto de Sara Thais, desenvolvido com apoio de ferramentas de IA. A autoria individual de contribuições deve ser mantida conforme sua origem.
+- **Desenvolvimento do Coflume:** Sara Thais, com apoio de ferramentas de IA.
+- **Apoio na apresentação na InovaTech 2026:** Gabriel Henrique de Medeiros Penha.
 
