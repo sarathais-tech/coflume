@@ -46,7 +46,7 @@ Na r4, a configuração padrão usa **`fluxo-0.8`**, com IA adaptativa ligada e 
 
 | Onde encontrar | Conteúdo |
 |---|---|
-| [coflume-guardian](https://github.com/sarathais-tech/coflume-guardian) (privado) | Desenvolvimento da Guardiã, treinamento com dados sintéticos, avaliação e exportação para C++ |
+| [coflume-guardian](https://github.com/sarathais-tech/coflume-guardian) | Desenvolvimento da Guardiã e [passo a passo para reproduzir o treinamento e exportar o modelo](https://github.com/sarathais-tech/coflume-guardian/blob/main/docs/reproducao.md) |
 | [Modelo embarcado](firmware/v0.9-r4/coflume_v09/guardia_modelo.h) | Pesos e parâmetros do modelo `mlp8-sint-20261101-e6a4cf00` usado na r4 |
 | [Inferência no ESP32-S3](firmware/v0.9-r4/coflume_v09/guardia_runtime.h) | Código C++ que transforma as entradas em uma estimativa de acerto |
 | [Monitor da Guardiã](firmware/v0.9-r4/painel/README.md#monitor-da-ia-dois-monitores) | Como abrir a segunda janela e acompanhar as decisões durante o Quiz |
